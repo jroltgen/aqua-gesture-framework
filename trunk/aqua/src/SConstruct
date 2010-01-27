@@ -1,0 +1,14 @@
+# SConstruct
+#  - Build file for Jay Roltgen's thesis project
+#
+# Author: Jay Roltgen (jroltgen@gmail.com)
+
+env = Environment()
+
+#Add the /Ehsc flag to the msvc compiler
+if (env['CC'] == 'cl'):
+    env.Append(CCFLAGS = ['/EHsc'])
+    
+env.Program('GestureFactoryTest', ['main.cpp', 'GestureFactory.cpp'])
+env.SharedLibrary('gestures/HelloWorldGesture', 'gestures/HelloWorldGesture.cpp')
+env.SharedLibrary('gestures/YouRockGesture', 'gestures/YouRockGesture.cpp')
