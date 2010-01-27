@@ -1,4 +1,4 @@
-#summary Concept of Aqua
+#summary The "At a glance" version of Aqua
 
 ==Concept==
 Aqua is a universal input device and gesture handling system.  It has a unified event architecture that allows for a great deal of flexibility in gesture recognition algorithms, input devices, and client applications. 
@@ -19,5 +19,3 @@ Aqua allows for the possibility of multi-modal gestural interaction, because you
 Because Aqua has a unified event architecture, many gestures will work with a variety of input devices out-of-the-box.  You configure your input device to provide the appropriate events for the gestures you desire to receive, and you will instantly receive gesture events.
 
 Finally, Aqua is designed to allow for easy integration of existing gesture recognition algorithms.  I hope that developers will contribute many and varied forms of gesture recognition that are already available, increasing the usefulness of Aqua to software developers wishing to easily integrate gestural interaction into their new or existing software applications. 
-
-
