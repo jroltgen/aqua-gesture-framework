@@ -35,16 +35,30 @@ class GestureFactory {
 
 // Attributes
 private:
+    /**
+     * Maps the gesture name from a string to the function that is exported by 
+     * each DLL, the gestureCreator().  It is a function pointer which can be 
+     * used to instantiate a new gesture of that type – this is the key to 
+     * the dynamic loading of classes.
+     */
     std::map<std::string, CreateGestureFunc>    _gestureMap;
+    
+    /**
+     * The single instance of this class
+     */
     static GestureFactory*                      _instance;
+    
+    /**
+     * Tells whether the gestures have beeen loaded sucessfully.
+     */
     bool                                        _gesturesLoaded;
 
 // Methods
 public:
     static GestureFactory* getInstance();
-    Gesture* createGesture(std::string gestureName, EventProcessor*  publisher, 
+    Gesture* createGesture(std::string &gestureName, EventProcessor &publisher, 
             int regionID = -1);
-    void loadGestures(std::string directory);
+    void loadGestures();
 
 private:
     GestureFactory();
