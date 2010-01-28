@@ -11,6 +11,16 @@
 #ifndef _GESTURE_H_
 #define _GESTURE_H_
 
+#include <vector>
+#ifdef _WIN32
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#include <windows.h>
+#else
+// TODO linux support
+#endif
+
 #include "../events/Event.h"
 #include "../EventProcessor.h"
 
@@ -19,16 +29,48 @@ class Gesture : public EventProcessor {
 // Attributes
 private:
     EventProcessor* _publisher;
+    // Thread lock
+    #ifdef _WIN32
+    CRITICAL_SECTION myLock;
+    #else
+    // TODO linux support
+    #endif
+    
 protected: // TODO change back to private
     int             _regionID;
 
 // Methods
 public:
     Gesture(EventProcessor* publisher, int regionID = -1) {
+        #ifdef _WIN32
+        InitializeCriticalSection(&myLock);
+        #else
+        // TODO linux support
+        #endif
+        
         _publisher = publisher;
         _regionID = regionID;
     }
-    virtual bool processEvent(Event* event) = 0;
+    virtual ~Gesture() {
+        #ifdef _WIN32
+        DeleteCriticalSection(&myLock);
+        #else
+        // TODO linux support
+        #endif
+    
+    }
+    virtual bool processEvent(Event* event) {
+        bool result;
+        #ifdef _WIN32
+        EnterCriticalSection(&myLock);
+        result = handleEvent(event);
+        LeaveCriticalSection(&myLock);
+        #else
+        // TODO linux support
+        result = handleEvent(event);
+        #endif
+        return result;
+    };
     
 protected:   
     /**
@@ -44,6 +86,16 @@ protected:
             _publisher->processEvent(event, _regionID);
         }
     }
+    
+    /**
+     * This is the method that that Gesture must implment - this is to hide
+     * concurrency-related issues for the gesture implementer, which are handled
+     * correctly in the processEvent method.
+     *
+     */
+    virtual bool handleEvent(Event* event) = 0;
+    
+private:
 };
 
 #endif

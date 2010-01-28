@@ -14,8 +14,21 @@
 
 #include <vector>
 
+// Connection port to use
+#define LISTEN_PORT "3007"
+
+// Connection types TODO - define these somewhere else if we start using
+// a custom protocol.
+#define INPUT_DEVICE_TYPE   0
+#define CLIENT_TYPE         1
+
 #ifdef _WIN32
+    #ifndef WIN32_LEAN_AND_MEAN
+    #define WIN32_LEAN_AND_MEAN
+    #endif
+#include <windows.h>
 #include <winsock2.h>
+#include <ws2tcpip.h>
 #else
 // TODO linux xupport
 #endif
@@ -36,7 +49,7 @@ private:
      * ClientConnection as a pointer.
      */
     #ifdef _WIN32
-    SOCKET                          listenSocket;
+    SOCKET _listenSocket;
     #else
         // TODO linux support
     #endif
@@ -45,7 +58,7 @@ private:
      * This is a list of the current gesture engines.  Events received by
      * the InputDeviceConnections will be sent to each gesture engine.
      */
-    std::vector<GestureEngine*>     gestureEngines;
+    std::vector<GestureEngine*> _gestureEngines;
     
     /**
      * This is incremented every time a new input device connects and is 
@@ -53,22 +66,26 @@ private:
      * adds a constant proportional to this ID so that events coming in with 
      * the same ID from multiple input devices will not be confused.
      */
-    int                             nextInputDeviceID;
+    int _nextInputDeviceID;
 
 // Methods
 public:
+    GestureServer();
     bool processEvent(Event* e);
     void removeGestureEngine(GestureEngine* engineToRemove);
     void run();
     
 private:
+    void acceptConnections();
+    bool initSocket();
+    
     #ifdef _WIN32
-    void createInputDeviceConnection(SOCKET* inputSocket);
-    void createClientConnection(SOCKET* clientSocket);
+    void createInputDeviceConnection(SOCKET inputSocket);
+    void createClientConnection(SOCKET clientSocket);
     #else
     // TODO linux support
     #endif
-
+    
 };
 
 #endif

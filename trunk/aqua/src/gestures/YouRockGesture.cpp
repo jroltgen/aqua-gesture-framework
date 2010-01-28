@@ -13,7 +13,7 @@
  
 #include "YouRockGesture.h"
 
-bool YouRockGesture::processEvent(Event* event) {
+bool YouRockGesture::handleEvent(Event* event) {
     printHello();
     return false;
 }
