@@ -13,7 +13,7 @@
  
 #include "HelloWorldGesture.h"
 
-bool HelloWorldGesture::processEvent(Event* event) {
+bool HelloWorldGesture::handleEvent(Event* event) {
     printHello();
     return false;
 }

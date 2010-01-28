@@ -23,7 +23,7 @@ class HelloWorldGesture : public Gesture {
 public:
     HelloWorldGesture(EventProcessor* publisher, int regionID = -1) :
             Gesture(publisher, regionID) {};
-    virtual bool processEvent(Event* event);
+    virtual bool handleEvent(Event* event);
     
 private:
     void printHello();
