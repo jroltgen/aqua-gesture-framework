@@ -29,11 +29,15 @@ private:
     void printHello();
 };
 
+#ifdef _WIN32
 extern "C" {
     __declspec (dllexport) Gesture* createGesture(EventProcessor* 
             publisher, int regionID) {
 		return new HelloWorldGesture(publisher, regionID);
 	}
 }
+#else
+// TODO linux support
+#endif
 
 #endif

@@ -9,6 +9,6 @@ env = Environment()
 if (env['CC'] == 'cl'):
     env.Append(CCFLAGS = ['/EHsc'])
     
-env.Program('GestureFactoryTest', ['main.cpp', 'GestureFactory.cpp'])
+env.Program('Aqua', Glob('*.cpp'))
 env.SharedLibrary('gestures/HelloWorldGesture', 'gestures/HelloWorldGesture.cpp')
 env.SharedLibrary('gestures/YouRockGesture', 'gestures/YouRockGesture.cpp')
