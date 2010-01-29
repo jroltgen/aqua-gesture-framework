@@ -50,7 +50,7 @@ public:
         
         _publisher = publisher;
         _regionID = regionID;
-    }
+    };
     virtual ~Gesture() {
         #ifdef _WIN32
         DeleteCriticalSection(&myLock);
@@ -58,7 +58,7 @@ public:
         // TODO linux support
         #endif
     
-    }
+    };
     virtual bool processEvent(Event* event) {
         bool result;
         #ifdef _WIN32
@@ -85,7 +85,7 @@ protected:
         } else {
             _publisher->processEvent(event, _regionID);
         }
-    }
+    };
     
     /**
      * This is the method that that Gesture must implment - this is to hide
@@ -95,7 +95,6 @@ protected:
      */
     virtual bool handleEvent(Event* event) = 0;
     
-private:
 };
 
 #endif

@@ -17,19 +17,15 @@
 #include <vector>
 
 #include "ClientConnection.h"
-#include "GestureServer.h"
+#include "events/Event.h"
 #include "EventProcessor.h"
+#include "Region.h"
+
 
 class GestureEngine : public EventProcessor {
 
 // Attributes
 private:
-    /**
-     * The Gesture server - we need this reference to tell the gesture server
-     * when we die.
-     */
-    GestureServer* _server;
-    
     /**
      * The ClientConnection object that is associated with this Engine.
      */
@@ -61,8 +57,9 @@ private:
     
 //Methods
 public:
-    GestureEngine(ClientConnection* c, GestureServer* s);
+    GestureEngine(ClientConnection* client);
     bool processEvent(Event* event);
+    void init();
     
 };
 

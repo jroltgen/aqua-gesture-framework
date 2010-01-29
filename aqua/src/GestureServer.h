@@ -23,9 +23,9 @@
 #define CLIENT_TYPE         1
 
 #ifdef _WIN32
-    #ifndef WIN32_LEAN_AND_MEAN
-    #define WIN32_LEAN_AND_MEAN
-    #endif
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
 #include <windows.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -33,9 +33,12 @@
 // TODO linux xupport
 #endif
 
+
 #include "EventProcessor.h"
-#include "GestureEngine.h"
 #include "gestures/Gesture.h"
+
+#include "GestureEngine.h"
+
 
 class GestureServer : public EventProcessor {
 
@@ -72,12 +75,12 @@ private:
 public:
     GestureServer();
     bool processEvent(Event* e);
-    void removeGestureEngine(GestureEngine* engineToRemove);
     void run();
     
 private:
     void acceptConnections();
     bool initSocket();
+    void removeGestureEngine(GestureEngine* engineToRemove);
     
     #ifdef _WIN32
     void createInputDeviceConnection(SOCKET inputSocket);

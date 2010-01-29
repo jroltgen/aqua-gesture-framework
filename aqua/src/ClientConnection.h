@@ -12,10 +12,11 @@
 #define _CLIENTCONNECTION_H_
 
 #include <vector>
+
 #ifdef _WIN32
-    #ifndef WIN32_LEAN_AND_MEAN
-    #define WIN32_LEAN_AND_MEAN
-    #endif
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
 #include <windows.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -24,6 +25,8 @@
 #endif
 
 #include "EventProcessor.h"
+#include "events/Event.h"
+#include "gestures/Gesture.h"
 
 class ClientConnection : public EventProcessor {
 
@@ -45,7 +48,8 @@ public:
     
     int getRegionID(Event* e);
     void getRegionGestures(int regionID, std::vector<Gesture*>* gestures);
-    void getGlobalGestures(std::vector<Gesture*>* globalGestures);
+    void getGlobalGestures(std::vector<EventProcessor*>* globalGestures);
+    bool processEvent(Event* e);
 
 };
 

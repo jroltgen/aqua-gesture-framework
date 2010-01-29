@@ -15,8 +15,8 @@
 
 #include <vector>
 
-#include "events/Event.h"
 #include "EventProcessor.h"
+#include "events/Event.h"
 #include "gestures/Gesture.h"
 
 class Region : public EventProcessor {
@@ -28,11 +28,11 @@ private:
     
 // Methods
 public:
-    Region();
+    Region(int regionID);
     ~Region();
 
     std::vector<Gesture*>*  getGestures();
-    void                    processEvent(Event* e);
+    bool                    processEvent(Event* e);
     int                     getRegionID();
 };
 
