@@ -71,8 +71,10 @@ void GestureServer::createInputDeviceConnection(SOCKET inputSocket) {
  * Create a new ClientConnection, and the asociated GestureEngine.
  */
 void GestureServer::createClientConnection(SOCKET clientSocket) {
-    // TODO implement
-}
+    ClientConnection* cc = new ClientConnection(clientSocket);
+    GestureEngine* ge = new GestureEngine(cc, this);
+    _gestureEngines.push_back(ge);
+}    
 
 
 #ifdef _WIN32
