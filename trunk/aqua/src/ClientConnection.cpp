@@ -21,6 +21,7 @@ ClientConnection::ClientConnection(SOCKET clientSocket) {
  */
 int ClientConnection::getRegionID(Event* e) {
     // TODO implement
+    return -1;
 }
 
 /**
@@ -41,6 +42,11 @@ void ClientConnection::getRegionGestures(int regionID,
  * string “MYSELF.”
  */
 void ClientConnection::getGlobalGestures(
-        std::vector<Gesture*>* globalGestures) {
+        std::vector<EventProcessor*>* globalGestures) {
     // TODO implement
+}
+
+bool ClientConnection::processEvent(Event* e) {
+    // TODO implement
+    return false;
 }

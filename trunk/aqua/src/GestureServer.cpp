@@ -9,8 +9,8 @@
  * 
  * Jay Roltgen, 2010
  */
-
 #include "GestureServer.h"
+
 #include "InputDeviceConnection.h"
 #include "ClientConnection.h"
 
@@ -38,6 +38,7 @@ void GestureServer::run() {
 bool GestureServer::processEvent(Event* event) {
     unsigned int i;
     for (i = 0; i < _gestureEngines.size(); i++) {
+        // TODO catch exception and remove.
         _gestureEngines[i]->processEvent(event);
     }
     return false;
@@ -72,7 +73,9 @@ void GestureServer::createInputDeviceConnection(SOCKET inputSocket) {
  */
 void GestureServer::createClientConnection(SOCKET clientSocket) {
     ClientConnection* cc = new ClientConnection(clientSocket);
-    GestureEngine* ge = new GestureEngine(cc, this);
+    GestureEngine* ge = new GestureEngine(cc);
+    ge->init();
+    // TODO catch possible exception.
     _gestureEngines.push_back(ge);
 }    
 

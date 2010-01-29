@@ -19,7 +19,7 @@
 #define EVENT_TYPE_MOVE  1
 #define EVENT_TYPE_UP    2
 #define EVENT_TYPE_HOVER 3
-#dfeine EVENT_TYPE_OTHER 4
+#define EVENT_TYPE_OTHER 4
 
 #include <string>
 
@@ -41,14 +41,14 @@ public:
     char* serialize() {
         // TODO implement this method
         return NULL;
-    }
+    };
     
     void  setID(int id) {
         _id = id;
-    }
+    };
     
-    char getType() { return _type; }
-    int  getID()   { return _id;   }
+    char getType() { return _type; };
+    int  getID()   { return _id;   };
     
 private:
     virtual char* serializeData(int* outLength) = 0;

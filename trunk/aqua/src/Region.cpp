@@ -33,19 +33,20 @@ Region::~Region() {
 /**
  * Here we just send the event along to all of our associated gestures.
  */
-void Region::processEvent(Event* event) {
+bool Region::processEvent(Event* event) {
     unsigned int i;
    
     for (i = 0; i < _gestures.size(); i++) {
         _gestures[i]->processEvent(event);
     }
     // TODO we might want to do something with the "consumed" here.
+    return false;
 }
 
 int Region::getRegionID() {
     return _regionID;
 }
 
-vector<Gesture*>* getGestures() {
+vector<Gesture*>* Region::getGestures() {
     return &_gestures;
 }
