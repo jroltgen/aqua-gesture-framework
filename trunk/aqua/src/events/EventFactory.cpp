@@ -34,6 +34,7 @@ EventFactory::EventFactory() {
 EventFactory* EventFactory::getInstance() {
     if (_instance == NULL) {
         _instance = new EventFactory();
+        _instance->loadEvents();
     }
     return _instance;
 }
@@ -48,7 +49,10 @@ Event* EventFactory::createEvent(string &eventName, char* data) {
     Event* event;
     CreateEventFunc creator;
     
-    if (!_eventsLoaded) return NULL;
+    if (!_eventsLoaded) {
+        printf("[EventFactory] Events not loaded.\n");
+        return NULL;
+    }
     
     // Find the gesture in the map.
     if (_eventMap.find(eventName) != _eventMap.end()) {

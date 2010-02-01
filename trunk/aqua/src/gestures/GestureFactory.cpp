@@ -34,6 +34,7 @@ GestureFactory::GestureFactory() {
 GestureFactory* GestureFactory::getInstance() {
     if (_instance == NULL) {
         _instance = new GestureFactory();
+        _instance->loadGestures();
     }
     return _instance;
 }
@@ -49,7 +50,10 @@ Gesture* GestureFactory::createGesture(string &gestureName,
     Gesture* gesture;
     CreateGestureFunc creator;
     
-    if (!_gesturesLoaded) return NULL;
+    if (!_gesturesLoaded) {
+        printf("[GestureFactory] Gestures not loaded.\n");
+        return NULL;
+    }
     
     // Find the gesture in the map.
     if (_gestureMap.find(gestureName) != _gestureMap.end()) {

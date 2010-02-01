@@ -40,25 +40,27 @@ private:
 public:
     Event(char* eventData) {
         int i;
+        char* ptr = eventData;
         
         // Get the name - this should read up to a null character.
-        _name = eventData;
-        eventData += (_name.length() + 1);
+        _name = ptr;
+        ptr += (_name.length() + 1);
         
         // Get the description - this should behave similarly.
-        _description = eventData;
-        eventData += (_name.length() + 1);
+        _description = ptr;
+        ptr += (_description.length() + 1);
         
         // Get the type.
-        _type = *eventData;
-        eventData++;
+        _type = *ptr;
+        ptr++;
+        printf("Type: %d\n", _type);
         
         // Get the ID.
-        memcpy(&_id, eventData, 4);
-        eventData++;
+        memcpy(&_id, ptr, 4);
+        ptr += 4;
     
         // Get the location.
-        memcpy(_location, eventData, 12);
+        memcpy(_location, ptr, 12);
         
         // Swap endianness if needed.
         if (EndianConverter::isLittleEndian()) {
@@ -82,6 +84,9 @@ public:
         int   subclassLength = 0;
         char* subclassData = serializeData(subclassLength);
         
+        int tempInt;
+        float tempFloat;
+        
         char* ret = new char[myLength + subclassLength];
         char* bufferPtr = ret;
         
@@ -98,16 +103,20 @@ public:
         bufferPtr++;
         
         // ID
-        memcpy(bufferPtr, &_id, 4);
+        tempInt = _id;
         if (EndianConverter::isLittleEndian()) {
-            *bufferPtr = EndianConverter::swapIntEndian(*bufferPtr);
+            tempInt = EndianConverter::swapIntEndian(tempInt);
         }
+        memcpy(bufferPtr, &tempInt, 4);
         bufferPtr += 4;
         
         // Location
         for (i = 0; i < 3; i++) {
-            memcpy(bufferPtr, &(_location[i]), 4);
-            *bufferPtr = EndianConverter::swapFloatEndian(*bufferPtr);
+            tempFloat = _location[i];
+            if (EndianConverter::isLittleEndian()) {
+                tempFloat = EndianConverter::swapFloatEndian(tempFloat);
+            }
+            memcpy(bufferPtr, &tempFloat, 4);
             bufferPtr += 4;
         }
         

@@ -69,8 +69,7 @@ public:
     
 private:
     void readEvents();
-    void readEvent();
-    void handleError(int sockError);
+    bool readEvent();
 
     #ifdef _WIN32
     // Needed for the Win32 thread implementation.
