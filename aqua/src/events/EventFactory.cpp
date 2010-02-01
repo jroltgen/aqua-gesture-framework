@@ -1,7 +1,7 @@
 /**
- * GestureFactory.cpp
+ * EventFactory.cpp
  * 
- * This class manages dynamic loading of the gestures, which are provided as
+ * This class manages dynamic loading of the events, which are provided as
  * shared library files.  In Windows, these are DLLs. 
  * 
  * Written as part of the Aqua Universal Gesture Recognition Framework.
@@ -12,28 +12,28 @@
 #include <stdio.h>
 #include <vector>
 
-#include "utils/FileSystem.h" 
-#include "GestureFactory.h"
+#include "../utils/FileSystem.h" 
+#include "EventFactory.h"
 
 using namespace std;
 
 // Static member variables
-GestureFactory* GestureFactory::_instance;
+EventFactory* EventFactory::_instance;
 
 /**
- * Construct a new GestureFactory
+ * Construct a new EventFactory
  */
-GestureFactory::GestureFactory() {
-    _gesturesLoaded = false;
+EventFactory::EventFactory() {
+    _eventsLoaded = false;
     _instance = NULL;
 }
 
 /**
  * Returns the instance of this singleton.
  */
-GestureFactory* GestureFactory::getInstance() {
+EventFactory* EventFactory::getInstance() {
     if (_instance == NULL) {
-        _instance = new GestureFactory();
+        _instance = new EventFactory();
     }
     return _instance;
 }
@@ -43,22 +43,21 @@ GestureFactory* GestureFactory::getInstance() {
  * the class name and also the file name of the library (without the
  * extension).
  */
-Gesture* GestureFactory::createGesture(string &gestureName, 
-        EventProcessor &publisher, int regionID) {
+Event* EventFactory::createEvent(string &eventName, char* data) {
     
-    Gesture* gesture;
-    CreateGestureFunc creator;
+    Event* event;
+    CreateEventFunc creator;
     
-    if (!_gesturesLoaded) return NULL;
+    if (!_eventsLoaded) return NULL;
     
     // Find the gesture in the map.
-    if (_gestureMap.find(gestureName) != _gestureMap.end()) {
-       creator = _gestureMap[gestureName];
-       gesture = creator(&publisher, regionID);
-       return gesture;
+    if (_eventMap.find(eventName) != _eventMap.end()) {
+       creator = _eventMap[eventName];
+       event = creator(data);
+       return event;
     } else {
-        printf("[GestureFactory] createGesture() Error: Gesture not ");
-        printf("found in map: %s\n", gestureName.c_str());
+        printf("[EventFactory] createGesture() Error: Gesture not ");
+        printf("found in map: %s\n", eventName.c_str());
         return NULL;
     }
 }
@@ -70,34 +69,34 @@ Gesture* GestureFactory::createGesture(string &gestureName,
  * the DLL file name (without the extension).  The gestures are loaded from
  * the ./gestures sub-directory of the directory the executable sits in.
  */
-void GestureFactory::loadGestures() {
+void EventFactory::loadEvents() {
     
     int                 i;
     vector<string>      libraries;
     
-    FileSystem::getSharedLibraryFiles(string("gestures/*"), &libraries);
+    FileSystem::getSharedLibraryFiles(string("events/*"), &libraries);
     
     for (i = 0; i < libraries.size(); i++) {
         HINSTANCE           lib;
-        CreateGestureFunc   libFunc;
+        CreateEventFunc     libFunc;
         string              libName = libraries[i];
         
-        lib = LoadLibrary(("gestures/" + libName).c_str());
+        lib = LoadLibrary(("events/" + libName).c_str());
         
         if (lib) {
-            libFunc = (CreateGestureFunc) GetProcAddress(lib, 
-                        "createGesture");
+            libFunc = (CreateEventFunc) GetProcAddress(lib, 
+                        "createEvent");
             if (libFunc) {
                 string tempString = libName.substr(0, libName.length() - 4);
-                _gestureMap.insert(pair<string, 
-                        CreateGestureFunc>(tempString, libFunc));
-                if (!_gesturesLoaded) _gesturesLoaded = true;
+                _eventMap.insert(pair<string, 
+                        CreateEventFunc>(tempString, libFunc));
+                if (!_eventsLoaded) _eventsLoaded = true;
             } else {
-                printf("[Gesture Factory] Error: Couldn't load function ");
+                printf("[Event Factory] Error: Couldn't load function ");
                 printf("for library: %s\n", libName);
             }
         } else {
-            printf("[Gesture Factory] Error: Could not find library: %s\n", 
+            printf("[Event Factory] Error: Could not find library: %s\n", 
                     libName);
         }
     }    
