@@ -21,15 +21,15 @@
 // individual modules.  Only one of these may be uncommented at a time.
 //#define _GESTURESERVER_TEST_
 //#define _GESTUREFACTORY_TEST_
-//#define _AQUA_
-#define _EVENTFACTORY_TEST_
+#define _AQUA_
+//#define _EVENTFACTORY_TEST_
 
 using namespace std;
 
 #ifdef _AQUA_
 int main(int argc, char* argv[]) {
-    printf("[AQUA] Hello, World!\n");
-    return 0;
+    GestureServer s;
+    s.run();
 }
 #endif
 

@@ -122,6 +122,11 @@ public:
         _id = id;
     };
     
+    std::string getName() { return _name; };
+    std::string getDesc() { return _description; };
+    float getX() { return _location[0]; };
+    float getY() { return _location[1]; };
+    float getZ() { return _location[2]; };
     char getType() { return _type; };
     int  getID()   { return _id;   };
     

@@ -10,7 +10,13 @@
  * 
  * Jay Roltgen, 2010
  */
+#include <string>
+
+#include "events/EventFactory.h"
 #include "InputDeviceConnection.h"
+#include "utils/EndianConverter.h"
+
+using namespace std;
 
 #ifdef _WIN32
 InputDeviceConnection::InputDeviceConnection(SOCKET theSocket, 
@@ -49,11 +55,45 @@ void InputDeviceConnection::readEvents() {
 }
 
 /**
+ * Handle a socket error
+ */
+void InputDeviceConnection::handleError(int sockError) {
+    printf("Socket error, bytes received: %d\n", sockError);
+    // TODO add better error handling - we need to close this connection.
+}
+
+/**
  * Read a single event from the input stream.
  */
+#ifdef _WIN32
 void InputDeviceConnection::readEvent() {
+    int iResult;
+    unsigned short msgLength;
     // TODO implement 
+    // Read event length.
+    iResult = recv(_socket, receiveBuffer, 2, 0);
+    if (iResult != 1) {
+        handleError(iResult);
+    }
+    
+    msgLength = *receiveBuffer;
+    if (EndianConverter::isLittleEndian()) {
+        msgLength = EndianConverter::swapShortEndian(msgLength);
+    }
+    printf("Message length: %d\n", msgLength);
+    
+    iResult = recv(_socket, receiveBuffer, msgLength, 0);
+    
+    Event* receivedEvent = EventFactory::getInstance()->createEvent(
+            string(receiveBuffer), receiveBuffer);
+    
+    _server->processEvent(receivedEvent);
+    
+    delete receivedEvent;
 }
+#else
+// TODO linux support
+#endif
 
 
 int InputDeviceConnection::runReadEvents(void* pThis) {
