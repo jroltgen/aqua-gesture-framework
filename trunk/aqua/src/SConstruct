@@ -11,6 +11,11 @@ if (env['CC'] == 'cl'):
     env.Append(CCFLAGS = ['/EHsc'])
     myLibs.append('WS2_32')
     
-env.Program('Aqua', Glob('*.cpp') + Glob('os\*.cpp'), LIBS=myLibs)
+env.Program('Aqua', Glob('*.cpp') + Glob('utils\*.cpp'), LIBS=myLibs)
+
+#Events
+env.SharedLibrary('events/SimpleEvent', 'events/SimpleEvent.cpp')
+
+#Gestures
 env.SharedLibrary('gestures/HelloWorldGesture', 'gestures/HelloWorldGesture.cpp')
 env.SharedLibrary('gestures/YouRockGesture', 'gestures/YouRockGesture.cpp')
