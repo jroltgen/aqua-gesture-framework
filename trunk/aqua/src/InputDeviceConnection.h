@@ -13,6 +13,8 @@
 #ifndef _INPUTDEVICECONNECTION_H_
 #define _INPUTDEVICECONNECTION_H_
 
+#define INPUT_BUFFER_SIZE 512
+
 #ifdef _WIN32
     #ifndef WIN32_LEAN_AND_MEAN
     #define WIN32_LEAN_AND_MEAN
@@ -34,6 +36,11 @@ private:
      * The gesture server, send the events here.
      */
     GestureServer* _server;
+    
+    /**
+     * Buffer for incoming data ->incoming data limited by this size.
+     */
+    char receiveBuffer[INPUT_BUFFER_SIZE];
     
     /**
      * Socket that communicates with the input device.
@@ -63,6 +70,7 @@ public:
 private:
     void readEvents();
     void readEvent();
+    void handleError(int sockError);
 
     #ifdef _WIN32
     // Needed for the Win32 thread implementation.
