@@ -3,7 +3,7 @@
 #
 # Author: Jay Roltgen (jroltgen@gmail.com)
 
-env = Environment()sc
+env = Environment()
 myLibs = []
 
 #Add the /Ehsc flag to the msvc compiler
@@ -11,6 +11,6 @@ if (env['CC'] == 'cl'):
     env.Append(CCFLAGS = ['/EHsc'])
     myLibs.append('WS2_32')
     
-env.Program('Aqua', Glob('*.cpp'), LIBS=myLibs)
+env.Program('Aqua', Glob('*.cpp') + Glob('os\*.cpp'), LIBS=myLibs)
 env.SharedLibrary('gestures/HelloWorldGesture', 'gestures/HelloWorldGesture.cpp')
 env.SharedLibrary('gestures/YouRockGesture', 'gestures/YouRockGesture.cpp')

@@ -17,8 +17,8 @@
 
 // Test switches - use these to choose a main method with which to test 
 // individual modules.  Only one of these may be uncommented at a time.
-#define _GESTURESERVER_TEST_
-//#define _GESTUREFACTORY_TEST_
+//#define _GESTURESERVER_TEST_
+#define _GESTUREFACTORY_TEST_
 //#define _AQUA_
 
 using namespace std;
@@ -42,18 +42,19 @@ int main(int argc, char* argv[]) {
 int main(int argc, char* argv[]) {
 
     Gesture* myGesture;
+    GestureServer s;
     
     GestureFactory* myFactory = GestureFactory::getInstance();
     myFactory->loadGestures();
+    printf("Loaded.\n");
     
-    
-    myGesture = myFactory->createGesture(string("HelloWorldGesture"), /***/, 1337);
+    myGesture = myFactory->createGesture(string("HelloWorldGesture"), s, 1337);
     if (myGesture) {
         myGesture->processEvent(NULL);
         delete myGesture;
     }
     
-    myGesture = myFactory->createGesture(string("YouRockGesture"), /***/);
+    myGesture = myFactory->createGesture(string("YouRockGesture"), s);
     if (myGesture) {
         myGesture->processEvent(NULL);
         delete myGesture;

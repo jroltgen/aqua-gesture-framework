@@ -10,7 +10,9 @@
  * Jay Roltgen, 2010
  */
 #include <stdio.h>
- 
+#include <vector>
+
+#include "os/FileSystem.h" 
 #include "GestureFactory.h"
 
 using namespace std;
@@ -69,47 +71,36 @@ Gesture* GestureFactory::createGesture(string &gestureName,
  * the ./gestures sub-directory of the directory the executable sits in.
  */
 void GestureFactory::loadGestures() {
-    WIN32_FIND_DATA     findData;
-    HANDLE              findHandle;
-    string              tempString;
     
-    HINSTANCE           lib;
-    CreateGestureFunc   libFunc;
+    int                 i;
+    vector<string>      libraries;
     
-    findHandle = FindFirstFile(".\\gestures\\*", &findData);
+    FileSystem::getSharedLibraryFiles(string("gestures/*"), &libraries);
     
-    if (findHandle == INVALID_HANDLE_VALUE) {
-        printf("[GestureFactory] Error: Invalid Gesture Directory: \\gestures");
-        return;
-    }
-    
-    // Iterate through the gestures/ subdirectory looking for DLLs.
-    do {
-        tempString = findData.cFileName;
-        if (tempString.find(".dll") != string::npos || 
-                tempString.find(".DLL") != string::npos) {
-            // It's a DLL!
-            lib = LoadLibrary(("gestures\\" + tempString).c_str());
-            
-            if (lib) {
-                libFunc = (CreateGestureFunc) GetProcAddress(lib, 
+    for (i = 0; i < libraries.size(); i++) {
+        HINSTANCE           lib;
+        CreateGestureFunc   libFunc;
+        string              libName = libraries[i];
+        
+        lib = LoadLibrary(("gestures/" + libName).c_str());
+        
+        if (lib) {
+            libFunc = (CreateGestureFunc) GetProcAddress(lib, 
                         "createGesture");
-                if (libFunc) {
-                    tempString = tempString.substr(0, tempString.length() - 4);
-                    _gestureMap.insert(pair<string, 
-                            CreateGestureFunc>(tempString, libFunc));
-                    if (!_gesturesLoaded) _gesturesLoaded = true;
-                } else {
-                    printf("[Gesture Factory] Error: Couldn't load function ");
-                    printf("for library: %s\n", findData.cFileName);
-                }
+            if (libFunc) {
+                string tempString = libName.substr(0, libName.length() - 4);
+                _gestureMap.insert(pair<string, 
+                        CreateGestureFunc>(tempString, libFunc));
+                if (!_gesturesLoaded) _gesturesLoaded = true;
             } else {
-                printf("[Gesture Factory] Error: Could not find library: %s\n", 
-                        findData.cFileName);
+                printf("[Gesture Factory] Error: Couldn't load function ");
+                printf("for library: %s\n", libName);
             }
+        } else {
+            printf("[Gesture Factory] Error: Could not find library: %s\n", 
+                    libName);
         }
-    
-    } while (FindNextFile(findHandle, &findData) != 0);
+    }    
     
 }
 #else

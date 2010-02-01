@@ -19,7 +19,7 @@ InputDeviceConnection::InputDeviceConnection(SOCKET theSocket,
     _server = theServer;
     _id = id;
 }
- #else
+#else
 // TODO linux support
 #endif
     
