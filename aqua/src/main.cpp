@@ -12,14 +12,17 @@
 #include <stdio.h>
 #include <string>
 
+#include "EventFactory.h"
+#include "events/Event.h"
 #include "GestureFactory.h"
 #include "GestureServer.h"
 
 // Test switches - use these to choose a main method with which to test 
 // individual modules.  Only one of these may be uncommented at a time.
 //#define _GESTURESERVER_TEST_
-#define _GESTUREFACTORY_TEST_
+//#define _GESTUREFACTORY_TEST_
 //#define _AQUA_
+#define _EVENTFACTORY_TEST_
 
 using namespace std;
 
@@ -35,6 +38,28 @@ int main(int argc, char* argv[]) {
     GestureServer s;
     s.run();
     return 0;
+}
+#endif
+
+#ifdef _EVENTFACTORY_TEST_
+int main(int argc, char* argv[]) {
+    Event* myEvent;
+    char data[20];
+    
+    data[1] = '\0';
+    data[2] = '\0';
+    
+    EventFactory* myFactory = EventFactory::getInstance();
+    
+    myFactory->loadEvents();
+    printf("Events loaded\n");
+    
+    
+    myEvent = myFactory->createEvent(string("SimpleEvent"), data);
+    
+    
+    return 0;
+
 }
 #endif
 
