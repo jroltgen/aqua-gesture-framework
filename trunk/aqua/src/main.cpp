@@ -12,9 +12,9 @@
 #include <stdio.h>
 #include <string>
 
-#include "EventFactory.h"
+#include "events/EventFactory.h"
 #include "events/Event.h"
-#include "GestureFactory.h"
+#include "gestures/GestureFactory.h"
 #include "GestureServer.h"
 
 // Test switches - use these to choose a main method with which to test 

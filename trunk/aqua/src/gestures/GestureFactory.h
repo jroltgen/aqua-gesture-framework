@@ -1,7 +1,7 @@
 /**
- * EventFactory.h
+ * GestureFactory.h
  * 
- * This class manages dynamic loading of the events, which are provided as
+ * This class manages dynamic loading of the gestures, which are provided as
  * shared library files.  In Windows, these are DLLs. 
  * 
  * Written as part of the Aqua Universal Gesture Recognition Framework.
@@ -9,8 +9,8 @@
  * 
  * Jay Roltgen, 2010
  */
-#ifndef _EVENTFACTORY_H_
-#define _EVENTFACTORY_H_
+#ifndef _GESTUREFACTORY_H_
+#define _GESTUREFACTORY_H_
 
 #include <map>
 #include <string>
@@ -24,16 +24,17 @@
 //TODOlinux support
 #endif
 
-#include "EventProcessor.h"
-#include "events/Event.h"
+#include "../EventProcessor.h"
+#include "Gesture.h"
 
 #ifdef _WIN32
-typedef Event* (*CreateEventFunc)(char*);
+typedef Gesture* (*CreateGestureFunc)(EventProcessor*, int);
 #else
 //TODOlinux support
 #endif
 
-class EventFactory {
+
+class GestureFactory {
 
 // Attributes
 private:
@@ -43,28 +44,28 @@ private:
      * used to instantiate a new gesture of that type – this is the key to 
      * the dynamic loading of classes.
      */
-    std::map<std::string, CreateEventFunc>    _eventMap;
+    std::map<std::string, CreateGestureFunc>    _gestureMap;
     
     /**
      * The single instance of this class
      */
-    static EventFactory*                      _instance;
+    static GestureFactory*                      _instance;
     
     /**
      * Tells whether the gestures have beeen loaded sucessfully.
      */
-    bool                                        _eventsLoaded;
+    bool                                        _gesturesLoaded;
 
 // Methods
 public:
-    static EventFactory* getInstance();
-    Event* createEvent(std::string &eventName, char* data);
-    void loadEvents();
+    static GestureFactory* getInstance();
+    Gesture* createGesture(std::string &gestureName, EventProcessor &publisher, 
+            int regionID = -1);
+    void loadGestures();
 
 private:
-    EventFactory();
+    GestureFactory();
  
 };
-
 
 #endif
