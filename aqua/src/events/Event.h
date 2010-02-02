@@ -53,7 +53,6 @@ public:
         // Get the type.
         _type = *ptr;
         ptr++;
-        printf("Type: %d\n", _type);
         
         // Get the ID.
         memcpy(&_id, ptr, 4);

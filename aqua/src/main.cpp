@@ -22,6 +22,7 @@
 //#define _GESTURESERVER_TEST_
 //#define _GESTUREFACTORY_TEST_
 #define _AQUA_
+//#define _SOCKET_TEST_
 //#define _EVENTFACTORY_TEST_
 
 using namespace std;
@@ -85,5 +86,57 @@ int main(int argc, char* argv[]) {
         delete myGesture;
     }
     return 0;
+}
+#endif
+
+#ifdef _SOCKET_TEST_
+#include "utils/AquaSocket.h"
+
+int main(int argc, char* argv[]) {
+    AquaSocket serverSocket;
+    AquaSocket clientSocket;
+    char* hostName = "localhost";
+    char* port = "3007";
+    int result;
+    bool ok = true;
+    bool socketUp = true;
+    char buffer = 'A';
+    
+    if (serverSocket.bind(hostName, port) < AQUASOCKET_RES_OK) {
+        printf("Error in bind.\n");
+        return 0;
+    }
+    
+    do {
+        if (serverSocket.listen() < AQUASOCKET_RES_OK) {
+            printf("Error in listen.\n");
+            continue;
+        }
+        
+        clientSocket = serverSocket.accept();
+        if (!clientSocket.isValid()) {
+            printf("Accept failed.\n");
+            continue;
+        }
+        
+        do {
+            result = clientSocket.recv(&buffer, 1);
+            if (result != 1) {
+                printf("Receive failed: %d\n", result);
+                socketUp = false;
+            }
+            printf("Received character: %c\n", buffer);
+            result = clientSocket.send(&buffer, 1);
+            if (result != 1) {
+                printf("Send failed %d\n", result);
+                socketUp = false;
+            }
+            buffer += buffer > 255 ? -255 : 1;
+            printf("Sent character: %c\n", buffer);
+        
+        } while (socketUp);
+
+    } while (ok);
+
 }
 #endif

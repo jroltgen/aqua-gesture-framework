@@ -15,18 +15,8 @@
 
 #define INPUT_BUFFER_SIZE 512
 
-#ifdef _WIN32
-    #ifndef WIN32_LEAN_AND_MEAN
-    #define WIN32_LEAN_AND_MEAN
-    #endif
-#include <windows.h>
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#else
-// TODO linux xupport
-#endif
-
 #include "GestureServer.h"
+#include "utils/AquaSocket.h"
 
 class InputDeviceConnection {
 
@@ -45,11 +35,7 @@ private:
     /**
      * Socket that communicates with the input device.
      */
-    #ifdef _WIN32
-    SOCKET _socket;
-    #else
-    // TODO linux support
-    #endif
+    AquaSocket _socket;
     
     /**
      * The input device ID for this device.
@@ -58,14 +44,8 @@ private:
     
 // Methods
 public:
-    #ifdef _WIN32
-    InputDeviceConnection(SOCKET theSocket, GestureServer* theServer, int id);
-    #else
-    // TODO linux support
-    #endif
-    
+    InputDeviceConnection(AquaSocket theSocket, GestureServer* theServer, int id);
     void run();
-    
     
 private:
     void readEvents();
@@ -75,9 +55,7 @@ private:
     // Needed for the Win32 thread implementation.
     static int runReadEvents(void* pThis);
     #else
-    // TODO linux support (if necessary
+    // TODO linux support (if necessary)
     #endif
-
 };
-
 #endif

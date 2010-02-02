@@ -10,7 +10,7 @@
  */
 #include "ClientConnection.h"
 
-ClientConnection::ClientConnection(SOCKET clientSocket) {
+ClientConnection::ClientConnection(AquaSocket clientSocket) {
     _clientSocket = clientSocket;
 }
 
