@@ -13,38 +13,20 @@
 
 #include <vector>
 
-#ifdef _WIN32
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
-#include <windows.h>
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#else
-// TODO linux xupport
-#endif
-
 #include "EventProcessor.h"
 #include "events/Event.h"
 #include "gestures/Gesture.h"
+#include "utils/AquaSocket.h"
 
 class ClientConnection : public EventProcessor {
 
 // Attributes
 private:
-    #ifdef _WIN32
-    SOCKET _clientSocket;
-    #else
-    // TODO linux support
-    #endif
+    AquaSocket _clientSocket;
 
 // Methods
 public:
-    #ifdef _WIN32
-    ClientConnection(SOCKET clientSocket);
-    #else
-    // TODO linux support
-    #endif
+    ClientConnection(AquaSocket clientSocket);
     
     int getRegionID(Event* e);
     void getRegionGestures(int regionID, std::vector<Gesture*>* gestures);

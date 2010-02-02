@@ -22,23 +22,10 @@
 #define INPUT_DEVICE_TYPE   0
 #define CLIENT_TYPE         1
 
-#ifdef _WIN32
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
-#include <windows.h>
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#else
-// TODO linux xupport
-#endif
-
-
 #include "EventProcessor.h"
-#include "gestures/Gesture.h"
-
 #include "GestureEngine.h"
-
+#include "gestures/Gesture.h"
+#include "utils/AquaSocket.h"
 
 class GestureServer : public EventProcessor {
 
@@ -51,11 +38,7 @@ private:
      * connection attempt is passed to either the InputDeviceConnection or 
      * ClientConnection as a pointer.
      */
-    #ifdef _WIN32
-    SOCKET _listenSocket;
-    #else
-        // TODO linux support
-    #endif
+    AquaSocket _listenSocket;
     
     /**
      * This is a list of the current gesture engines.  Events received by
@@ -82,13 +65,7 @@ private:
     bool initSocket();
     void removeGestureEngine(GestureEngine* engineToRemove);
     
-    #ifdef _WIN32
-    void createInputDeviceConnection(SOCKET inputSocket);
-    void createClientConnection(SOCKET clientSocket);
-    #else
-    // TODO linux support
-    #endif
-    
+    void createInputDeviceConnection(AquaSocket inputSocket);
+    void createClientConnection(AquaSocket clientSocket);
 };
-
 #endif
