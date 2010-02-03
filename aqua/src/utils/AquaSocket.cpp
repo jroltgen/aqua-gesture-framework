@@ -12,6 +12,7 @@
  * Jay Roltgen, 2010
  */
 #include <stdio.h>
+#include <stdlib.h>
  
 #include "AquaSocket.h"
 
@@ -27,7 +28,7 @@ AquaSocket::AquaSocket() {
     if (_numSocketsAlive == 0) {
         initSockets();
     }
-    _numSocketsAlive++;
+    _numSocketsAlive += 2;
 }
 
 /**
@@ -161,8 +162,18 @@ int AquaSocket::recv(char* data, int length) {
     int result = ::recv(_socket, data, length, 0);
     // Simplify error handling.
     if (result < 0) {
-        printf("Recv failed: %d\n", WSAGetLastError());
-        closesocket(_socket);
+        int errorCode = WSAGetLastError();
+        if (errorCode = 10054) {
+            printf("[AquaSocket] Connection reset by peer.\n");
+            closesocket(_socket);
+        } else if (errorCode = 10038) {
+            printf("[AquaSocket] Socket operation on non-socket.  Assuming socket was shut");
+            printf(" down improperly or something, so not closing socket..?\n");
+        } else {
+            printf("[AquaSocket] Unknown Windows Sockets Error: %d ", errorCode);
+            printf("Shutting down....\n");
+            exit(0);
+        }
         result = AQUASOCKET_RES_ERROR;
     }
     return result;
@@ -195,8 +206,8 @@ int AquaSocket::initSockets() {
  */
 int AquaSocket::cleanupSockets() {
     #ifdef _WIN32
-    printf("Cleaning up sockets\n");
-    WSACleanup();
+    // TODO Find better way to keep track of socket count so this can be called.
+    // WSACleanup();
     return AQUASOCKET_RES_OK;
     #else
     // LS

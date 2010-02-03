@@ -29,7 +29,7 @@
 class Event {
 
 // Attributes
-private:
+protected:
     std::string _name;
     std::string _description;
     char        _type;
@@ -38,110 +38,26 @@ private:
 
 // Methods
 public:
-    Event(char* eventData) {
-        int i;
-        char* ptr = eventData;
-        
-        // Get the name - this should read up to a null character.
-        _name = ptr;
-        ptr += (_name.length() + 1);
-        
-        // Get the description - this should behave similarly.
-        _description = ptr;
-        ptr += (_description.length() + 1);
-        
-        // Get the type.
-        _type = *ptr;
-        ptr++;
-        
-        // Get the ID.
-        memcpy(&_id, ptr, 4);
-        ptr += 4;
+    Event(char* eventData);    
+    Event(std::string& name, std::string& desc, char type, 
+            int id, float* location);
+    virtual ~Event();
     
-        // Get the location.
-        memcpy(_location, ptr, 12);
-        
-        // Swap endianness if needed.
-        if (EndianConverter::isLittleEndian()) {
-            
-            _id = EndianConverter::swapIntEndian(_id);
-            for(i = 0; i < 3; i++) {
-                _location[i] = EndianConverter::swapFloatEndian(_location[i]);
-            }
-        }
-    }
+    char* serialize(short& outLength);
     
-    virtual ~Event() {}
+    void        setID(int id);
     
-    /**
-     * Serializes this event's data.
-     */
-    char* serialize() {
-        int i;
-        int myLength = (_name.length() + _description.length() + 2) + 17;
-        
-        int   subclassLength = 0;
-        char* subclassData = serializeData(subclassLength);
-        
-        int tempInt;
-        float tempFloat;
-        
-        char* ret = new char[myLength + subclassLength];
-        char* bufferPtr = ret;
-        
-        // Name
-        memcpy(bufferPtr, _name.c_str(), _name.length() + 1);
-        bufferPtr += _name.length() + 1;
-        
-        // Description
-        memcpy(bufferPtr, _description.c_str(), _description.length() + 1);
-        bufferPtr += _description.length() + 1;
-        
-        // Type
-        *bufferPtr = _type;
-        bufferPtr++;
-        
-        // ID
-        tempInt = _id;
-        if (EndianConverter::isLittleEndian()) {
-            tempInt = EndianConverter::swapIntEndian(tempInt);
-        }
-        memcpy(bufferPtr, &tempInt, 4);
-        bufferPtr += 4;
-        
-        // Location
-        for (i = 0; i < 3; i++) {
-            tempFloat = _location[i];
-            if (EndianConverter::isLittleEndian()) {
-                tempFloat = EndianConverter::swapFloatEndian(tempFloat);
-            }
-            memcpy(bufferPtr, &tempFloat, 4);
-            bufferPtr += 4;
-        }
-        
-        // Subclass data
-        memcpy(bufferPtr, subclassData, subclassLength);
-        
-        delete subclassData;
-        return ret;
-    };
-    
-    void  setID(int id) {
-        _id = id;
-    };
-    
-    std::string getName() { return _name; };
-    std::string getDesc() { return _description; };
-    float getX() { return _location[0]; };
-    float getY() { return _location[1]; };
-    float getZ() { return _location[2]; };
-    char getType() { return _type; };
-    int  getID()   { return _id;   };
+    std::string getName();
+    std::string getDesc();
+    float       getX();
+    float       getY();
+    float       getZ();
+    char        getType();
+    int         getID();
     
 private:
-    virtual char* serializeData(int &lengthOut) = 0;
+    virtual char* serializeData(short &lengthOut) = 0;
     
 };
 
 #endif
-
