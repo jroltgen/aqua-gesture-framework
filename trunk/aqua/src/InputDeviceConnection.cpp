@@ -80,13 +80,11 @@ bool InputDeviceConnection::readEvent() {
         msgLength = EndianConverter::swapShortEndian(msgLength);
     }
     
-    // TODO remove - this is just for debugging.
-    printf("%d - Message length: %hd\n", eventsReceived++, msgLength);
-    
     remaining = msgLength;
     char* bufferPtr = receiveBuffer;
     while (remaining > 0) {
         iResult = _socket.recv(bufferPtr, remaining);
+        if (iResult == AQUASOCKET_RES_ERROR) break;
         remaining -= iResult;
         bufferPtr += iResult;
     }

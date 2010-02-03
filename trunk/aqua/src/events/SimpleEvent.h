@@ -20,20 +20,12 @@ class SimpleEvent : public Event {
 // Methods
 public:
     SimpleEvent(char* data);
+    SimpleEvent(std::string& name, std::string& desc, char type, int id, 
+            float* location);
     virtual ~SimpleEvent();
 
 private:
-    virtual char* serializeData(int& lengthOut);
+    virtual char* serializeData(short& lengthOut);
 };
-
-#ifdef _WIN32
-extern "C" {
-    __declspec (dllexport) Event* createEvent(char* data) {
-		return new SimpleEvent(data);
-	}
-}
-#else
-// TODO linux support
-#endif
 
 #endif

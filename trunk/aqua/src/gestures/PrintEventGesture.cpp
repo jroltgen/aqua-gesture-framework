@@ -32,6 +32,8 @@ string PrintEventGesture::getType(char type) {
         return string("OTHER");
     case EVENT_TYPE_OTHER:
         return string("HOVER");
+    default:
+        return string("UNRECOGNIZED TYPE");
     }
 }
 
