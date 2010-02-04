@@ -25,25 +25,27 @@ int AquaSocket::_numSocketsAlive;
  */
 AquaSocket::AquaSocket() {
     _valid = true;
-    if (_numSocketsAlive == 0) {
-        initSockets();
-    }
-    _numSocketsAlive += 2;
+    init();
+}
+
+AquaSocket::AquaSocket(const AquaSocket& rhs) {
+    init();
+    _socket = rhs._socket;
+    _valid  = rhs._valid;
 }
 
 /**
  * Overloaded equals operator for constructing a new object using return 
  * statements and assignments.  This is used when we call accept().
  */
-AquaSocket& AquaSocket::operator= (const AquaSocket &rhs) {
-    if (_numSocketsAlive == 0) {
-        initSockets();
-    }
-    _numSocketsAlive++;
+AquaSocket& AquaSocket::operator= (const AquaSocket& rhs) {
+    init();
     if (this != &rhs) {
         _socket = rhs._socket;
         _valid  = rhs._valid;
     }
+    // Clean up other copy.
+    _numSocketsAlive--;
     return *this;
 }
     
@@ -51,10 +53,29 @@ AquaSocket& AquaSocket::operator= (const AquaSocket &rhs) {
  * Clean up resources - specifically clean up the sockets library if necessary.
  */
 AquaSocket::~AquaSocket() {
+    cleanup();
+}
+
+/**
+ * Initializes sockets.
+ */
+int AquaSocket::init() {
+    if (_numSocketsAlive++ == 0) {
+        return initSockets();
+    } else {
+        return AQUASOCKET_RES_OK;
+    }
+}
+
+/**
+ * Cleans up sockets.
+ */
+int AquaSocket::cleanup() {
     _numSocketsAlive--;
     if (_numSocketsAlive < 1) {
         cleanupSockets();
     }
+    return AQUASOCKET_RES_OK;
 }
 
 /**
@@ -148,7 +169,6 @@ int AquaSocket::send(char* data, int length) {
     if (iResult == SOCKET_ERROR) {
         printf("Send failed: %d\n", WSAGetLastError());
         closesocket(_socket);
-        WSACleanup();
         iResult = AQUASOCKET_RES_ERROR;
     }
     return iResult;
@@ -206,8 +226,7 @@ int AquaSocket::initSockets() {
  */
 int AquaSocket::cleanupSockets() {
     #ifdef _WIN32
-    // TODO Find better way to keep track of socket count so this can be called.
-    // WSACleanup();
+    WSACleanup();
     return AQUASOCKET_RES_OK;
     #else
     // LS

@@ -58,7 +58,8 @@ private:
 public:
     AquaSocket();   
     ~AquaSocket();
-    AquaSocket& operator= (const AquaSocket &rhs);
+    AquaSocket(const AquaSocket& rhs);
+    AquaSocket& operator= (const AquaSocket& rhs);
         
     AquaSocket accept();
     int        bind(char* hostName, char* port);
@@ -68,6 +69,8 @@ public:
     int        recv(char* data, int length);
     bool       isValid() { return _valid; };
 private:
+    int init();
+    int cleanup();
     int initSockets();
     int cleanupSockets();
 };
