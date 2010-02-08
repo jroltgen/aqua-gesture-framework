@@ -11,6 +11,7 @@
 #ifndef _CLIENTCONNECTION_H_
 #define _CLIENTCONNECTION_H_
 
+#include <string>
 #include <vector>
 
 #include "EventProcessor.h"
@@ -29,9 +30,12 @@ public:
     ClientConnection(AquaSocket clientSocket);
     
     int getRegionID(Event* e);
-    void getRegionGestures(int regionID, std::vector<Gesture*>* gestures);
-    void getGlobalGestures(std::vector<EventProcessor*>* globalGestures);
+    void getRegionInfo(int regionID, std::vector<Gesture*>& gestures, 
+            std::vector<std::string>& events);
+    void getGlobalInfo(std::vector<EventProcessor*>& globalGestures, 
+            std::vector<std::string>& events);
     bool processEvent(Event* e);
+    bool processEvent(Event* e, int regionID);
 
 };
 

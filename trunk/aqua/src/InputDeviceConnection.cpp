@@ -18,8 +18,6 @@
 
 using namespace std;
 
-static int eventsReceived = 0;
-
 /**
  * Creates a new input device connection object.  This constructor simply
  * initializes the member variables.  If you want your input device to actually
@@ -49,18 +47,22 @@ void InputDeviceConnection::run() {
  */
 void InputDeviceConnection::readEvents() {
     printf("[InputDeviceConnection] ID(%d) Connected\n", _id);
+    
     bool ok;
     do {
         ok = readEvent();
     } while (ok);
     
-    // Delete myself, because no one has a reference to me.
     printf("[InputDeviceConnection] ID(%d) Disconnected\n", _id);
+    
+    // Delete myself, because no one has a reference to me.
     delete this;
 }
 
 /**
- * Read a single event from the input stream.
+ * Reads an event from the socket.  First read the length, then proceed by 
+ * reading one character at a time until a null character is reached, then 
+ * assembling the string.  This is the name of the event.
  */
 bool InputDeviceConnection::readEvent() {
     int             iResult;
@@ -84,7 +86,7 @@ bool InputDeviceConnection::readEvent() {
     char* bufferPtr = receiveBuffer;
     while (remaining > 0) {
         iResult = _socket.recv(bufferPtr, remaining);
-        if (iResult == AQUASOCKET_RES_ERROR) break;
+        if (iResult == AQUASOCKET_RES_ERROR) return false;
         remaining -= iResult;
         bufferPtr += iResult;
     }
@@ -101,7 +103,11 @@ bool InputDeviceConnection::readEvent() {
     return true;
 }
 
+#ifdef _WIN32
 int InputDeviceConnection::runReadEvents(void* pThis) {
     ((InputDeviceConnection*)pThis)->readEvents();
     return 0;
 }
+#else
+// LS (if necessary)
+#endif
