@@ -163,9 +163,9 @@ int AquaSocket::listen() {
 }
     
 
-int AquaSocket::send(char* data, int length) {
+int AquaSocket::send(void* data, int length) {
     #ifdef _WIN32
-    int iResult = ::send(_socket, data, length, 0);
+    int iResult = ::send(_socket, (char*)data, length, 0);
     if (iResult == SOCKET_ERROR) {
         printf("Send failed: %d\n", WSAGetLastError());
         closesocket(_socket);
@@ -177,9 +177,9 @@ int AquaSocket::send(char* data, int length) {
     #endif
 }
 
-int AquaSocket::recv(char* data, int length) {
+int AquaSocket::recv(void* data, int length) {
     #ifdef _WIN32
-    int result = ::recv(_socket, data, length, 0);
+    int result = ::recv(_socket, (char*)data, length, 0);
     // Simplify error handling.
     if (result < 0) {
         int errorCode = WSAGetLastError();

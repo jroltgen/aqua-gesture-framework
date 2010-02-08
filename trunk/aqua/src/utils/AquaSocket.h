@@ -65,8 +65,8 @@ public:
     int        bind(char* hostName, char* port);
     int        listen();
     
-    int        send(char* data, int length);
-    int        recv(char* data, int length);
+    int        send(void* data, int length);
+    int        recv(void* data, int length);
     bool       isValid() { return _valid; };
 private:
     int init();

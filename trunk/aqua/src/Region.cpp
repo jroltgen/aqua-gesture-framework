@@ -49,7 +49,12 @@ bool Region::processEvent(Event* event) {
     // TODO we might want to do something with the "consumed" here.
     
     // If the client wants this event, send it.
-    _client->processEvent(event, _regionID);
+    for (i = 0; i < _allowedEvents.size(); i++) {
+        if (_allowedEvents[i].compare(event->getName()) == 0) {
+            _client->processEvent(event, _regionID);
+            break;
+        }
+    }
     return false;
 }
 
