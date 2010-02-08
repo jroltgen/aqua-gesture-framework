@@ -25,20 +25,19 @@ class Region : public EventProcessor {
 
 // Attributes
 private:
-    ClientConnection*           _client;
-    int                         _regionID;
-    std::vector<Gesture*>       _gestures;
-    std::vector<std::string>    _allowedEvents;
+    ClientConnection*               _client;
+    int                             _regionID;
+    std::vector<EventProcessor*>    _gestures;
+    std::vector<std::string>        _allowedEvents;
     
 // Methods
 public:
     Region(int regionID, ClientConnection* c);
     ~Region();
 
-    void                    init();
-    std::vector<Gesture*>*  getGestures();
-    bool                    processEvent(Event* e);
-    int                     getRegionID();
+    void init();
+    bool processEvent(Event* e);
+    int  getRegionID();
 };
 
 #endif

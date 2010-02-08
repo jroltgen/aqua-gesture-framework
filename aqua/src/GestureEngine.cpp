@@ -17,10 +17,12 @@
 using namespace std;
 
 GestureEngine::GestureEngine(ClientConnection* c) {
+    _client = c;
     _globalLayer = new GlobalGestureLayer(c);
 }
 
 void GestureEngine::init() {
+    _client->getTranslators(_gestureTranslators, _globalLayer);
     _globalLayer->init();
 }
 

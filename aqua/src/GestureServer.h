@@ -13,7 +13,6 @@
 #define _GESTURESERVER_H_
 
 #include <vector>
-
 // Connection port to use
 #define LISTEN_PORT "3007"
 

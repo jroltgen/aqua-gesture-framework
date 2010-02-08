@@ -49,6 +49,7 @@ public:
     
     std::string getName();
     std::string getDesc();
+    float*      getLocation();
     float       getX();
     float       getY();
     float       getZ();

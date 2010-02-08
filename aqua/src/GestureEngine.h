@@ -18,6 +18,7 @@
 
 #include "EventProcessor.h"
 #include "GlobalGestureLayer.h"
+#include "ClientConnection.h"
 
 class GestureEngine : public EventProcessor {
 
@@ -34,6 +35,11 @@ private:
      * gestures and also fowards events to the regions.
      */
     GlobalGestureLayer* _globalLayer;
+    
+    /**
+     * The clientConnection object.
+     */
+    ClientConnection* _client;
     
 //Methods
 public:
