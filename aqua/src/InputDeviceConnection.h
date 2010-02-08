@@ -13,7 +13,14 @@
 #ifndef _INPUTDEVICECONNECTION_H_
 #define _INPUTDEVICECONNECTION_H_
 
-#define INPUT_BUFFER_SIZE 512
+/**
+ * The size of the input buffer.  Currently this is 65536, or 65KB.  If the 
+ * input device sends an event which is larger than this value, the buffer will 
+ * overflow and BAD things will happen.  This input buffer size has been 
+ * designed so that it corresponds to the maximum event length, which is an
+ * unsigned short int.
+ */
+#define INPUT_BUFFER_SIZE 65536
 
 #include "GestureServer.h"
 #include "utils/AquaSocket.h"

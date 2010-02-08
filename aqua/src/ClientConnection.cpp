@@ -10,6 +10,8 @@
  */
 #include "ClientConnection.h"
 
+using namespace std;
+
 ClientConnection::ClientConnection(AquaSocket clientSocket) {
     _clientSocket = clientSocket;
 }
@@ -28,9 +30,10 @@ int ClientConnection::getRegionID(Event* e) {
  * Is called when a new region is created by the GestureEngine, should add the 
  * gestures to the vector provided.  
  */
-void ClientConnection::getRegionGestures(int regionID, 
-        std::vector<Gesture*>* gestures) {
+void ClientConnection::getRegionInfo(int regionID, vector<Gesture*>& gestures,
+        vector<string>& events) {
     // TODO implement
+    // Make sure you do set the regionID for these gestures.
 }
 
 /**
@@ -41,12 +44,18 @@ void ClientConnection::getRegionGestures(int regionID,
  * to the globalGesture list.  This will be sent in the protocol as a 
  * string “MYSELF.”
  */
-void ClientConnection::getGlobalGestures(
-        std::vector<EventProcessor*>* globalGestures) {
+void ClientConnection::getGlobalInfo(
+        vector<EventProcessor*>& globalGestures, vector<string>& Events) {
     // TODO implement
+    // Make sure you do not set the regionID for these gestures.
 }
 
 bool ClientConnection::processEvent(Event* e) {
+    // TODO implement
+    return false;
+}
+
+bool ClientConnection::processEvent(Event* e, int regionID) {
     // TODO implement
     return false;
 }

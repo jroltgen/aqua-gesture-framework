@@ -14,8 +14,9 @@
 
 using namespace std;
 
-Region::Region(int regionID) {
+Region::Region(int regionID, ClientConnection* client) {
     _regionID = regionID;
+    _client = client;
 }
 
 /**
@@ -24,10 +25,16 @@ Region::Region(int regionID) {
  */
 Region::~Region() {
     unsigned int i;
-    
     for (i = 0; i < _gestures.size(); i++) {
         delete _gestures[i];
     }
+}
+
+/**
+ * Initializes this region by communicating with the client.
+ */
+void Region::init() {
+    _client->getRegionInfo(_regionID, _gestures, _allowedEvents);
 }
 
 /**
@@ -40,13 +47,12 @@ bool Region::processEvent(Event* event) {
         _gestures[i]->processEvent(event);
     }
     // TODO we might want to do something with the "consumed" here.
+    
+    // If the client wants this event, send it.
+    _client->processEvent(event, _regionID);
     return false;
 }
 
 int Region::getRegionID() {
     return _regionID;
-}
-
-vector<Gesture*>* Region::getGestures() {
-    return &_gestures;
 }
