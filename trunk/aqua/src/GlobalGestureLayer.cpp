@@ -50,6 +50,7 @@ bool GlobalGestureLayer::processEvent(Event* event) {
     }
     
     // Then send the event to the client if it wants it.
+    //printf("[GGL] Sending event to client.\n");
     for (i = 0; i < _allowedEvents.size(); i++) {
         if (_allowedEvents[i].compare(event->getName()) == 0) {
             // The client wants this event.  Send it.
@@ -69,6 +70,7 @@ bool GlobalGestureLayer::processEvent(Event* event) {
         if (_regionIDToRegionMap.find(regionID) != _regionIDToRegionMap.end()) {
             // Region already exists, send this event to that region.
             _regionIDToRegionMap[regionID]->processEvent(event);
+            r = _regionIDToRegionMap[regionID];
         } else {
             // Region does not exist.  Create it!
             r = new Region(regionID, _client);
@@ -104,10 +106,11 @@ bool GlobalGestureLayer::processEvent(Event* event) {
         if (event->getType() == EVENT_TYPE_UP) {
             _eventToRegionMap.erase(eventID);
         }
-        
         // TODO implement - we want to remove the region when there are no more
         // events on it, this will involve keeping track of the EventIDs
         // associated with each region.
     }
+     //printf("GlobalGestureLayer finised.\n");
+       
     return consumed;
 }

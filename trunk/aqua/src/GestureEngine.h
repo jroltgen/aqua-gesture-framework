@@ -55,8 +55,9 @@ private:
 //Methods
 public:
     GestureEngine(ClientConnection* client);
-    bool processEvent(Event* event);
+    
     void init();
+    bool processEvent(Event* event);
     
 };
 #endif

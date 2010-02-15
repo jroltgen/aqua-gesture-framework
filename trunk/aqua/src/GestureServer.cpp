@@ -22,8 +22,9 @@
  */
 #include "GestureServer.h"
 
-#include "InputDeviceConnection.h"
 #include "ClientConnection.h"
+#include "InputDeviceConnection.h"
+#include "utils/AquaException.h"
 
 GestureServer::GestureServer() {
     _nextInputDeviceID = 0;
@@ -51,15 +52,20 @@ bool GestureServer::processEvent(Event* event) {
     unsigned int i;
     for (i = 0; i < _gestureEngines.size(); i++) {
         // TODO catch exception and remove.
-        _gestureEngines[i]->processEvent(event);
+        try {
+            _gestureEngines[i]->processEvent(event);
+        } catch (AquaException e) {
+            if (e.getType() == AQUA_SOCKET_EXCEPTION) {
+                printf("%s\n", e.getMessage().c_str());
+                removeGestureEngine(_gestureEngines[i]);
+            }
+        }
     }
     return false;
 }
 
 /**
- * Removes and deletes a gesture engine from this list.  The caller is still
- * responsible for removing itself (committing suicide) because if we do it
- * here, there will be nowhere for this function to return to.
+ * Removes and deletes a gesture engine from this list.
  */
 void GestureServer::removeGestureEngine(GestureEngine* engineToRemove) {
     unsigned int i;
@@ -67,6 +73,8 @@ void GestureServer::removeGestureEngine(GestureEngine* engineToRemove) {
     for (i = 0; i < _gestureEngines.size(); i++) {
         if (engineToRemove == _gestureEngines[i]) {
             _gestureEngines.erase(_gestureEngines.begin() + i);
+            printf("[GestureServer] App connection destroyed.\n");
+            delete engineToRemove;
         }
     }
 }
@@ -86,9 +94,17 @@ void GestureServer::createInputDeviceConnection(AquaSocket inputSocket) {
 void GestureServer::createClientConnection(AquaSocket clientSocket) {
     ClientConnection* cc = new ClientConnection(clientSocket);
     GestureEngine* ge = new GestureEngine(cc);
-    ge->init();
-    // TODO catch possible exception.
+    
+    try {
+        ge->init();
+    } catch (AquaException e) {
+        if (e.getType() == AQUA_SOCKET_EXCEPTION) {
+            printf("%s\n", e.getMessage().c_str());
+            removeGestureEngine(ge);
+        }
+    }
     _gestureEngines.push_back(ge);
+    printf("[GestureServer] New app connection created.\n");
 }    
 
 /**
@@ -119,8 +135,7 @@ void GestureServer::acceptConnections() {
             if (recvType == INPUT_DEVICE_TYPE) {
                 createInputDeviceConnection(clientSocket);
             } else if (recvType == CLIENT_TYPE) {
-                printf("[GestureServer] Creating client...\n");
-                // TODO create client connection.
+                createClientConnection(clientSocket);
             }
         } else if (iResult = 0) {
             printf("[GestureServer] Connecton closing.\n");

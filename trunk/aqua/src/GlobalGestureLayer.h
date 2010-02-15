@@ -76,7 +76,6 @@ public:
     GlobalGestureLayer(ClientConnection* client);
     bool processEvent(Event* event);
     void init();
-
 };
 
 #endif

@@ -24,6 +24,7 @@ myLibs = []
 #Add the /Ehsc flag to the msvc compiler
 if (env['CC'] == 'cl'):
     env.Append(CCFLAGS = ['/EHsc'])
+    #env['PDB'] = 'Aqua.pdb'
     myLibs.append('WS2_32')
     
 env.Program('Aqua', 
@@ -34,8 +35,7 @@ env.Program('Aqua',
             LIBS=myLibs)
 
 #Events
-env.SharedLibrary('events/SimpleEvent', ['events/SimpleEvent.cpp', 'events/Event.cpp'])
-env.SharedLibrary('events/Event', 'events/Event.cpp')
+env.SharedLibrary('events/UnifiedEvent', ['events/UnifiedEvent.cpp', 'events/Event.cpp'])
 
 #Gestures
 env.SharedLibrary('gestures/HelloWorldGesture', ['gestures/HelloWorldGesture.cpp', 'events/Event.cpp'])

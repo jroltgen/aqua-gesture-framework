@@ -58,7 +58,7 @@ Event::Event(char* eventData) {
         }
     }
     
-    printf("Event received: %s %s - ID: %d, %d\n", _name.c_str(), _description.c_str(), _id, _type);
+    //printf("Event received: %s %s - ID: %d, Type: %d\n", _name.c_str(), _description.c_str(), _id, _type);
 }
     
 Event::Event(std::string& name, std::string& desc, char type, 
