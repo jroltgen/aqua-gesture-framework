@@ -72,10 +72,10 @@ public:
     
 private:
     void acceptConnections();
+    void createClientConnection(AquaSocket clientSocket);
+    void createInputDeviceConnection(AquaSocket inputSocket);
     bool initSocket();
     void removeGestureEngine(GestureEngine* engineToRemove);
     
-    void createInputDeviceConnection(AquaSocket inputSocket);
-    void createClientConnection(AquaSocket clientSocket);
 };
 #endif

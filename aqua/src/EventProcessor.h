@@ -49,5 +49,4 @@ public:
         return processEvent(e);
     }
 };
-
 #endif

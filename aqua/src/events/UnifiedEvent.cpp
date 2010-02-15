@@ -1,5 +1,5 @@
 /**
- * SimpleEvent.cpp
+ * UnifiedEvent.cpp
  *
  * This class is the base class for most simple events.
  * 
@@ -21,32 +21,32 @@
  */
 #include <stdio.h>
  
-#include "SimpleEvent.h"
+#include "UnifiedEvent.h"
 
 #ifdef _WIN32
 extern "C" {
     __declspec (dllexport) Event* createEvent(char* data) {
-		return new SimpleEvent(data);
+		return new UnifiedEvent(data);
 	}
 }
 #else
 // TODO linux support
 #endif
 
-SimpleEvent::SimpleEvent(char* data) : Event(data) {
+UnifiedEvent::UnifiedEvent(char* data) : Event(data) {
     // Here is where we would use data to initiailize our members, but
     // we don't have any, so we don't have to do anything.
 }
 
-SimpleEvent::SimpleEvent(std::string& name, std::string& desc, char type, 
+UnifiedEvent::UnifiedEvent(std::string& name, std::string& desc, char type, 
         int id, float* location) : Event(name, desc, type, id, location) {
     // Again, we don't have to initialize any of our own members.
 }
 
-SimpleEvent::~SimpleEvent() {
+UnifiedEvent::~UnifiedEvent() {
 }
 
-char* SimpleEvent::serializeData(short &lengthOut) {
+char* UnifiedEvent::serializeData(short &lengthOut) {
     lengthOut = 0;
     return new char[0];
 }

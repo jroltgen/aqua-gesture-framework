@@ -50,21 +50,19 @@ private:
 public:
     ClientConnection(AquaSocket clientSocket);
     
-    int getRegionID(Event* e);
-    void getRegionInfo(int regionID, std::vector<EventProcessor*>& gestures, 
-            std::vector<std::string>& events);
-    void getGlobalInfo(std::vector<EventProcessor*>& globalGestures, 
-            std::vector<std::string>& events);
-    void getTranslators(std::vector<EventProcessor*>& translators, 
-            EventProcessor* globalLayer);
-    bool processEvent(Event* e);
-    bool processEvent(Event* e, int regionID);
-    int handleError(char* msg);
+    void  getGlobalInfo(std::vector<EventProcessor*>& globalGestures, 
+                  std::vector<std::string>& events);
+    int   getRegionID(Event* e);
+    void  getRegionInfo(int regionID, std::vector<EventProcessor*>& gestures, 
+                  std::vector<std::string>& events);
+    void  getTranslators(std::vector<EventProcessor*>& translators, 
+                  EventProcessor* globalLayer);
+    int   handleError(char* msg);
+    bool  processEvent(Event* e);
+    bool  processEvent(Event* e, int regionID);
+    int   receiveEvents(char* buffer, std::vector<std::string>& events);
+    int   receiveGestures(char* buffer, std::vector<EventProcessor*>& gestures, 
+                  EventProcessor* publisher, int regionID = -1);
     char* receiveString(char* buffer);
-    int receiveGestures(char* buffer, std::vector<EventProcessor*>& gestures, 
-            EventProcessor* publisher, int regionID = -1);
-    int receiveEvents(char* buffer, std::vector<std::string>& events);
-
 };
-
 #endif

@@ -100,7 +100,7 @@ AquaSocket AquaSocket::accept() {
     // Accept a client socket
     SOCKET clientSocket = ::accept(_socket, NULL, NULL);
     if (clientSocket == INVALID_SOCKET) {
-        printf("accept failed: %d\n", WSAGetLastError());
+        printf("Accept failed: %d\n", WSAGetLastError());
         closesocket(_socket);
         returnSocket._valid = false;
     } 
@@ -190,24 +190,29 @@ int AquaSocket::send(void* data, int length) {
 
 int AquaSocket::recv(void* data, int length) {
     #ifdef _WIN32
-    int result = ::recv(_socket, (char*)data, length, 0);
-    // Simplify error handling.
-    if (result < 0) {
-        int errorCode = WSAGetLastError();
-        if (errorCode = 10054) {
-            printf("[AquaSocket] Connection reset by peer.\n");
-            closesocket(_socket);
-        } else if (errorCode = 10038) {
-            printf("[AquaSocket] Socket operation on non-socket.  Assuming socket was shut");
-            printf(" down improperly or something, so not closing socket..?\n");
-        } else {
-            printf("[AquaSocket] Unknown Windows Sockets Error: %d ", errorCode);
-            printf("Shutting down....\n");
-            exit(0);
+    int remaining = length;
+    while (remaining > 0) {
+        int result = ::recv(_socket, &((char*)data)[length - remaining], remaining, 0);
+        remaining -= result;
+        // Simplify error handling.
+        if (result < 0) {
+            int errorCode = WSAGetLastError();
+            if (errorCode = 10054) {
+                printf("[AquaSocket] Connection reset by peer.\n");
+                closesocket(_socket);
+            } else if (errorCode = 10038) {
+                printf("[AquaSocket] Socket operation on non-socket.  Assuming socket was shut");
+                printf(" down improperly or something, so not closing socket..?\n");
+            } else {
+                printf("[AquaSocket] Unknown Windows Sockets Error: %d ", errorCode);
+                printf("Shutting down....\n");
+                exit(0);
+            }
+            return AQUASOCKET_RES_ERROR;
         }
-        result = AQUASOCKET_RES_ERROR;
     }
-    return result;
+    
+    return length - remaining;
     #else
     // LS
     #endif

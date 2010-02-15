@@ -1,5 +1,5 @@
 /**
- * SimpleEvent.h
+ * UnifiedEvent.h
  *
  * This class is the base class for most simple events.
  * 
@@ -19,21 +19,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef SIMPLEEVENT_H_
-#define SIMPLEEVENT_H_
+#ifndef _UNIFIEDEVENT_H_
+#define _UNIFIEDEVENT_H_
 
 #include "Event.h"
 
-class SimpleEvent : public Event {
+class UnifiedEvent : public Event {
     
 // Attributes
 
 // Methods
 public:
-    SimpleEvent(char* data);
-    SimpleEvent(std::string& name, std::string& desc, char type, int id, 
+    UnifiedEvent(char* data);
+    UnifiedEvent(std::string& name, std::string& desc, char type, int id, 
             float* location);
-    virtual ~SimpleEvent();
+    virtual ~UnifiedEvent();
 
 private:
     virtual char* serializeData(short& lengthOut);

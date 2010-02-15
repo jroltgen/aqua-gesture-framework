@@ -51,7 +51,7 @@ string PrintEventGesture::getType(char type) {
 void PrintEventGesture::printEvent(Event* event) {
     printf("[PrintEventGesture] Received Event.\n");
     printf("\t%s : %s\n", event->getName().c_str(), event->getDesc().c_str());
-    printf("\tType: %c ---", getType(event->getType()));
+    printf("\tType: %s ---", getType(event->getType()).c_str());
     printf(" ID: %d\n", event->getID());
     printf("\tX: %f\n\tY: %f\n\tZ: %f\n", event->getX(), event->getY(), 
             event->getZ());

@@ -21,6 +21,7 @@
  */
 #include "ClientConnection.h"
 #include "gestures/GestureFactory.h"
+#include "utils/AquaException.h"
 #include "utils/EndianConverter.h"
 
 using namespace std;
@@ -39,7 +40,7 @@ int ClientConnection::getRegionID(Event* e) {
     int response;
     float tempLocation[3];
     unsigned int i;
-    
+     
     // Send the request.
     if (_clientSocket.send(&msgType, 1) == AQUASOCKET_RES_ERROR) {
         return handleError("Error sending regionID message.\n");
@@ -76,7 +77,8 @@ int ClientConnection::getRegionID(Event* e) {
  */
 int ClientConnection::handleError(char* msg) {
     printf("[ClientConnection] Socket error: %s\n", msg);
-    return -1;
+    AquaException ae(AQUA_SOCKET_EXCEPTION, "Socket error");
+    throw ae;
 }
 
 /**
@@ -95,7 +97,7 @@ void ClientConnection::getRegionInfo(int regionID,
         handleError("Error sending getRegionInfo message.\n");
     }
     
-    // Send the region ID (handling endianness
+    // Send the region ID (handling endianness)
     tempID = regionID;
     if (EndianConverter::isLittleEndian()) {
         tempID = EndianConverter::swapIntEndian(tempID);
@@ -139,7 +141,7 @@ void ClientConnection::getTranslators(vector<EventProcessor*>& translators,
     
     // Send the request.
     if (_clientSocket.send(&msgType, 1) == AQUASOCKET_RES_ERROR) {
-        handleError("Error sending getRegionInfo message.\n");
+        handleError("Error sending getRegionInfo message.\n"); 
     }
     
     // Receive the translators.
@@ -155,9 +157,10 @@ int ClientConnection::receiveGestures(char* buffer,
     Gesture* newGesture;
     string receivedString;
     
+    
     // #gestures
     if (_clientSocket.recv(&numStrings, 4) == AQUASOCKET_RES_ERROR) {
-        return handleError("Error receiving the number of gestures.\n");
+        handleError("Error receiving the number of gestures.\n");
     }
     if (EndianConverter::isLittleEndian()) {
         numStrings = EndianConverter::swapIntEndian(numStrings);
@@ -169,6 +172,7 @@ int ClientConnection::receiveGestures(char* buffer,
             return -1;
         }
         receivedString = buffer;
+        
         newGesture = GestureFactory::getInstance()->createGesture(
                 receivedString, *publisher, regionID);
         if (newGesture == NULL) {
@@ -256,6 +260,8 @@ bool ClientConnection::processEvent(Event* e, int regionID) {
     short int networkLength;
     int tempID;
     char* data;
+    
+    //printf("In processRegionEvent.\n");
     
     // Send the request.
     if (_clientSocket.send(&msgType, 1) == AQUASOCKET_RES_ERROR) {
