@@ -98,7 +98,7 @@ bool GlobalGestureLayer::processEvent(Event* event) {
             _eventToRegionMap[eventID]->processEvent(event);
          } else {
             // This region doesn't exist - this is an error.
-            printf("[GestureEngine] Error: Region doesn't exist for ");
+            printf("[GlobalGestureEngine] Error: Region doesn't exist for ");
             printf("eventID: %d\n", eventID);
         }
             

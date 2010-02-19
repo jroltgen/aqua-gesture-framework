@@ -86,22 +86,17 @@ bool InputDeviceConnection::readEvent() {
         printf("[InputDeviceConnection] Socket receive error.\n");
         return false;
     }
-    
     memcpy(&msgLength, receiveBuffer, 2);
-
     if (EndianConverter::isLittleEndian()) {
         msgLength = EndianConverter::swapShortEndian(msgLength);
     }
     
-    remaining = msgLength;
-    char* bufferPtr = receiveBuffer;
-    while (remaining > 0) {
-        iResult = _socket.recv(bufferPtr, remaining);
-        if (iResult == AQUASOCKET_RES_ERROR) return false;
-        remaining -= iResult;
-        bufferPtr += iResult;
-    }
-       
+    iResult = _socket.recv(receiveBuffer, msgLength);
+    if (iResult == AQUASOCKET_RES_ERROR) {
+		printf("[InputDeviceConnection] Socket receive error.\n");
+		return false;
+	}
+	
     Event* receivedEvent = EventFactory::getInstance()->createEvent(
             string(receiveBuffer), receiveBuffer);
             

@@ -71,7 +71,7 @@ Event* EventFactory::createEvent(string &eventName, char* data) {
        event = creator(data);
        return event;
     } else {
-        printf("[EventFactory] createGesture() Error: Gesture not ");
+        printf("[EventFactory] createGesture() Error: Event not ");
         printf("found in map: %s\n", eventName.c_str());
         return NULL;
     }
