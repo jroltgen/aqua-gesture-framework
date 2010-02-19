@@ -55,4 +55,5 @@ void PrintEventGesture::printEvent(Event* event) {
     printf(" ID: %d\n", event->getID());
     printf("\tX: %f\n\tY: %f\n\tZ: %f\n", event->getX(), event->getY(), 
             event->getZ());
+    event->getLocation();
 }

@@ -25,19 +25,23 @@ myLibs = []
 if (env['CC'] == 'cl'):
     env.Append(CCFLAGS = ['/EHsc'])
     #env['PDB'] = 'Aqua.pdb'
+    #env[
     myLibs.append('WS2_32')
     
-env.Program('Aqua', 
+env.Program('bin/Aqua', 
             Glob('*.cpp') + Glob('utils/*.cpp') + \
             ['events/EventFactory.cpp', \
-             'events/Event.cpp', \
              'gestures/GestureFactory.cpp'], \
             LIBS=myLibs)
 
 #Events
-env.SharedLibrary('events/UnifiedEvent', ['events/UnifiedEvent.cpp', 'events/Event.cpp'])
+env.SharedLibrary('bin/events/UnifiedEvent', 'events/UnifiedEvent.cpp')
+env.SharedLibrary('bin/events/UnifiedDragEvent', 'events/UnifiedDragEvent.cpp')
 
 #Gestures
-env.SharedLibrary('gestures/HelloWorldGesture', ['gestures/HelloWorldGesture.cpp', 'events/Event.cpp'])
-env.SharedLibrary('gestures/YouRockGesture', ['gestures/YouRockGesture.cpp', 'events/Event.cpp'])
-env.SharedLibrary('gestures/PrintEventGesture', ['gestures/PrintEventGesture.cpp', 'events/Event.cpp'])
+env.SharedLibrary('bin/gestures/HelloWorldGesture', 'gestures/HelloWorldGesture.cpp')
+env.SharedLibrary('bin/gestures/YouRockGesture', 'gestures/YouRockGesture.cpp')
+env.SharedLibrary('bin/gestures/PrintEventGesture', 'gestures/PrintEventGesture.cpp')
+
+#Unified Gestures
+#env.SharedLibrary('bin/gestures/UnifiedStandardDynamicGesture', ['gestures/unifiedGestures/UnifiedStandardDynamicGesture.cpp'])
