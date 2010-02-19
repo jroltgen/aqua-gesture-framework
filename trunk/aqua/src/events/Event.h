@@ -32,7 +32,6 @@
 #define EVENT_TYPE_HOVER 3
 #define EVENT_TYPE_OTHER 4
 
-#include <stdio.h> // TODO remove
 #include <string>
 
 #include "../utils/EndianConverter.h"
@@ -49,24 +48,116 @@ protected:
 
 // Methods
 public:
-    Event(char* eventData);    
+    Event(char* eventData) {
+        int i;
+        char* ptr = eventData;
+    
+        // Get the name - this should read up to a null character.
+        _name = ptr;
+        ptr += (_name.length() + 1);
+            
+        // Get the description - this should behave similarly.
+        _description = ptr;
+        ptr += (_description.length() + 1);
+            
+        // Get the type.
+        _type = *ptr;
+        ptr++;
+            
+        // Get the ID.
+        memcpy(&_id, ptr, 4);
+        ptr += 4;
+        
+        // Get the location.
+        memcpy(_location, ptr, 12);
+            
+        // Swap endianness if needed.
+        if (EndianConverter::isLittleEndian()) {
+                
+            _id = EndianConverter::swapIntEndian(_id);
+            for(i = 0; i < 3; i++) {
+                _location[i] = EndianConverter::swapFloatEndian(_location[i]);
+            }
+        }
+        
+        //printf("Event received: %s %s - ID: %d, Type: %d\n", _name.c_str(), _description.c_str(), _id, _type);
+    }
+    
     Event(std::string& name, std::string& desc, char type, 
-            int id, float* location);
-    virtual ~Event();
+            int id, float* location) {
+        _name = name;
+        _description = desc;
+        _type = type;
+        _id = id;
+        _location[0] = location[0];
+        _location[1] = location[1];
+        _location[2] = location[2];
+    }
     
-    char* serialize(short& outLength);
+    virtual ~Event() {}
     
-    void        setID(int id);
+    char* serialize(short& outLength) {
+        int i;
+        short myLength = (_name.length() + _description.length() + 2) + 17;
+            
+        short subclassLength = 0;
+        char* subclassData = serializeData(subclassLength);
+        
+        outLength = myLength + subclassLength;
+            
+        int tempInt;
+        float tempFloat;
+            
+        char* ret = new char[myLength + subclassLength];
+        char* bufferPtr = ret;
+            
+        // Name
+        memcpy(bufferPtr, _name.c_str(), _name.length() + 1);
+        bufferPtr += _name.length() + 1;
+            
+        // Description
+        memcpy(bufferPtr, _description.c_str(), _description.length() + 1);
+        bufferPtr += _description.length() + 1;
+            
+        // Type
+        *bufferPtr = _type;
+        bufferPtr++;
+            
+        // ID
+        tempInt = _id;
+        if (EndianConverter::isLittleEndian()) {
+            tempInt = EndianConverter::swapIntEndian(tempInt);
+        }
+        memcpy(bufferPtr, &tempInt, 4);
+        bufferPtr += 4;
+            
+        // Location
+        for (i = 0; i < 3; i++) {
+            tempFloat = _location[i];
+            if (EndianConverter::isLittleEndian()) {
+                tempFloat = EndianConverter::swapFloatEndian(tempFloat);
+            }
+            memcpy(bufferPtr, &tempFloat, 4);
+            bufferPtr += 4;
+        }
+            
+        // Subclass data
+        memcpy(bufferPtr, subclassData, subclassLength);
+            
+        delete subclassData;
+        return ret;
+    }
     
-    std::string getName();
-    std::string getDesc();
-    float*      getLocation();
-    float       getX();
-    float       getY();
-    float       getZ();
-    char        getType();
-    int         getID();
-    
+    void setID(int id) { _id = id; };
+    std::string getName() { return _name; };
+    std::string getDesc() { return _description; };
+    float* getLocation() { return _location; };
+    float getX() { return _location[0]; };
+    float getY() { return _location[1]; };
+    float getZ() { return _location[2]; };
+    char getType() { return _type; };
+    int getID() { return _id; };
+        
 private:
     virtual char* serializeData(short &lengthOut) = 0;
     
