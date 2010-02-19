@@ -1,0 +1,10 @@
+env = Environment()
+myLibs = []
+
+#Add the /Ehsc flag to the msvc compiler
+if (env['CC'] == 'cl'):
+    env.Append(CCFLAGS = ['/EHsc'])
+    myLibs.append('WS2_32')
+    myLibs.append('User32')
+
+env.Program('AquaWinMouse', Glob('*.cpp'), LIBS=myLibs)
