@@ -48,6 +48,8 @@ int main(int argc, char* argv[]) {
 #ifdef _GESTURESERVER_TEST_
 int main(int argc, char* argv[]) {
     GestureServer s;
+	EventFactory::getInstance();
+	GestureFactory::getInstance();
     s.run();
     return 0;
 }
