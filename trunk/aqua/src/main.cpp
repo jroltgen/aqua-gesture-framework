@@ -35,7 +35,7 @@
 #define _AQUA_
 //#define _SOCKET_TEST_
 //#define _EVENTFACTORY_TEST_
-
+//#define _UNIFIEDDRAGGESTURE_TEST_
 using namespace std;
 
 #ifdef _AQUA_
@@ -43,6 +43,60 @@ int main(int argc, char* argv[]) {
     GestureServer s;
     s.run();
 }
+#endif
+
+#ifdef _UNIFIEDDRAGGESTURE_TEST_
+#include "gestures/unifiedGestures/UnifiedDragGesture.h"
+#include "events/UnifiedEvent.h"
+int main(int argc, char* argv[]) {
+	GestureServer s;
+	GestureFactory::getInstance()->loadGestures();
+	Gesture* g = GestureFactory::getInstance()->createGesture(string("UnifiedDragGesture"), s);
+	
+	std::string n("TestEvent");
+	std::string d("Test");
+	float l[3];
+    float l2[3];
+    float l3[3];
+	
+    
+	l[0] = 0.5;
+	l[1] = 0.5;
+	l[2] = 0.5;
+    
+    l2[0] = 0.9;
+    l2[1] = 0.7;
+    l2[2] = 0.1;
+    
+    l3[0] = 0.7;
+    l3[1] = 0.6;
+    l3[2] = 0.3;
+	
+	UnifiedEvent* e;
+	
+	e = new UnifiedEvent(n, d, EVENT_TYPE_DOWN, 1, l);
+	g->processEvent(e);
+	delete e;
+    
+    e = new UnifiedEvent(n, d, EVENT_TYPE_DOWN, 2, l2);
+    g->processEvent(e);
+    delete e;
+    
+    e = new UnifiedEvent(n, d, EVENT_TYPE_MOVE, 2, l3);
+    g->processEvent(e);
+    delete e;
+	
+	e = new UnifiedEvent(n, d, EVENT_TYPE_UP, 1, l);
+	g->processEvent(e);
+	delete e;
+    
+    e = new UnifiedEvent(n, d, EVENT_TYPE_UP, 2, l3);
+    g->processEvent(e);
+    delete e;
+	
+	return 0;
+}
+	
 #endif
 
 #ifdef _GESTURESERVER_TEST_

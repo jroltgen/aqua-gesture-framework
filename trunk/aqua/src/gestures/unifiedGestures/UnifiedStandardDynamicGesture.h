@@ -51,6 +51,17 @@ protected:
      * The centroid after the move.
      */
     float                    _newCentroid[3];
+	
+	/**
+	 * The original centroid which DOES NOT move on point births and deaths,
+	 * though the new centroid will.
+	 */
+	float					 _originalCentroid[3];
+	
+	/**
+	 * The distance from the new centroid to the offset centroid is the offset.
+	 */
+	float					 _offset[3];
     
     /**
      * The sum of the x and y coordinates of all the points.
@@ -76,16 +87,5 @@ private:
     
     TouchData createTouchData(Event* e);
 };
-
-#ifdef _WIN32
-extern "C" {
-    __declspec (dllexport) Gesture* createGesture(EventProcessor* 
-            publisher, int regionID) {
-		return new UnifiedStandardDynamicGesture(publisher, regionID);
-	}
-}
-#else
-// TODO linux support
-#endif
 
 #endif /* STANDARDDYNAMICGESTURE_H */

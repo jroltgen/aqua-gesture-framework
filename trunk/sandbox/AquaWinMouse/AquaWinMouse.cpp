@@ -10,7 +10,7 @@
 #include <ws2tcpip.h>
 #include <cmath>
 #include <string>
-
+#include <stdlib.h>
 #include <stdio.h>
 
 #include "EndianConverter.h"
@@ -26,7 +26,6 @@ const char eventType = EVENT_TYPE_HOVER;
 
 
 SOCKET sock;
-bool running = true;
 bool leftDown = false;
 bool rightDown = false;
 
@@ -142,7 +141,7 @@ int sendEvent(Event* e) {
         printf("Send length failed: %d\n", WSAGetLastError());
         closesocket(sock);
         WSACleanup();
-        running = false;
+        exit(0);
         return -1;
     }
     
@@ -152,7 +151,7 @@ int sendEvent(Event* e) {
         printf("Send data failed: %d\n", WSAGetLastError());
         closesocket(sock);
         WSACleanup();
-        running = false;
+        exit(0);
         return -1;
     }
     return 0;

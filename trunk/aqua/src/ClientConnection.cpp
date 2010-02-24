@@ -237,7 +237,6 @@ bool ClientConnection::processEvent(Event* e) {
     if (_clientSocket.send(&msgType, 1) == AQUASOCKET_RES_ERROR) {
         return handleError("Error sending processGlobalEvent message.\n");
     }
-    
     // Send the event 
     data = e->serialize(length);
     networkLength = length;
@@ -250,7 +249,8 @@ bool ClientConnection::processEvent(Event* e) {
     if (_clientSocket.send(data, length) == AQUASOCKET_RES_ERROR) {
         return handleError("Error sending process Global event msg data.\n");
     }
-    
+
+    delete[] data;
     return false;
 }
 
@@ -289,5 +289,6 @@ bool ClientConnection::processEvent(Event* e, int regionID) {
     if (_clientSocket.send(data, length) == AQUASOCKET_RES_ERROR) {
         return handleError("Error sending process Global event msg data.\n");
     }
+    delete[] data;
     return false;
 }

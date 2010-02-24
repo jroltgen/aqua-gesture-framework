@@ -24,6 +24,16 @@
 
 using namespace std;
 
+#ifdef _WIN32
+extern "C" {
+    __declspec (dllexport) Event* createEvent(char* data) {
+		return new UnifiedDragEvent(data);
+	}
+}
+#else
+// TODO linux support
+#endif
+
 UnifiedDragEvent::UnifiedDragEvent(string& name, string& desc, char type, 
         int id, float* location, float dx, float dy, float dz) : 
         Event(name, desc, type, id, location) {
@@ -67,9 +77,8 @@ float UnifiedDragEvent::getdz() {
  *      - 4 bytes   : dz
  */
 char* UnifiedDragEvent::serializeData(short& lengthOut) {
-
-	char* buffer = new char[12];
-	lengthOut = 12;
+    
+    lengthOut = UNIFIEDDRAGEVENT_DATA_LENGTH;
     float tempX, tempY, tempZ;
 	
     // dx, dy, dz
@@ -82,9 +91,9 @@ char* UnifiedDragEvent::serializeData(short& lengthOut) {
         tempY = EndianConverter::swapFloatEndian(tempY);
         tempZ = EndianConverter::swapFloatEndian(tempZ);
     }
-    memcpy(buffer + 0, &tempX, 4);
-    memcpy(buffer + 4, &tempY, 4);
-    memcpy(buffer + 8, &tempZ, 4);
+    memcpy(dataBuffer + 0, &tempX, 4);
+    memcpy(dataBuffer + 4, &tempY, 4);
+    memcpy(dataBuffer + 8, &tempZ, 4);
     
-    return buffer; 
+    return dataBuffer;
 }

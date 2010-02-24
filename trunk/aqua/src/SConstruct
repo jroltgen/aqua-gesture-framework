@@ -18,30 +18,49 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+AQUA_BUILD = 1
+TEST_BUILD = 2
+
+buildType = AQUA_BUILD
 env = Environment()
+env2 = Environment()
 myLibs = []
 
 #Add the /Ehsc flag to the msvc compiler
 if (env['CC'] == 'cl'):
     env.Append(CCFLAGS = ['/EHsc'])
-    #env['PDB'] = 'Aqua.pdb'
-    #env[
+    env2.Append(CCFLAGS = ['/EHsc'])
+    env2['PDB'] = 'bin/Aqua.pdb'
     myLibs.append('WS2_32')
-    
-env.Program('bin/Aqua', 
+	
+# This builds the program
+if (buildType == AQUA_BUILD):
+    env2.Program('bin/Aqua', 
             Glob('*.cpp') + Glob('utils/*.cpp') + \
             ['events/EventFactory.cpp', \
              'gestures/GestureFactory.cpp'], \
             LIBS=myLibs)
 
+# This builds a test
+if (buildType == TEST_BUILD):
+    env.Program('bin/Test', Glob('utils/*.cpp') + Glob('*.cpp') + ['events/EventFactory.cpp', 'gestures/GestureFactory.cpp', \
+            'gestures/unifiedGestures/UnifiedDragGesture.cpp', \
+            'gestures/unifiedGestures/UnifiedStandardDynamicGesture.cpp', \
+            'events/UnifiedEvent.cpp'], \
+            LIBS=myLibs)
+			
 #Events
 env.SharedLibrary('bin/events/UnifiedEvent', 'events/UnifiedEvent.cpp')
 env.SharedLibrary('bin/events/UnifiedDragEvent', 'events/UnifiedDragEvent.cpp')
-
+	
 #Gestures
 env.SharedLibrary('bin/gestures/HelloWorldGesture', 'gestures/HelloWorldGesture.cpp')
 env.SharedLibrary('bin/gestures/YouRockGesture', 'gestures/YouRockGesture.cpp')
 env.SharedLibrary('bin/gestures/PrintEventGesture', 'gestures/PrintEventGesture.cpp')
 
 #Unified Gestures
+ 
+env.SharedLibrary('bin/gestures/UnifiedDragGesture', ['gestures/unifiedGestures/UnifiedDragGesture.cpp', \
+        'gestures/unifiedGestures/UnifiedStandardDynamicGesture.cpp', \
+        'events/UnifiedDragEvent.cpp'])
 #env.SharedLibrary('bin/gestures/UnifiedStandardDynamicGesture', ['gestures/unifiedGestures/UnifiedStandardDynamicGesture.cpp'])

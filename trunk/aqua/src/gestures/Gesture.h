@@ -29,7 +29,7 @@
 #endif
 #include <windows.h>
 #else
-// TODO linux support
+// TODO ls
 #endif
 
 #include "../events/Event.h"
@@ -44,7 +44,7 @@ private:
     #ifdef _WIN32
     CRITICAL_SECTION myLock;
     #else
-    // TODO linux support
+    // TODO ls
     #endif
     
 protected: // TODO change back to private
@@ -56,7 +56,7 @@ public:
         #ifdef _WIN32
         InitializeCriticalSection(&myLock);
         #else
-        // TODO linux support
+        // TODO ls
         #endif
         
         _publisher = publisher;
@@ -66,7 +66,7 @@ public:
         #ifdef _WIN32
         DeleteCriticalSection(&myLock);
         #else
-        // TODO linux support
+        // TODO ls
         #endif
     
     };
@@ -77,7 +77,7 @@ public:
         result = handleEvent(event);
         LeaveCriticalSection(&myLock);
         #else
-        // TODO linux support
+        // TODO ls
         result = handleEvent(event);
         #endif
         return result;

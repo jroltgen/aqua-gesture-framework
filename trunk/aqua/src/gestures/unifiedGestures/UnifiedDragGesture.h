@@ -25,37 +25,24 @@
 #include <vector>
 #include "../../events/Event.h"
 #include "TouchData.h"
-#include "../../events/UnifiedDragEvent.h"
 #include "UnifiedStandardDynamicGesture.h"
 
 class UnifiedDragGesture : public UnifiedStandardDynamicGesture {
 
 // Attributes
 private:
-    float _offset[3];
-    float _offsetCentroid[3];
-    bool  _offsetExists;
     
 // Methods
 public:
     UnifiedDragGesture(EventProcessor* publisher, int regionID = -1);
 protected:
-    virtual bool processDown(TouchData data);
-    virtual bool processMove(TouchData data);
-    virtual bool processUp  (TouchData data);
-    void adjustOffset();
-    void updateOffsetCentroid();
+    virtual bool processDown(TouchData& data);
+    virtual bool processMove(TouchData& data);
+    virtual bool processUp  (TouchData& data);
+    
+    void printInfo();
 };
 
-#ifdef _WIN32
-extern "C" {
-    __declspec (dllexport) Gesture* createGesture(EventProcessor* 
-            publisher, int regionID) {
-		return new UnifiedDragGesture(publisher, regionID);
-	}
-}
-#else
-// TODO linux support
-#endif
+
 
 #endif
