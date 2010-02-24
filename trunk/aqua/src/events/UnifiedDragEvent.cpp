@@ -37,9 +37,9 @@ extern "C" {
 UnifiedDragEvent::UnifiedDragEvent(string& name, string& desc, char type, 
         int id, float* location, float dx, float dy, float dz) : 
         Event(name, desc, type, id, location) {
-	_dx = 0.0;
-	_dy = 0.0;
-    _dz = 0.0;
+	_dx = dx;
+	_dy = dy;
+    _dz = dz;
 }
 
 UnifiedDragEvent::UnifiedDragEvent(char *data) : Event(data) {
