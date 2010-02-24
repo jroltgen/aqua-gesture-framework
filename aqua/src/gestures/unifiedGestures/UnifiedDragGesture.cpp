@@ -20,67 +20,75 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "UnifiedDragGesture.h"
+#include "../../events/UnifiedDragEvent.h"
+
+#ifdef _WIN32
+extern "C" {
+    __declspec (dllexport) Gesture* createGesture(EventProcessor* 
+            publisher, int regionID) {
+		return new UnifiedDragGesture(publisher, regionID);
+	}
+}
+#else
+// TODO linux support
+#endif
 
 using namespace std;
 
 UnifiedDragGesture::UnifiedDragGesture(EventProcessor* publisher, 
         int regionID) : UnifiedStandardDynamicGesture(publisher, regionID) {
-    
-    _offsetExists = false;
 }
 
-bool UnifiedDragGesture::processDown(TouchData touchData) {
-	int i;
-    
-    if(_offsetExists == false){
-        _offsetExists = true;
-        for (i = 0; i < 3; i++) {
-            _offset[i] = 0.0;
-            _offsetCentroid[i] = 0.0;
-        }
-    } else {
-        adjustOffset();
-    }
+bool UnifiedDragGesture::processDown(TouchData& touchData) {
+    UnifiedDragEvent e(string("UnifiedDragEvent"), string("UnifiedDragEvent"), 
+            EVENT_TYPE_OTHER, 0, _originalCentroid, 
+            _newCentroid[0] - _oldCentroid[0],
+            _newCentroid[1] - _oldCentroid[1],
+            _newCentroid[2] - _oldCentroid[2]);
+    //publishEvent(&e);
     return false;
 }
 
-bool UnifiedDragGesture::processMove(TouchData touchData){
-		printf("Processing move\n");
-		////debug_msg();
-		vector<Event*> events;
-		adjustOffset();
-		updateOffsetCentroid();
-		events.push_back(new DragEvent(_offsetCentroid.getX(), _offsetCentroid.getY()));
-		return events;
-	}
+bool UnifiedDragGesture::processMove(TouchData& touchData){
+	UnifiedDragEvent e(string("UnifiedDragEvent"), string("UnifiedDragEvent"), 
+            EVENT_TYPE_OTHER, 0, _originalCentroid, 
+            _newCentroid[0] - _oldCentroid[0],
+            _newCentroid[1] - _oldCentroid[1],
+            _newCentroid[2] - _oldCentroid[2]);
+    publishEvent(&e);
+    //printInfo();
+    return false;
+}
 
-bool UnifiedDragGesture::processDeath(TouchData touchData){
-		////debug_msg();
-		if(_knownPoints.size() == 0){
-			b_offset = false;
-			_offset = Location(0,0);
-			_offsetCentroid = Location(0,0);
-		}else{
-			adjustOffset();
-		}
-		return vector<Event*>();
-	}
+bool UnifiedDragGesture::processUp(TouchData& touchData){
+	UnifiedDragEvent e(string("UnifiedDragEvent"), string("UnifiedDragEvent"), 
+            EVENT_TYPE_OTHER, 0, _originalCentroid, 
+            _newCentroid[0] - _oldCentroid[0],
+            _newCentroid[1] - _oldCentroid[1],
+            _newCentroid[2] - _oldCentroid[2]);
+    publishEvent(&e);
+    //printInfo();
+	return false;
+}
 
-void UnifiedDragGesture::adjustOffset() {
+void UnifiedDragGesture::printInfo() {
     int i;
     
-    for (i = 0; i < 3; i++) {
-        _offset[i] = _newCentroid[i] - _oldCentroid[i];
-        
-		////debug_msg();
-		_offset = Location (_newCentroid.getX() - _oldCentroid.getX(),
-			_newCentroid.getY() - _oldCentroid.getY());
-	}
+    printf("Known points: %d\n", _knownPoints.size());
+        std::map<int, TouchData> _knownPoints;
+    
+    printf("Old centroid:  %5.3f, %5.3f, %5.3f\n",
+            _oldCentroid[0], _oldCentroid[1], _oldCentroid[2]);
+    
+    printf("New centroid:  %5.3f, %5.3f, %5.3f\n",
+            _newCentroid[0], _newCentroid[1], _newCentroid[2]);
+            
+    printf("Orig centroid: %5.3f, %5.3f, %5.3f\n",
+            _originalCentroid[0], _originalCentroid[1], _originalCentroid[2]);
+            
+    printf("Offset:        %5.3f, %5.3f, %5.3f\n",
+            _offset[0], _offset[1], _offset[2]);
+            
+    printf("--------------------------\n");
 
-void UnifiedDragGesture::updateOffsetCentroid(){
-		////debug_msg();
-		float x = _newCentroid.getX() - _offset.getX();
-		float y = _newCentroid.getY() - _offset.getY();
-		_offsetCentroid	= Location(x,y);
-	}
 }

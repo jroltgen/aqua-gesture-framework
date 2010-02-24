@@ -80,8 +80,9 @@ public:
             }
         }
         
-        printf("Event received: %s %s - ID: %d, Type: %d\n\tLocation: %f, %f, %f\n", _name.c_str(), _description.c_str(), _id, _type,
-				_location[0], _location[1], _location[2]);
+        //printf("Event received: %s %s - ID: %d, Type: %d\n\tLocation: %f, %f, %f\n", 
+		//		_name.c_str(), _description.c_str(), _id, _type,
+		//		_location[0], _location[1], _location[2]);
     }
     
     Event(std::string& name, std::string& desc, char type, 
@@ -99,11 +100,13 @@ public:
     
     char* serialize(short& outLength) {
         int i;
-        short myLength = (_name.length() + _description.length() + 2) + 17;
-            
-        short subclassLength = 0;
-        char* subclassData = serializeData(subclassLength);
+        short myLength;
+        char* subclassData;
+        short subclassLength;
         
+        subclassData = serializeData(subclassLength);
+        
+        myLength = (_name.length() + _description.length() + 2) + 17;
         outLength = myLength + subclassLength;
             
         int tempInt;
@@ -115,15 +118,15 @@ public:
         // Name
         memcpy(bufferPtr, _name.c_str(), _name.length() + 1);
         bufferPtr += _name.length() + 1;
-            
+        
         // Description
         memcpy(bufferPtr, _description.c_str(), _description.length() + 1);
         bufferPtr += _description.length() + 1;
-            
+        
         // Type
         *bufferPtr = _type;
         bufferPtr++;
-            
+        
         // ID
         tempInt = _id;
         if (EndianConverter::isLittleEndian()) {
@@ -131,7 +134,7 @@ public:
         }
         memcpy(bufferPtr, &tempInt, 4);
         bufferPtr += 4;
-            
+        
         // Location
         for (i = 0; i < 3; i++) {
             tempFloat = _location[i];
@@ -141,11 +144,9 @@ public:
             memcpy(bufferPtr, &tempFloat, 4);
             bufferPtr += 4;
         }
-            
+       
         // Subclass data
         memcpy(bufferPtr, subclassData, subclassLength);
-            
-        delete subclassData;
         return ret;
     }
     

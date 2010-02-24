@@ -110,7 +110,6 @@ bool GlobalGestureLayer::processEvent(Event* event) {
         // events on it, this will involve keeping track of the EventIDs
         // associated with each region.
     }
-     //printf("GlobalGestureLayer finised.\n");
-       
+      
     return consumed;
 }

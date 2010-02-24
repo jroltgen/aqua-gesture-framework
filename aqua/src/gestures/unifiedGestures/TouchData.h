@@ -79,15 +79,15 @@ public:
     }
     
     float getOldX() {
-        return _location[0];
+        return _oldLocation[0];
     }
     
     float getOldY() {
-        return _location[1];
+        return _oldLocation[1];
     }
     
     float getOldZ() {
-        return _location[2];
+        return _oldLocation[2];
     }
 };
 #endif

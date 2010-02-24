@@ -48,5 +48,5 @@ UnifiedEvent::~UnifiedEvent() {
 
 char* UnifiedEvent::serializeData(short &lengthOut) {
     lengthOut = 0;
-    return new char[0];
+    return NULL;
 }

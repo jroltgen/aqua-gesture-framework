@@ -42,6 +42,8 @@ UnifiedStandardDynamicGesture::UnifiedStandardDynamicGesture(
     for (i = 0; i < 3; i++) {
         _oldCentroid[i] = 0.0;
         _newCentroid[i] = 0.0;
+		_originalCentroid[i] = 0.0;
+        _offset[i] = 0.0;
     }
 }
 
@@ -95,15 +97,28 @@ bool UnifiedStandardDynamicGesture::handleDown(Event* e) {
 	_sumY += data.getLocation()[1];
     _sumZ += data.getLocation()[2];
     
-    
 	// Store the old centroid, recompute the new centroid
 	averages[0] = _sumX / _knownPoints.size();
 	averages[1] = _sumY / _knownPoints.size();
     averages[2] = _sumZ / _knownPoints.size();
+	
     
     for (i = 0; i < 3; i++) {
         _oldCentroid[i] = _newCentroid[i];
         _newCentroid[i] =  averages[i];
+		
+		
+		
+		if (_knownPoints.size() == 1) {
+			// This is the first point down - so the original centroid will
+			// set here.  Do not change the offset.
+			_originalCentroid[i] = _newCentroid[i];
+		} else {
+            // Otherwise, this is at least the second point, so we need
+            // to update the offset.
+            _offset[i] += _newCentroid[i] - _oldCentroid[i];
+        }
+		
     }
 	return processDown(data);
 } 
@@ -151,6 +166,9 @@ bool UnifiedStandardDynamicGesture::handleMove(Event* e) {
     for (i = 0; i < 3; i++) {
         _oldCentroid[i] = _newCentroid[i];
         _newCentroid[i] = averages[i];
+		// Here the offset does not change, but the original centroid must
+		// move appropriately.
+		_originalCentroid[i] += _newCentroid[i] - _oldCentroid[i];
     }
     _knownPoints[e->getID()] = data;
     
@@ -177,6 +195,8 @@ bool UnifiedStandardDynamicGesture::handleUp(Event* e) {
     
     _sumX -= data.getX();
     _sumY -= data.getY();
+	_sumZ -= data.getZ();
+	
     _knownPoints.erase(e->getID());
     
     if (_knownPoints.size() > 0) {
@@ -187,11 +207,17 @@ bool UnifiedStandardDynamicGesture::handleUp(Event* e) {
         for (i = 0; i < 3; i++) {
             _oldCentroid[i] = _newCentroid[i];
             _newCentroid[i] = averages[i];
+			// Here the centroid has moved - we will not move the original
+			// centroid, but will update the offset to refelct the change.
+			_offset[i] += _newCentroid[i] - _oldCentroid[i];
         }
+		
 	} else {
         for (i = 0; i < 3; i++) {
             _oldCentroid[i] = 0.0;
             _newCentroid[i] = 0.0;
+			_originalCentroid[i] = 0.0;
+            _offset[i] = 0.0;
         }
 	}
 	return processUp(data);

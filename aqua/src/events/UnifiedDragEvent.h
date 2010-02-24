@@ -22,6 +22,8 @@
 #ifndef _UNIFIEDDRAGEVENT_H_
 #define _UNIFIEDDRAGEVENT_H_
 
+#define UNIFIEDDRAGEVENT_DATA_LENGTH 12
+
 #include <string>
 
 #include "Event.h"
@@ -31,6 +33,7 @@ class UnifiedDragEvent : public Event {
 // Attributes
 private:
     float _dx, _dy, _dz;
+    char  dataBuffer[UNIFIEDDRAGEVENT_DATA_LENGTH];
     
 // Methods
 public:

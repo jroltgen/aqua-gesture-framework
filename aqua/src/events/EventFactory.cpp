@@ -108,7 +108,7 @@ void EventFactory::loadEvents() {
                 if (!_eventsLoaded) _eventsLoaded = true;
             } else {
                 printf("[Event Factory] Error: Couldn't load function ");
-                printf("for library: %s\n", libName);
+                printf("for library: %s\n", libName.c_str());
             }
         } else {
             printf("[Event Factory] Error: Could not find library: %s\n", 
