@@ -1,12 +1,30 @@
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.image.MemoryImageSource;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Vector;
 
-public class AquaClient {
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import events.Event;
+import events.UnifiedDragEvent;
+
+public class AquaClient extends JPanel implements KeyListener, Runnable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8273709567701104122L;
 	
 	enum MessageType {
 		REGION_ID,
@@ -23,14 +41,68 @@ public class AquaClient {
 	private Socket _socket;
 	private DataInputStream _input;
 	private DataOutputStream _output;
+	private JFrame _frame;
+	
+	private Vector<AquaPhoto> _photos = new Vector<AquaPhoto>();
 	
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		AquaClient ac = new AquaClient();
 		ac.connect();
-		while(true) ac.handleRequest();
+		ac.initGUI();
+		
+		Thread t = new Thread(ac);
+		t.start();
+	}
+	
+	@Override
+	public void run() {
+		while(true)
+			try {
+				handleRequest();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 	
 	
+	private void initGUI() {
+		_frame = new JFrame();
+        _frame.setSize(SCREEN_SIZE);
+        _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        _frame.setUndecorated(true);
+        _frame.addKeyListener(this);
+        _frame.setLayout(null);
+        
+        /*
+        int[] pixels = new int[16 * 16];
+        Image image = Toolkit.getDefaultToolkit().createImage(
+                new MemoryImageSource(16, 16, pixels, 0, 16));
+        Cursor transparentCursor =
+                Toolkit.getDefaultToolkit().createCustomCursor
+                     (image, new java.awt.Point(0, 0), "invisibleCursor");
+        _frame.setCursor(transparentCursor);
+        */
+        _frame.add(this);
+        _frame.setVisible(true);
+
+        setLayout(null);
+        setLocation(0, 0);
+        setSize(SCREEN_SIZE.width, SCREEN_SIZE.height);
+        try {
+			AquaPhoto p = new AquaPhoto();
+			_photos.add(p);
+			p.setLocation(100, 100);
+			p.setSize(320, 240);
+			add(p);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+         
+	}
+
+
 	/**
 	 * Connects to Aqua.
 	 * @throws IOException 
@@ -90,21 +162,24 @@ public class AquaClient {
 		location[2] = _input.readFloat();
 		//System.out.println("Received Location - x:" + location[0] + ", y:" + 
 		//		location[1] + ", z:" + location[2]);
-		if (location[0] < 0.5) {
-			_output.writeInt(1);
-		} else {
-			_output.writeInt(0);
+		for (AquaPhoto photo : _photos) {
+			Point pt = new Point((int)(location[0] * SCREEN_SIZE.width), 
+					(int)(location[1] * SCREEN_SIZE.height));
+			SwingUtilities.convertPointFromScreen(pt, photo);
+			if (photo.contains(pt.x, pt.y)) {
+				_output.writeInt(photo.getID());
+				return;
+			}
 		}
+		_output.writeInt(-1);
 	}
 	
 	/**
 	 * Handles the getGlobalInfo message.
 	 */
 	private void handleGetGlobalInfo() throws IOException {
-		_output.writeInt(0);
-
 		// Sent gestures as null-terminated strings.
-		//_output.writeBytes("HelloWorldGesture\0");
+		_output.writeInt(0);
 		
 		// Send the events
 		_output.writeInt(0);
@@ -115,14 +190,21 @@ public class AquaClient {
 	 */
 	private void handleGetRegionInfo() throws IOException {
 		int regionID = _input.readInt();
-		if (regionID == 1) {
-			_output.writeInt(1);
-			_output.writeBytes("HelloWorldGesture\0");
-			_output.writeInt(0);
-		} else {
-			_output.writeInt(0);
-			_output.writeInt(0);
+		for (AquaPhoto p : _photos) {
+			if (p.getID() == regionID) {
+				Vector<String> gestures = p.getAllowedGestures();
+				_output.writeInt(gestures.size());
+				for (String s : gestures) {
+					_output.writeBytes(s);
+				}
+				_output.writeInt(0);
+				return;
+			}
 		}
+
+		// If we get to here, we don't want any gestures for this region.
+		_output.writeInt(0);
+		_output.writeInt(0);
 	}
 	
 	/**
@@ -130,6 +212,10 @@ public class AquaClient {
 	 */
 	private void processGlobalEvent() throws IOException {
 		System.out.println("Got global event.\n");
+		short length = _input.readShort();
+		byte[] data = new byte[length];
+		
+		_input.read(data, 0, length);
 	}
 	
 	/**
@@ -137,6 +223,32 @@ public class AquaClient {
 	 */
 	private void processRegionEvent() throws IOException {
 		System.out.println("Got region event.\n");
+		
+		int regionID = _input.readInt();
+		
+		short length = _input.readShort();
+		byte[] data = new byte[length];
+		
+		_input.read(data, 0, length);
+		System.out.println("Done reading.\n");
+		String name = "";
+		int index = 0;
+		while (data[index] != '\0') {
+			name += (char)data[index++];
+		}
+		System.out.println("Name of event: " + name);
+		
+		Event e = null;
+		
+		if (name.equals("UnifiedDragEvent")) {
+			e = new UnifiedDragEvent(data);
+		}
+		
+		for (AquaPhoto p : _photos) {
+			if (p.getID() == regionID) {
+				p.processEvent(e);
+			}
+		}
 	}
 	/**
 	 * Handles the getTranslators message.
@@ -144,6 +256,28 @@ public class AquaClient {
 	private void handleGetTranslators() throws IOException {
 		// Send # of translators.
 		_output.writeInt(0);
+		
+	}
+
+
+	@Override
+    public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			System.exit(0);
+		}
+    }
+
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
 		
 	}
 	

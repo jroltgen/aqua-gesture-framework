@@ -55,7 +55,7 @@ bool UnifiedDragGesture::processMove(TouchData& touchData){
             _newCentroid[0] - _oldCentroid[0],
             _newCentroid[1] - _oldCentroid[1],
             _newCentroid[2] - _oldCentroid[2]);
-    publishEvent(&e);
+	publishEvent(&e);
     //printInfo();
     return false;
 }
@@ -66,7 +66,7 @@ bool UnifiedDragGesture::processUp(TouchData& touchData){
             _newCentroid[0] - _oldCentroid[0],
             _newCentroid[1] - _oldCentroid[1],
             _newCentroid[2] - _oldCentroid[2]);
-    publishEvent(&e);
+    //publishEvent(&e);
     //printInfo();
 	return false;
 }

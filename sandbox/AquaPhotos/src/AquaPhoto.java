@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -14,6 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 import events.Event;
+import events.UnifiedDragEvent;
 
 /**
  * A Photo which can be dragged, scaled and rotated. Class loads an image from a
@@ -86,7 +88,9 @@ public class AquaPhoto extends JComponent
 	 *             Throws and exception if the file is not found
 	 */
 	public AquaPhoto(File file) throws Exception {
+		/*
 		try {
+			
 			_image = ImageIO.read(file);
 
 			int imageW = _image.getWidth(), imageH = _image.getHeight(), xPos, yPos;
@@ -109,7 +113,7 @@ public class AquaPhoto extends JComponent
 		} catch (IOException e) {
 			// _image = this.createImage(getWidth(), getHeight());
 		}
-		
+		*/
 
 		_id = ++_numPhotos;
 	}
@@ -155,8 +159,11 @@ public class AquaPhoto extends JComponent
 		transform.concatenate(_transform);
 		g2.setTransform(transform);
 		g2.setClip(0, 0, w, h);
-		g2.drawImage(_image, 0, 0, w, h, 0, 0, _image.getWidth(this), _image
-				.getHeight(this), this);
+		//g2.drawImage(_image, 0, 0, w, h, 0, 0, _image.getWidth(this), _image
+		//		.getHeight(this), this);
+		System.out.println("Painting photo!");
+		g2.setColor(Color.green);
+		g2.fillRect(0, 0, w, h);
 		//super.paintComponent(g);
 	}
 	
@@ -179,6 +186,13 @@ public class AquaPhoto extends JComponent
 		double rotationAngle = 0;
 		double scaleFactor = 1;
 		
+		if (e instanceof UnifiedDragEvent) {
+			UnifiedDragEvent ue = (UnifiedDragEvent) e;
+			deltaPoint = new Location(
+					ue.get_dx() * AquaClient.SCREEN_SIZE.width, 
+					ue.get_dy() * AquaClient.SCREEN_SIZE.height);
+			System.out.println("Delta point set." + deltaPoint);
+		}
 		
 		/*
 		if (e instanceof TouchEvent) {

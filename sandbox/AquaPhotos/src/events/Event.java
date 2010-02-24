@@ -14,19 +14,20 @@ public class Event {
 	public Event(byte[] data) {
 		int i = 0;
 		
+		_location = new float[3];
+		
+		System.out.println("In event cons.");
 		// Get the name.
 		_name = "";
 		while (data[i] != '\0') {
-			_name += data[i];
-			i++;
+			_name += (char)data[i++];
 		}
 		i++;
 		
 		// Get the description.
 		_description = "";
 		while (data[i] != '\0') {
-			_description += data[i];
-			i++;
+			_description += (char)data[i++];
 		}
 		i++;
 		

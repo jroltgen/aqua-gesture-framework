@@ -215,7 +215,7 @@ LRESULT CALLBACK mouseHookProc(int nCode, WPARAM wParam, LPARAM lParam) {
     case WM_RBUTTONUP:
         printf("Right button up.\n");
         rightDown = false;
-        send(3, EVENT_TYPE_UP, location);
+        send(2, EVENT_TYPE_UP, location);
         break;
     default:
         printf("Other msg.\n");
