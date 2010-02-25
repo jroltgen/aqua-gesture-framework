@@ -44,7 +44,11 @@ bool UnifiedDragGesture::processDown(TouchData& touchData) {
 }
 
 bool UnifiedDragGesture::processMove(TouchData& touchData){
-	UnifiedDragEvent e(string("UnifiedDragEvent"), string("UnifiedDragEvent"), 
+    
+    string name("UnifiedDragEvent");
+    string desc("UnifiedDragEvent");
+
+	UnifiedDragEvent e(name, desc, 
             EVENT_TYPE_OTHER, 0, _originalCentroid, 
             _newCentroid[0] - _oldCentroid[0],
             _newCentroid[1] - _oldCentroid[1],

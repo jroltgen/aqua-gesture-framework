@@ -79,6 +79,7 @@ bool InputDeviceConnection::readEvent() {
     int             iResult;
     unsigned short  msgLength;
     int             remaining;
+    string          eventName;
     
     // Read event length.
     iResult = _socket.recv(receiveBuffer, 2);
@@ -97,8 +98,9 @@ bool InputDeviceConnection::readEvent() {
 		return false;
 	}
 	
+    eventName = string(receiveBuffer);
     Event* receivedEvent = EventFactory::getInstance()->createEvent(
-            string(receiveBuffer), receiveBuffer);
+            eventName, receiveBuffer);
             
     // Add our constant to the eventID to avoid conflicting event IDs.
     receivedEvent->setID(_id * 100000 + receivedEvent->getID());

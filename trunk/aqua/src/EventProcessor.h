@@ -23,7 +23,7 @@
 #define _EVENTPROCESSOR_H_
 
 #include "events/Event.h"
-
+ 
 class EventProcessor {
 
 // Attributes
@@ -33,7 +33,7 @@ public:
     virtual ~EventProcessor() {};
     
     /**
-     * Returns a boolean for whether this event was “consumed” or not.  The 
+     * Returns a boolean for whether this event was consumed or not.  The 
      * caller determines what to do with the return value.
      */
     virtual bool processEvent(Event* e) = 0;

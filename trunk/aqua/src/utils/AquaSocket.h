@@ -33,12 +33,18 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #else
-// LS
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <strings.h>
 #endif
 
 // Return values
 #define AQUASOCKET_RES_OK     0
 #define AQUASOCKET_RES_ERROR -1
+
+#define MAX_CONNECTIONS 128
 
 class AquaSocket {
 
@@ -59,11 +65,11 @@ private:
     /**
      * The platform-specific socket that we will use.
      */
-    #ifdef _WIN32
+  #ifdef _WIN32
     SOCKET _socket;
-    #else
-    // LS
-    #endif
+  #else
+    int _socket;
+  #endif
 
 // Methods
 public:

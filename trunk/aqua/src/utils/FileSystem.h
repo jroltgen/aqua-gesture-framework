@@ -34,7 +34,6 @@ public:
     static void getSharedLibraryFiles(std::string directory, 
             std::vector<std::string>* files);
 
-
 };
 
 #endif

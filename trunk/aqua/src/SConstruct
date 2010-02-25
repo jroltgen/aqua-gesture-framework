@@ -32,6 +32,8 @@ if (env['CC'] == 'cl'):
     env2.Append(CCFLAGS = ['/EHsc'])
     env2['PDB'] = 'bin/Aqua.pdb'
     myLibs.append('WS2_32')
+else:
+    myLibs.append('dl')
 	
 # This builds the program
 if (buildType == AQUA_BUILD):
@@ -43,11 +45,7 @@ if (buildType == AQUA_BUILD):
 
 # This builds a test
 if (buildType == TEST_BUILD):
-    env.Program('bin/Test', Glob('utils/*.cpp') + Glob('*.cpp') + ['events/EventFactory.cpp', 'gestures/GestureFactory.cpp', \
-            'gestures/unifiedGestures/UnifiedDragGesture.cpp', \
-            'gestures/unifiedGestures/UnifiedStandardDynamicGesture.cpp', \
-            'events/UnifiedEvent.cpp'], \
-            LIBS=myLibs)
+    env.Program('main', ['main.cpp', 'gestures/GestureFactory.cpp'])
 			
 #Events
 env.SharedLibrary('bin/events/UnifiedEvent', 'events/UnifiedEvent.cpp')

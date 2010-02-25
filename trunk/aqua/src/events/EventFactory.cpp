@@ -112,11 +112,42 @@ void EventFactory::loadEvents() {
             }
         } else {
             printf("[Event Factory] Error: Could not find library: %s\n", 
-                    libName);
+                    libName.c_str());
         }
     }    
     
 }
 #else
-// TODOlinux support
+void EventFactory::loadEvents() {
+    
+    int                 i;
+    vector<string>      libraries;
+    
+    FileSystem::getSharedLibraryFiles(string("events/*"), &libraries);
+    
+    for (i = 0; i < libraries.size(); i++) {
+        void*               lib;
+        CreateEventFunc     libFunc;
+        string              libName = libraries[i];
+        
+        lib = dlopen(("events/" + libName).c_str(), RTLD_NOW);
+        
+        if (lib) {
+            libFunc = (CreateEventFunc) dlsym(lib, "createEvent");
+            if (libFunc) {
+                string tempString = libName.substr(3, libName.length() - 3);
+                _eventMap.insert(pair<string, 
+                        CreateEventFunc>(tempString, libFunc));
+                if (!_eventsLoaded) _eventsLoaded = true;
+            } else {
+                printf("[Event Factory] Error: Couldn't load function ");
+                printf("for library: %s\n", libName.c_str());
+            }
+        } else {
+            printf("[Event Factory] Error: Could not find library: %s\n", 
+                    libName.c_str());
+        }
+    }    
+    
+}
 #endif

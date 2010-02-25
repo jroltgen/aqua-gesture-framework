@@ -49,9 +49,12 @@ bool UnifiedZoomGesture::processDown(TouchData& touchData) {
 }
 
 bool UnifiedZoomGesture::processMove(TouchData& touchData){
+
+    string name("UnifiedZoomEvent");
+    string desc("UnifiedZoomEvent");
+
     float scale = calculateScaleChange();
-    UnifiedZoomEvent e(string("UnifiedZoomEvent"), string("UnifedZoomEvent"),
-            EVENT_TYPE_OTHER, 0, _originalCentroid,
+    UnifiedZoomEvent e(name, desc, EVENT_TYPE_OTHER, 0, _originalCentroid,
             scale, _newCentroid);
 	publishEvent(&e);
     return false;

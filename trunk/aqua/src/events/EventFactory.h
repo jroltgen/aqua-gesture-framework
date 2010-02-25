@@ -32,17 +32,13 @@
 #include <windows.h>
 #endif
 #else
-//TODOlinux support
+#include <dlfcn.h>
 #endif
 
 #include "../EventProcessor.h"
 #include "Event.h"
 
-#ifdef _WIN32
 typedef Event* (*CreateEventFunc)(char*);
-#else
-//TODOlinux support
-#endif
 
 class EventFactory {
 

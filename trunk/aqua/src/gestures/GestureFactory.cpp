@@ -109,7 +109,7 @@ void GestureFactory::loadGestures() {
                 if (!_gesturesLoaded) _gesturesLoaded = true;
             } else {
                 printf("[Gesture Factory] Error: Couldn't load function ");
-                printf("for library: %s\n", libName);
+                printf("for library: %s\n", libName.c_str());
             }
         } else {
             printf("[Gesture Factory] Error: Could not find library: %s\n", 
@@ -119,5 +119,36 @@ void GestureFactory::loadGestures() {
     
 }
 #else
-// TODOlinux support
+void GestureFactory::loadGestures() {
+    
+    int                 i;
+    vector<string>      libraries;
+    
+    FileSystem::getSharedLibraryFiles(string("gestures/*"), &libraries);
+    
+    for (i = 0; i < libraries.size(); i++) {
+        
+        void*             lib;
+        CreateGestureFunc libFunc;
+        string            libName = libraries[i];
+        
+        lib = dlopen(("./gestures/" + libName).c_str(), RTLD_NOW);
+        
+        if (lib) {
+            libFunc = (CreateGestureFunc) dlsym(lib, "createGesture");
+            if (libFunc) {
+                string tempString = libName.substr(3, libName.length() - 3);
+                _gestureMap.insert(pair<string, 
+                        CreateGestureFunc>(tempString, libFunc));
+                if (!_gesturesLoaded) _gesturesLoaded = true;
+            } else {
+                printf("[Gesture Factory] Error: Couldn't load function ");
+                printf("for library: %s\n", libName.c_str());
+            }
+        } else {
+            printf("[Gesture Factory] Error: Could not find library: %s\n", 
+                    libName.c_str());
+        }
+    }    
+}
 #endif

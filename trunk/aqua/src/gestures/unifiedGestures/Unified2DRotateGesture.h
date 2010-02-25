@@ -44,4 +44,4 @@ private:
     float calculateAngleChange();
 
 };
-#endif;
+#endif
