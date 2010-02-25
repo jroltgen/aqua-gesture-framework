@@ -52,13 +52,6 @@ private:
      */
     ClientConnection* _client;
     
-    // Thread lock
-    #ifdef _WIN32
-    CRITICAL_SECTION myLock;
-    #else
-    // TODO ls
-    #endif
-    
 //Methods
 public:
     GestureEngine(ClientConnection* client);

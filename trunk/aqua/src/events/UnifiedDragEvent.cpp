@@ -45,9 +45,9 @@ UnifiedDragEvent::UnifiedDragEvent(string& name, string& desc, char type,
 UnifiedDragEvent::UnifiedDragEvent(char *data) : Event(data) {
     int dataPos = (_name.length() + _description.length() + 2 + 17);
     
-    _dx = (float)data[dataPos];
-    _dy = (float)data[dataPos + 4];
-    _dz = (float)data[dataPos + 8];
+    memcpy(&_dx, &data[dataPos], 4);
+    memcpy(&_dy, &data[dataPos + 4], 4);
+    memcpy(&_dz, &data[dataPos + 8], 4);
     
     // Handle endianness.
     if (EndianConverter::isLittleEndian()) {

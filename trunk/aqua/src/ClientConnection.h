@@ -45,10 +45,19 @@ class ClientConnection : public EventProcessor {
 // Attributes
 private:
     AquaSocket _clientSocket;
+    
+    
+    // Thread lock
+    #ifdef _WIN32
+    CRITICAL_SECTION myLock;
+    #else
+    // TODO ls
+    #endif
 
 // Methods
 public:
     ClientConnection(AquaSocket clientSocket);
+    ~ClientConnection();
     
     void  getGlobalInfo(std::vector<EventProcessor*>& globalGestures, 
                   std::vector<std::string>& events);
@@ -57,12 +66,16 @@ public:
                   std::vector<std::string>& events);
     void  getTranslators(std::vector<EventProcessor*>& translators, 
                   EventProcessor* globalLayer);
-    int   handleError(char* msg);
     bool  processEvent(Event* e);
     bool  processEvent(Event* e, int regionID);
+    
+private:
     int   receiveEvents(char* buffer, std::vector<std::string>& events);
     int   receiveGestures(char* buffer, std::vector<EventProcessor*>& gestures, 
                   EventProcessor* publisher, int regionID = -1);
     char* receiveString(char* buffer);
+    void  getLock();
+    void  releaseLock();
+    int   handleError(char* msg);
 };
 #endif

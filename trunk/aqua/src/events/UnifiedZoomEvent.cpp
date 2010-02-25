@@ -39,13 +39,13 @@ UnifiedZoomEvent::UnifiedZoomEvent(char *data) : Event(data) {
     int i;
     int dataPos = (_name.length() + _description.length() + 2 + 17);
     
-    _zoomScale = (float)data[dataPos];
+    memcpy(&_zoomScale, &data[dataPos], 4);
     dataPos += 4;
-    
     memcpy(_zoomCenter, &data[dataPos], 12);
     
     // Handle endianness.
     if (EndianConverter::isLittleEndian()) {
+        _zoomScale = EndianConverter::swapFloatEndian(_zoomScale);
         for (int i = 0; i < 3; i++) {
             _zoomCenter[i] = EndianConverter::swapFloatEndian(_zoomCenter[i]);
         }
