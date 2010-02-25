@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Point;
@@ -17,7 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import events.Event;
+import events.Unified2DRotateEvent;
 import events.UnifiedDragEvent;
+import events.UnifiedZoomEvent;
 
 public class AquaClient extends JPanel implements KeyListener, Runnable {
 	
@@ -85,16 +88,29 @@ public class AquaClient extends JPanel implements KeyListener, Runnable {
         */
         _frame.add(this);
         _frame.setVisible(true);
-
+        setBackground(Color.black);
         setLayout(null);
         setLocation(0, 0);
         setSize(SCREEN_SIZE.width, SCREEN_SIZE.height);
         try {
-			AquaPhoto p = new AquaPhoto();
+			AquaPhoto p = new AquaPhoto(Color.cyan);
 			_photos.add(p);
-			p.setLocation(100, 100);
+			p.setLocation(200, 200);
 			p.setSize(320, 240);
 			add(p);
+			
+			AquaPhoto p2 = new AquaPhoto(Color.magenta);
+			_photos.add(p2);
+			p2.setLocation(500, 100);
+			p2.setSize(320, 240);
+			add(p2);
+			
+			AquaPhoto p3 = new AquaPhoto(Color.green);
+			_photos.add(p3);
+			p3.setLocation(300, 500);
+			p3.setSize(320, 240);
+			add(p3);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -222,7 +238,6 @@ public class AquaClient extends JPanel implements KeyListener, Runnable {
 	 * Handles the processRegionEvent message.
 	 */
 	private void processRegionEvent() throws IOException {
-		System.out.println("Got region event.\n");
 		
 		int regionID = _input.readInt();
 		
@@ -230,18 +245,20 @@ public class AquaClient extends JPanel implements KeyListener, Runnable {
 		byte[] data = new byte[length];
 		
 		_input.read(data, 0, length);
-		System.out.println("Done reading.\n");
 		String name = "";
 		int index = 0;
 		while (data[index] != '\0') {
 			name += (char)data[index++];
 		}
-		System.out.println("Name of event: " + name);
 		
 		Event e = null;
 		
 		if (name.equals("UnifiedDragEvent")) {
 			e = new UnifiedDragEvent(data);
+		} else if (name.equals("UnifiedZoomEvent")) {
+			e = new UnifiedZoomEvent(data);
+		} else if (name.equals("Unified2DRotateEvent")) {
+			e = new Unified2DRotateEvent(data);
 		}
 		
 		for (AquaPhoto p : _photos) {

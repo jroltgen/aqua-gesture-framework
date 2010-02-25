@@ -16,7 +16,6 @@ public class Event {
 		
 		_location = new float[3];
 		
-		System.out.println("In event cons.");
 		// Get the name.
 		_name = "";
 		while (data[i] != '\0') {
