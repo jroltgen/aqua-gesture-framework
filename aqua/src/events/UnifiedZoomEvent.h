@@ -1,7 +1,7 @@
 /**
- * UnifiedDragGesture.h
+ * UnifiedZoomEvent.h
  *
- * Processes a drag.
+ * An event to use for sending zoom-related information.
  * 
  * This file is part of Aqua Universal Gesture Recognition Framework.
  * Copyright (C) 2010  Jay Roltgen.
@@ -19,27 +19,34 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _UNIFIEDDRAGGESTURE_H_
-#define _UNIFIEDDRAGGESTURE_H_
+#ifndef _UNIFIEDZOOMEVENT_H_
+#define _UNIFIEDZOOMEVENT_H_
 
-#include "../../events/Event.h"
-#include "TouchData.h"
-#include "UnifiedStandardDynamicGesture.h"
+#define UNIFIEDZOOMEVENT_DATA_LENGTH 16
 
-class UnifiedDragGesture : public UnifiedStandardDynamicGesture {
+#include <string>
+
+#include "Event.h"
+
+class UnifiedZoomEvent : public Event {
 
 // Attributes
 private:
+    float _zoomScale;
+    float _zoomCenter[3];
+    char  _dataBuffer[UNIFIEDZOOMEVENT_DATA_LENGTH];
     
 // Methods
 public:
-    UnifiedDragGesture(EventProcessor* publisher, int regionID = -1);
-protected:
-    virtual bool processDown(TouchData& data);
-    virtual bool processMove(TouchData& data);
-    virtual bool processUp  (TouchData& data);
+    UnifiedZoomEvent(char *data);
+    UnifiedZoomEvent(std::string& name, std::string& desc, char type, int id, 
+            float* location, float scale, float* center);
+            
+    float  getScale();
+    float* getCenter();
+    
+private:
+    virtual char* serializeData(short& outLength);
+    
 };
-
-
-
 #endif

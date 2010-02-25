@@ -85,6 +85,8 @@ private:
     virtual bool processMove(TouchData& data) = 0;
     virtual bool processUp  (TouchData& data) = 0;
     
+    void printInfo();
+    
     TouchData createTouchData(Event* e);
 };
 

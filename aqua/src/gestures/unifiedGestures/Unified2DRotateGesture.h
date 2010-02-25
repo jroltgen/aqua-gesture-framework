@@ -1,7 +1,7 @@
 /**
- * UnifiedDragGesture.h
+ * Unified2DRotateGesture.h
  *
- * Processes a drag.
+ * Processes a 2D Rotate gesture.
  * 
  * This file is part of Aqua Universal Gesture Recognition Framework.
  * Copyright (C) 2010  Jay Roltgen.
@@ -19,27 +19,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _UNIFIEDDRAGGESTURE_H_
-#define _UNIFIEDDRAGGESTURE_H_
+#ifndef _UNIFIEDROTATEGESTURE_H_
+#define _UNIFIEDROTATEGESTURE_H_
 
-#include "../../events/Event.h"
-#include "TouchData.h"
 #include "UnifiedStandardDynamicGesture.h"
 
-class UnifiedDragGesture : public UnifiedStandardDynamicGesture {
+#define PI 3.14159265359
+
+class Unified2DRotateGesture : public UnifiedStandardDynamicGesture {
 
 // Attributes
 private:
-    
+
 // Methods
 public:
-    UnifiedDragGesture(EventProcessor* publisher, int regionID = -1);
+    Unified2DRotateGesture(EventProcessor* publisher, int regionID = -1);
+    
 protected:
     virtual bool processDown(TouchData& data);
     virtual bool processMove(TouchData& data);
     virtual bool processUp  (TouchData& data);
+    
+private:
+    float calculateAngleChange();
+
 };
-
-
-
-#endif
+#endif;

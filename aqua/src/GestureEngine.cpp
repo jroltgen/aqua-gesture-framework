@@ -30,6 +30,20 @@ using namespace std;
 GestureEngine::GestureEngine(ClientConnection* c) {
     _client = c;
     _globalLayer = new GlobalGestureLayer(c);
+    
+    #ifdef _WIN32
+    InitializeCriticalSection(&myLock);
+    #else
+    // TODO ls
+    #endif
+}
+
+GestureEngine::~GestureEngine() {
+    #ifdef _WIN32
+    DeleteCriticalSection(&myLock);
+    #else
+    // TODO ls
+    #endif
 }
 
 void GestureEngine::init() {
@@ -40,16 +54,25 @@ void GestureEngine::init() {
 bool GestureEngine::processEvent(Event* event) {
     unsigned int i;
     bool consumed = false;
+    #ifdef _WIN32
+    EnterCriticalSection(&myLock);
+    #else
+    // TODO ls
+    #endif
     
     for (i = 0; i < _gestureTranslators.size(); i++) {
         bool result = _gestureTranslators[i]->processEvent(event);
         if (result) consumed = true;
     }
-    
-    if (consumed) {
-        return true;
-    } else {
+    if (!consumed) {
         _globalLayer->processEvent(event);
-        return false;
     }
+    
+    #ifdef _WIN32
+    LeaveCriticalSection(&myLock);
+    #else
+    // TODO ls
+    #endif
+    
+    return consumed;
 }
