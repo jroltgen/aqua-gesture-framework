@@ -76,7 +76,7 @@ char* Event::serialize(short& outLength) {
         
     char* ret = new char[myLength + subclassLength];
     char* bufferPtr = ret;
-        
+    
     // Name
     memcpy(bufferPtr, _name.c_str(), _name.length() + 1);
     bufferPtr += _name.length() + 1;
@@ -96,7 +96,7 @@ char* Event::serialize(short& outLength) {
     }
     memcpy(bufferPtr, &tempInt, 4);
     bufferPtr += 4;
-        
+    
     // Location
     for (i = 0; i < 3; i++) {
         tempFloat = _location[i];
@@ -109,8 +109,7 @@ char* Event::serialize(short& outLength) {
         
     // Subclass data
     memcpy(bufferPtr, subclassData, subclassLength);
-        
-    delete subclassData;
+       
     return ret;
 };
     

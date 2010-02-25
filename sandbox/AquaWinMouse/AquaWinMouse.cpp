@@ -15,6 +15,7 @@
 
 #include "EndianConverter.h"
 #include "UnifiedEvent.h"
+#include "UnifiedZoomEvent.h"
 
 #define SERVER_PORT "3007"
 
@@ -163,6 +164,14 @@ void send(int id, char type, float* location) {
     delete ev;
 }
 
+void sendZoom(float* location, float scale) {
+    UnifiedZoomEvent* ze = new UnifiedZoomEvent(string("UnifiedZoomEvent"),
+            string("MouseZoom"), EVENT_TYPE_OTHER, 0, location, scale, location);
+    sendEvent(ze);
+    printf("Sending zoom: %f\n", scale);
+    delete ze;
+}
+
 
 LRESULT CALLBACK mouseHookProc(int nCode, WPARAM wParam, LPARAM lParam) {
     // Get event information
@@ -205,7 +214,11 @@ LRESULT CALLBACK mouseHookProc(int nCode, WPARAM wParam, LPARAM lParam) {
         break;
     case WM_MOUSEWHEEL:
         printf("Mouse wheel.\n");
-        send(0, EVENT_TYPE_OTHER, location);
+        if ((long)p->mouseData < 0) {
+            sendZoom(location, 0.95);
+        } else {
+            sendZoom(location, 1.05);
+        }
         break;
     case WM_RBUTTONDOWN:
         printf("Right button down.\n");
