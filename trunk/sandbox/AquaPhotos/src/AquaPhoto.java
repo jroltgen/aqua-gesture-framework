@@ -169,9 +169,9 @@ public class AquaPhoto extends JComponent
 		//		.getHeight(this), this);
 		g2.setStroke(new BasicStroke(10));
 		g2.setColor(color);
-		g2.fillRoundRect(0, 0, w, h, 120, 120);
+		g2.fillRoundRect(3, 3, w - 5, h - 5, 120, 120);
 		g2.setColor(Color.white);
-		g2.drawRoundRect(5, 5, w - 9, h - 9, 100, 100);
+		g2.drawRoundRect(7, 7, w - 13, h - 13, 100, 100);
 		//super.paintComponent(g);
 	}
 	
@@ -208,7 +208,7 @@ public class AquaPhoto extends JComponent
 			int zoomCenterx = (int)(ze.getZoomCenter()[0] * AquaClient.SCREEN_SIZE.width);
 			int zoomCentery = (int)(ze.getZoomCenter()[1] * AquaClient.SCREEN_SIZE.height);
 			rotationPoint = new Location(zoomCenterx - containerScreenCoordinates.x, zoomCentery - containerScreenCoordinates.y);
-			System.out.println(rotationPoint);
+			System.out.println("Zoom scale: " + scaleFactor);
 		} else if (e instanceof Unified2DRotateEvent) {
 			Unified2DRotateEvent re = (Unified2DRotateEvent) e;
 			float rotationPointx = (float)(re.getRotateCenter()[0] * AquaClient.SCREEN_SIZE.width - containerScreenCoordinates.getX());

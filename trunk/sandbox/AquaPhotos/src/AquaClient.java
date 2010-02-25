@@ -213,7 +213,11 @@ public class AquaClient extends JPanel implements KeyListener, Runnable {
 				for (String s : gestures) {
 					_output.writeBytes(s);
 				}
-				_output.writeInt(0);
+				_output.writeInt(3);
+				// Want the zoom, drag & rotate events.
+				_output.writeBytes("UnifiedDragEvent\0");
+				_output.writeBytes("UnifiedZoomEvent\0");
+				_output.writeBytes("Unified2DRotateEvent\0");
 				return;
 			}
 		}
