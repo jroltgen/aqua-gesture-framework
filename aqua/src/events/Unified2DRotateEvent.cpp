@@ -39,7 +39,7 @@ Unified2DRotateEvent::Unified2DRotateEvent(char *data) : Event(data) {
     int i;
     int dataPos = (_name.length() + _description.length() + 2 + 17);
     
-    _rotateAngle = (float)data[dataPos];
+    memcpy(&_rotateAngle, &data[dataPos], 4);
     dataPos += 4;
     
     memcpy(_rotateCenter, &data[dataPos], 8);

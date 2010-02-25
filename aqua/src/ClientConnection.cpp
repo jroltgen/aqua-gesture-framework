@@ -28,6 +28,37 @@ using namespace std;
 
 ClientConnection::ClientConnection(AquaSocket clientSocket) {
     _clientSocket = clientSocket;
+    
+    #ifdef _WIN32
+    InitializeCriticalSection(&myLock);
+    #else
+    // TODO ls
+    #endif
+}
+
+ClientConnection::~ClientConnection() {
+    
+    #ifdef _WIN32
+    DeleteCriticalSection(&myLock);
+    #else
+    // TODO ls
+    #endif
+}
+
+void ClientConnection::getLock() {
+    #ifdef _WIN32
+    EnterCriticalSection(&myLock);
+    #else
+    // TODO ls
+    #endif
+}
+
+void ClientConnection::releaseLock() {
+    #ifdef _WIN32
+    LeaveCriticalSection(&myLock);
+    #else
+    // TODO ls
+    #endif
 }
 
 /**
@@ -40,6 +71,8 @@ int ClientConnection::getRegionID(Event* e) {
     int response;
     float tempLocation[3];
     unsigned int i;
+    
+    getLock();
      
     // Send the request.
     if (_clientSocket.send(&msgType, 1) == AQUASOCKET_RES_ERROR) {
@@ -69,6 +102,8 @@ int ClientConnection::getRegionID(Event* e) {
     if (EndianConverter::isLittleEndian()) {
         response = EndianConverter::swapIntEndian(response);
     }
+    
+    releaseLock();
     return response;
 }
 
@@ -92,6 +127,8 @@ void ClientConnection::getRegionInfo(int regionID,
     char msgType = CLIENT_MSG_REGION_INFO;
     char data[MAX_NAME_LENGTH];
     
+    getLock();
+    
     // Send the request.
     if (_clientSocket.send(&msgType, 1) == AQUASOCKET_RES_ERROR) {
         handleError("Error sending getRegionInfo message.\n");
@@ -108,6 +145,8 @@ void ClientConnection::getRegionInfo(int regionID,
     
     receiveGestures(data, gestures, this, regionID);
     receiveEvents(data, events);
+    
+    releaseLock();
 }
 
 /**
@@ -124,6 +163,8 @@ void ClientConnection::getGlobalInfo(vector<EventProcessor*>& globalGestures,
     char msgType = CLIENT_MSG_GLOBAL_INFO;
     char data[MAX_NAME_LENGTH];
     
+    getLock();
+    
     // Send the request.
     if (_clientSocket.send(&msgType, 1) == AQUASOCKET_RES_ERROR) {
         handleError("Error sending getRegionInfo message.\n");
@@ -132,12 +173,16 @@ void ClientConnection::getGlobalInfo(vector<EventProcessor*>& globalGestures,
     // Receive the #gestures, gestures, #events, events.
     receiveGestures(data, globalGestures, this);
     receiveEvents(data, events);
+    
+    releaseLock();
 }
 
 void ClientConnection::getTranslators(vector<EventProcessor*>& translators,
         EventProcessor* globalLayer) {
     char msgType = CLIENT_MSG_TRANSLATORS;
     char data[MAX_NAME_LENGTH];
+    
+    getLock();
     
     // Send the request.
     if (_clientSocket.send(&msgType, 1) == AQUASOCKET_RES_ERROR) {
@@ -146,6 +191,8 @@ void ClientConnection::getTranslators(vector<EventProcessor*>& translators,
     
     // Receive the translators.
     receiveGestures(data, translators, globalLayer);
+    
+    releaseLock();
 }
 
 int ClientConnection::receiveGestures(char* buffer, 
@@ -233,6 +280,8 @@ bool ClientConnection::processEvent(Event* e) {
     short int networkLength;
     char* data;
     
+    getLock();
+    
     // Send the request.
     if (_clientSocket.send(&msgType, 1) == AQUASOCKET_RES_ERROR) {
         return handleError("Error sending processGlobalEvent message.\n");
@@ -251,6 +300,7 @@ bool ClientConnection::processEvent(Event* e) {
     }
 
     delete[] data;
+    releaseLock();
     return false;
 }
 
@@ -262,6 +312,7 @@ bool ClientConnection::processEvent(Event* e, int regionID) {
     char* data;
     
     //printf("In processRegionEvent.\n");
+    getLock();
     
     // Send the request.
     if (_clientSocket.send(&msgType, 1) == AQUASOCKET_RES_ERROR) {
@@ -290,5 +341,8 @@ bool ClientConnection::processEvent(Event* e, int regionID) {
         return handleError("Error sending process Global event msg data.\n");
     }
     delete[] data;
+    
+    releaseLock();
+    
     return false;
 }
