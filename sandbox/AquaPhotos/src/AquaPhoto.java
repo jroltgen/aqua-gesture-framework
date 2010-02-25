@@ -1,3 +1,4 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -16,6 +17,8 @@ import javax.swing.JComponent;
 
 import events.Event;
 import events.UnifiedDragEvent;
+import events.Unified2DRotateEvent;
+import events.UnifiedZoomEvent;
 
 /**
  * A Photo which can be dragged, scaled and rotated. Class loads an image from a
@@ -49,10 +52,9 @@ public class AquaPhoto extends JComponent
 			_transform.translate(deltaPoint.getX(), deltaPoint.getY());
 			
 			// Apply the scale transformation
-			_transform.translate(-anchorx, -anchory);
+			_transform.translate(anchorx, anchory);
 			_transform.scale(scaleFactor, scaleFactor);
-			_transform.translate(anchorx / scaleFactor / scaleFactor, anchory
-					/ scaleFactor / scaleFactor);
+			_transform.translate(-anchorx, -anchory);
 		}
 
 		public AffineTransform getTransform() {
@@ -71,9 +73,7 @@ public class AquaPhoto extends JComponent
 	private BufferedImage _image;
 
 	private int _id;
-	private int _numTouches = 0;
-	private int _lastX = -1;
-	private int _lastY = -1;
+	private Color color;
 
 	public AquaPhoto() throws Exception {
 		this("resources/amnesia_WP.jpg");
@@ -130,13 +130,19 @@ public class AquaPhoto extends JComponent
 		this(new File(url));
 	}
 
+	public AquaPhoto(Color c) throws Exception{
+		this();
+		color = c;
+	}
+
 	@Override
 	public boolean contains(int x, int y) {
 		Point2D pt = new Point2D.Double(x, y);
 		try {
 			_transform.inverseTransform(pt, pt);
 		} catch (NoninvertibleTransformException e) {
-			e.printStackTrace();
+			System.err.println("Non-invertible.");
+			return false;
 		}
 		return super.contains((int) pt.getX(), (int) pt.getY());
 	}
@@ -161,15 +167,19 @@ public class AquaPhoto extends JComponent
 		g2.setClip(0, 0, w, h);
 		//g2.drawImage(_image, 0, 0, w, h, 0, 0, _image.getWidth(this), _image
 		//		.getHeight(this), this);
-		System.out.println("Painting photo!");
-		g2.setColor(Color.green);
-		g2.fillRect(0, 0, w, h);
+		g2.setStroke(new BasicStroke(10));
+		g2.setColor(color);
+		g2.fillRoundRect(0, 0, w, h, 120, 120);
+		g2.setColor(Color.white);
+		g2.drawRoundRect(5, 5, w - 9, h - 9, 100, 100);
 		//super.paintComponent(g);
 	}
 	
 	public Vector<String> getAllowedGestures() {
 		Vector<String> allowedGestures = new Vector<String>();
 		allowedGestures.add("UnifiedDragGesture\0");
+		allowedGestures.add("UnifiedZoomGesture\0");
+		allowedGestures.add("Unified2DRotateGesture\0");
 		return allowedGestures;
 	}
 
@@ -185,13 +195,26 @@ public class AquaPhoto extends JComponent
 		Location rotationPoint = new Location(0, 0);
 		double rotationAngle = 0;
 		double scaleFactor = 1;
+		Point containerScreenCoordinates = getLocationOnScreen();
 		
 		if (e instanceof UnifiedDragEvent) {
 			UnifiedDragEvent ue = (UnifiedDragEvent) e;
 			deltaPoint = new Location(
 					ue.get_dx() * AquaClient.SCREEN_SIZE.width, 
 					ue.get_dy() * AquaClient.SCREEN_SIZE.height);
-			System.out.println("Delta point set." + deltaPoint);
+		} else if (e instanceof UnifiedZoomEvent) {
+			UnifiedZoomEvent ze = (UnifiedZoomEvent) e;
+			scaleFactor = ze.getZoomScale();
+			int zoomCenterx = (int)(ze.getZoomCenter()[0] * AquaClient.SCREEN_SIZE.width);
+			int zoomCentery = (int)(ze.getZoomCenter()[1] * AquaClient.SCREEN_SIZE.height);
+			rotationPoint = new Location(zoomCenterx - containerScreenCoordinates.x, zoomCentery - containerScreenCoordinates.y);
+			System.out.println(rotationPoint);
+		} else if (e instanceof Unified2DRotateEvent) {
+			Unified2DRotateEvent re = (Unified2DRotateEvent) e;
+			float rotationPointx = (float)(re.getRotateCenter()[0] * AquaClient.SCREEN_SIZE.width - containerScreenCoordinates.getX());
+			float rotationPointy = (float)(re.getRotateCenter()[1] * AquaClient.SCREEN_SIZE.height - containerScreenCoordinates.getY());
+			rotationPoint = new Location(rotationPointx, rotationPointy);
+			rotationAngle = re.getRotateAngle();
 		}
 		
 		/*
