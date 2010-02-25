@@ -52,6 +52,8 @@ if (buildType == TEST_BUILD):
 #Events
 env.SharedLibrary('bin/events/UnifiedEvent', 'events/UnifiedEvent.cpp')
 env.SharedLibrary('bin/events/UnifiedDragEvent', 'events/UnifiedDragEvent.cpp')
+env.SharedLibrary('bin/events/UnifiedZoomEvent', 'events/UnifiedZoomEvent.cpp')
+env.SharedLibrary('bin/events/Unified2DRotateEvent', 'events/Unified2DRotateEvent.cpp')
 	
 #Gestures
 env.SharedLibrary('bin/gestures/HelloWorldGesture', 'gestures/HelloWorldGesture.cpp')
@@ -59,8 +61,13 @@ env.SharedLibrary('bin/gestures/YouRockGesture', 'gestures/YouRockGesture.cpp')
 env.SharedLibrary('bin/gestures/PrintEventGesture', 'gestures/PrintEventGesture.cpp')
 
 #Unified Gestures
- 
 env.SharedLibrary('bin/gestures/UnifiedDragGesture', ['gestures/unifiedGestures/UnifiedDragGesture.cpp', \
         'gestures/unifiedGestures/UnifiedStandardDynamicGesture.cpp', \
         'events/UnifiedDragEvent.cpp'])
+env.SharedLibrary('bin/gestures/UnifiedZoomGesture', ['gestures/unifiedGestures/UnifiedZoomGesture.cpp', \
+        'gestures/unifiedGestures/UnifiedStandardDynamicGesture.cpp', \
+        'events/UnifiedZoomEvent.cpp'])
+env.SharedLibrary('bin/gestures/Unified2DRotateGesture', ['gestures/unifiedGestures/Unified2DRotateGesture.cpp', \
+        'gestures/unifiedGestures/UnifiedStandardDynamicGesture.cpp', \
+        'events/Unified2DRotateEvent.cpp'])
 #env.SharedLibrary('bin/gestures/UnifiedStandardDynamicGesture', ['gestures/unifiedGestures/UnifiedStandardDynamicGesture.cpp'])

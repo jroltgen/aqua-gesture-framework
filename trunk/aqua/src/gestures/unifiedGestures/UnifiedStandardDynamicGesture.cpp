@@ -89,13 +89,14 @@ bool UnifiedStandardDynamicGesture::handleDown(Event* e) {
     int i;
     float averages[3];
 	
-    TouchData data = createTouchData(e);
+    TouchData* data;
 
-	_knownPoints[e->getID()] = data;
+	_knownPoints[e->getID()] = createTouchData(e);
+    data = &_knownPoints[e->getID()];
     
-	_sumX += data.getLocation()[0];
-	_sumY += data.getLocation()[1];
-    _sumZ += data.getLocation()[2];
+	_sumX += data->getLocation()[0];
+	_sumY += data->getLocation()[1];
+    _sumZ += data->getLocation()[2];
     
 	// Store the old centroid, recompute the new centroid
 	averages[0] = _sumX / _knownPoints.size();
@@ -120,7 +121,7 @@ bool UnifiedStandardDynamicGesture::handleDown(Event* e) {
         }
 		
     }
-	return processDown(data);
+	return processDown(*data);
 } 
 
 /**
@@ -133,7 +134,7 @@ bool UnifiedStandardDynamicGesture::handleDown(Event* e) {
  * 		A vector of pointers to events where the last pointer points to the move event.
  */
 bool UnifiedStandardDynamicGesture::handleMove(Event* e) {
-
+    bool ret;
     float newx, newy, newz, oldx, oldy, oldz;
     float averages[3];
     int i;
@@ -143,16 +144,16 @@ bool UnifiedStandardDynamicGesture::handleMove(Event* e) {
         return false;
     }
     
-    TouchData data = _knownPoints[e->getID()];
+    TouchData* data = &_knownPoints[e->getID()];
     
-    data.setLocation(e->getLocation());
+    data->setLocation(e->getLocation());
     
-	newx = data.getX();
-    newy = data.getY();
-    newz = data.getZ();
-    oldx = data.getOldX();
-    oldy = data.getOldY();
-    oldz = data.getOldZ();
+	newx = data->getX();
+    newy = data->getY();
+    newz = data->getZ();
+    oldx = data->getOldX();
+    oldy = data->getOldY();
+    oldz = data->getOldZ();
     
 	_sumX += newx - oldx;
 	_sumY += newy - oldy;
@@ -170,9 +171,8 @@ bool UnifiedStandardDynamicGesture::handleMove(Event* e) {
 		// move appropriately.
 		_originalCentroid[i] += _newCentroid[i] - _oldCentroid[i];
     }
-    _knownPoints[e->getID()] = data;
     
-	return processMove(data);
+	return processMove(*data);
 }
 
 /**
@@ -190,12 +190,12 @@ bool UnifiedStandardDynamicGesture::handleUp(Event* e) {
         return false;
     }
     
-    TouchData data = _knownPoints[e->getID()];
-    data.setLocation(e->getLocation());
+    TouchData* data = &_knownPoints[e->getID()];
+    data->setLocation(e->getLocation());
     
-    _sumX -= data.getX();
-    _sumY -= data.getY();
-	_sumZ -= data.getZ();
+    _sumX -= data->getX();
+    _sumY -= data->getY();
+	_sumZ -= data->getZ();
 	
     _knownPoints.erase(e->getID());
     
@@ -220,5 +220,30 @@ bool UnifiedStandardDynamicGesture::handleUp(Event* e) {
             _offset[i] = 0.0;
         }
 	}
-	return processUp(data);
+
+	return processUp(*data);
+}
+
+/**
+ * Prints info related to this standard dynamic gesture.
+ */
+void UnifiedStandardDynamicGesture::printInfo() {
+    int i;
+    
+    printf("Known points: %d\n", _knownPoints.size());
+    
+    printf("Old centroid:  %5.3f, %5.3f, %5.3f\n",
+            _oldCentroid[0], _oldCentroid[1], _oldCentroid[2]);
+    
+    printf("New centroid:  %5.3f, %5.3f, %5.3f\n",
+            _newCentroid[0], _newCentroid[1], _newCentroid[2]);
+            
+    printf("Orig centroid: %5.3f, %5.3f, %5.3f\n",
+            _originalCentroid[0], _originalCentroid[1], _originalCentroid[2]);
+            
+    printf("Offset:        %5.3f, %5.3f, %5.3f\n",
+            _offset[0], _offset[1], _offset[2]);
+            
+    printf("--------------------------\n");
+
 }

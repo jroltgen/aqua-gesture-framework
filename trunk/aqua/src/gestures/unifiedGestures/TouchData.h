@@ -23,12 +23,17 @@
 #ifndef _TOUCHDATA_H_
 #define _TOUCHDATA_H_
 
+#include <stdio.h>
 #include <string>
 
 class TouchData {
 
 // Attributes
 private:
+    float _distance;    // Used in zoom processing.
+    float _oldDistance; // Used in zoom processing.
+    float _angle;       // Used in rotate processing.
+    float _oldAngle;    // Used in rotate processing.
     float _location[3];
     float _oldLocation[3];
     
@@ -40,6 +45,10 @@ public:
             _location[i] = 0.0;
             _oldLocation[i] = 0.0;
         }
+        _distance = 0.0;
+        _oldDistance = 0.0;
+        _angle = 0.0;
+        _oldAngle = 0.0;
     }
     
 	TouchData(float* loc) {
@@ -48,7 +57,20 @@ public:
             _location[i] = loc[i];
             _oldLocation[i] = 0.0;
         }
+        _distance = 0.0;
+        _oldDistance = 0.0;
+        _angle = 0.0;
+        _oldAngle = 0.0;
     }
+    /*
+    void printData() {
+        printf("Data:\n");
+        printf("Location: %f, %f, %f\n", _location[0], _location[1], _location[2]);
+        printf("Location: %f, %f, %f\n", _oldLocation[0], _oldLocation[1], _oldLocation[2]);
+        printf("Distance: %f\n", _distance);
+        printf("Old Distance: %f\n", _oldDistance);
+    }
+    */
     
     void setLocation(const float *newLocation) {
         int i;
@@ -57,6 +79,24 @@ public:
             _location[i] = newLocation[i];
         }
     }
+    
+    void setDistance(float newDistance) {
+        _oldDistance = _distance;
+        _distance = newDistance;
+    }
+    
+    void setAngle(float newAngle) {
+        _oldAngle = _angle;
+        _angle = newAngle;
+    }
+    
+    float getOldAngle() {
+        return _oldAngle;
+    }
+    
+    float getAngle() {
+        return _angle;
+    }
 	
     float* getOldLocation()	{
         return _oldLocation;
@@ -64,6 +104,14 @@ public:
     
 	float* getLocation() {
         return _location;
+    }
+    
+    float getOldDistance() {
+        return _oldDistance;
+    }
+    
+    float getDistance() {
+        return _distance;
     }
     
     float getX() {
