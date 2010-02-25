@@ -50,8 +50,10 @@ bool Unified2DRotateGesture::processDown(TouchData& touchData) {
 
 bool Unified2DRotateGesture::processMove(TouchData& touchData){
     float angle = calculateAngleChange();
-    Unified2DRotateEvent e(string("Unified2DRotateEvent"), string("Unifed2DRotateEvent"),
-            EVENT_TYPE_OTHER, 0, _originalCentroid,
+    string name("Unified2DRotateEvent");
+    string desc("Unified2DRotateEvent");
+
+    Unified2DRotateEvent e(name, desc, EVENT_TYPE_OTHER, 0, _originalCentroid,
             angle, _newCentroid);
 	publishEvent(&e);
     return false;

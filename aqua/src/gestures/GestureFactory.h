@@ -32,18 +32,13 @@
 #include <windows.h>
 #endif
 #else
-//TODOlinux support
+#include <dlfcn.h>
 #endif
 
 #include "../EventProcessor.h"
 #include "Gesture.h"
 
-#ifdef _WIN32
 typedef Gesture* (*CreateGestureFunc)(EventProcessor*, int);
-#else
-//TODOlinux support
-#endif
-
 
 class GestureFactory {
 

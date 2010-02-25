@@ -25,7 +25,8 @@
 #include <windows.h>
 #endif
 #else
-//TODOlinux support
+#include <sys/types.h>
+#include <dirent.h>
 #endif 
 
 #include "FileSystem.h"
@@ -65,9 +66,24 @@ void FileSystem::getSharedLibraryFiles(string dir, vector<string>* files) {
     } while (FindNextFile(findHandle, &findData) != 0);     
 }
 #else
-void FileSystem::getSharedLibraryFiles(std::string &directory /*in*/, 
-        std::vector<std::string> &files /*out*/) {
-        
-    // TODO linux support  
+void FileSystem::getSharedLibraryFiles(string dir /*in*/, 
+        vector<string>* files /*out*/) {
+
+    DIR*            d;
+    struct dirent*  dEntry;
+
+    if ((d = opendir(dir.c_str())) == NULL) {
+        printf("[FileSystem] Error opening directory: %s\n", dir.c_str());
+        return;
+    }
+
+    while ((dEntry = readdir(d)) != NULL) {
+        string tempString(dEntry->d_name);
+        if (tempString.find(".so") != string::npos ||
+                tempString.find(".SO") != string::npos) {
+            files->push_back(string(tempString));
+        }
+    }
+    closedir(d);
 }
 #endif
