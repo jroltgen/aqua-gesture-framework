@@ -34,6 +34,7 @@ if (env['CC'] == 'cl'):
     myLibs.append('WS2_32')
 else:
     myLibs.append('dl')
+    myLibs.append('pthread')
 	
 # This builds the program
 if (buildType == AQUA_BUILD):

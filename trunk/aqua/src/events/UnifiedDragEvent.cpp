@@ -31,7 +31,11 @@ extern "C" {
 	}
 }
 #else
-// TODO linux support
+extern "C" {
+    Event* createEvent(char* data) {
+		return new UnifiedDragEvent(data);
+	}
+}
 #endif
 
 UnifiedDragEvent::UnifiedDragEvent(string& name, string& desc, char type, 

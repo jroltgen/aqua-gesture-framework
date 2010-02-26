@@ -62,18 +62,19 @@ private:
     
 // Methods
 public:
-    InputDeviceConnection(AquaSocket theSocket, GestureServer* theServer, int id);
+    InputDeviceConnection(AquaSocket theSocket, GestureServer* theServer, 
+			int id);
     void run();
+    void readEvents();
     
 private:
-    void readEvents();
     bool readEvent();
 
     #ifdef _WIN32
     // Needed for the Win32 thread implementation.
     static int runReadEvents(void* pThis);
     #else
-    // TODO linux support (if necessary)
+    // Linux runReadEvents function defined in .cpp file.
     #endif
 };
 #endif

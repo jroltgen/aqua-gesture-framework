@@ -34,7 +34,11 @@ extern "C" {
 	}
 }
 #else
-// TODO linux support
+extern "C" {
+    Gesture* createGesture(EventProcessor* publisher, int regionID) {
+		return new Unified2DRotateGesture(publisher, regionID);
+	}
+}
 #endif
 
 using namespace std;

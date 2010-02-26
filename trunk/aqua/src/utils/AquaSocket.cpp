@@ -249,10 +249,13 @@ int AquaSocket::recv(void* data, int length) {
                 printf("[AquaSocket] Connection reset by peer.\n");
                 closesocket(_socket);
             } else if (errorCode = 10038) {
-                printf("[AquaSocket] Socket operation on non-socket.  Assuming socket was shut");
-                printf(" down improperly or something, so not closing socket..?\n");
+                printf("[AquaSocket] Socket operation on non-socket.");
+				printf("  Assuming socket was shut");
+                printf(" down improperly or something, so not ");
+				printf("closing socket..?\n");
             } else {
-                printf("[AquaSocket] Unknown Windows Sockets Error: %d ", errorCode);
+                printf("[AquaSocket] Unknown Windows Sockets Error: %d ",
+ 						errorCode);
                 printf("Shutting down....\n");
                 exit(0);
             }
@@ -263,7 +266,7 @@ int AquaSocket::recv(void* data, int length) {
 
   #else
     int remaining = length;
-    while (remaining = 0) {
+    while (remaining > 0) {
         int result = ::recv(_socket, &((char*)data)[length - remaining],
                 remaining, 0);
         remaining -= result;

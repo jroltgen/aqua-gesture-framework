@@ -124,7 +124,7 @@ void GestureFactory::loadGestures() {
     int                 i;
     vector<string>      libraries;
     
-    FileSystem::getSharedLibraryFiles(string("gestures/*"), &libraries);
+    FileSystem::getSharedLibraryFiles(string("./gestures"), &libraries);
     
     for (i = 0; i < libraries.size(); i++) {
         
@@ -137,7 +137,7 @@ void GestureFactory::loadGestures() {
         if (lib) {
             libFunc = (CreateGestureFunc) dlsym(lib, "createGesture");
             if (libFunc) {
-                string tempString = libName.substr(3, libName.length() - 3);
+                string tempString = libName.substr(3, libName.length() - 6);
                 _gestureMap.insert(pair<string, 
                         CreateGestureFunc>(tempString, libFunc));
                 if (!_gesturesLoaded) _gesturesLoaded = true;

@@ -51,7 +51,12 @@ extern "C" {
 	}
 }
 #else
-// TODO linux support
+extern "C" {
+    Gesture* createGesture(EventProcessor* 
+            publisher, int regionID) {
+		return new PrintEventGesture(publisher, regionID);
+	}
+}
 #endif
 
 #endif
