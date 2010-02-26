@@ -22,12 +22,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <string>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "events/EventFactory.h"
 #include "InputDeviceConnection.h"
 #include "utils/EndianConverter.h"
 
+#ifdef _WIN32
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#include <windows.h>
+#else
+#include <pthread.h>
+#endif
+
 using namespace std;
+
+/**
+ * These are the thread-launching methods required by the threading
+ * libraries of Windows & linux.
+ */
+#ifdef _WIN32
+int InputDeviceConnection::runReadEvents(void* pThis) {
+    ((InputDeviceConnection*)pThis)->readEvents();
+    return 0;
+}
+#else
+extern "C" {
+	void *runReadEvents(void* pThis) {
+		((InputDeviceConnection*)pThis)->readEvents();
+	}
+}
+#endif
 
 /**
  * Creates a new input device connection object.  This constructor simply
@@ -46,10 +74,18 @@ InputDeviceConnection::InputDeviceConnection(AquaSocket theSocket,
  */
 void InputDeviceConnection::run() {
     #ifdef _WIN32
-    CreateThread(NULL, 0, (unsigned long (__stdcall *)(void *))this->runReadEvents, 
-            (void *)this, 0, NULL);
+    CreateThread(NULL, 0, 
+			(unsigned long (__stdcall *)(void*))this->runReadEvents, 
+            (void*) this, 0, NULL);
     #else
-    // LS
+	pthread_t myThread;
+	int rc;
+
+    rc = pthread_create(&myThread, NULL, runReadEvents, (void*) this);
+	if (rc != 0) {
+ 		printf("[InputDeviceConnection] Error creating pthread.\n");
+		exit(-1);
+	}
     #endif
 }
 
@@ -111,11 +147,4 @@ bool InputDeviceConnection::readEvent() {
     return true;
 }
 
-#ifdef _WIN32
-int InputDeviceConnection::runReadEvents(void* pThis) {
-    ((InputDeviceConnection*)pThis)->readEvents();
-    return 0;
-}
-#else
-// LS (if necessary)
-#endif
+

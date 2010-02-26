@@ -30,7 +30,11 @@ extern "C" {
 	}
 }
 #else
-// TODO linux support
+extern "C" {
+    Event* createEvent(char* data) {
+		return new UnifiedZoomEvent(data);
+	}
+}
 #endif
 
 using namespace std;

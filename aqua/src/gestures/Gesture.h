@@ -44,10 +44,10 @@ private:
     #ifdef _WIN32
     CRITICAL_SECTION myLock;
     #else
-    // TODO ls
+    pthread_mutex_t myLock;
     #endif
     
-protected: // TODO change back to private
+protected:
     int             _regionID;
 
 // Methods
@@ -56,20 +56,21 @@ public:
         #ifdef _WIN32
         InitializeCriticalSection(&myLock);
         #else
-        // TODO ls
+        pthread_mutex_init(&myLock, NULL);
         #endif
         
         _publisher = publisher;
         _regionID = regionID;
     };
+
     virtual ~Gesture() {
         #ifdef _WIN32
         DeleteCriticalSection(&myLock);
         #else
-        // TODO ls
+        pthread_mutex_destroy(&myLock);
         #endif
-    
     };
+
     virtual bool processEvent(Event* event) {
         bool result;
         #ifdef _WIN32
@@ -77,8 +78,9 @@ public:
         result = handleEvent(event);
         LeaveCriticalSection(&myLock);
         #else
-        // TODO ls
+        pthread_mutex_lock(&myLock);
         result = handleEvent(event);
+		pthread_mutex_unlock(&myLock);
         #endif
         return result;
     };

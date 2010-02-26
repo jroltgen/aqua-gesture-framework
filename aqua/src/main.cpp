@@ -31,8 +31,8 @@
 // Test switches - use these to choose a main method with which to test 
 // individual modules.  Only one of these may be uncommented at a time.
 //#define _GESTURESERVER_TEST_
-#define _GESTUREFACTORY_TEST_
-//#define _AQUA_
+//#define _GESTUREFACTORY_TEST_
+#define _AQUA_
 //#define _SOCKET_TEST_
 //#define _EVENTFACTORY_TEST_
 //#define _UNIFIEDDRAGGESTURE_TEST_
@@ -52,7 +52,8 @@ int main(int argc, char* argv[]) {
 int main(int argc, char* argv[]) {
 	GestureServer s;
 	GestureFactory::getInstance()->loadGestures();
-	Gesture* g = GestureFactory::getInstance()->createGesture(string("UnifiedDragGesture"), s);
+	string name("UnifiedDragGesture");
+	Gesture* g = GestureFactory::getInstance()->createGesture(name, s);
 	
 	std::string n("TestEvent");
 	std::string d("Test");
@@ -123,8 +124,9 @@ int main(int argc, char* argv[]) {
     myFactory->loadEvents();
     printf("Events loaded\n");
     
-    
-    myEvent = myFactory->createEvent(string("SimpleEvent"), data);
+    string name("UnifiedDragEvent");
+
+    myEvent = myFactory->createEvent(name, data);
     
     
     return 0;
@@ -148,9 +150,11 @@ int main(int argc, char* argv[]) {
         myGesture->processEvent(NULL);
         delete myGesture;
     }
+	printf("Continuing..\n");
     
     name = "YouRockGesture";
     myGesture = myFactory->createGesture(name, s);
+	printf("Done creatin.\n");
     if (myGesture) {
         myGesture->processEvent(NULL);
         delete myGesture;
@@ -170,7 +174,7 @@ int main(int argc, char* argv[]) {
     int result;
     bool ok = true;
     bool socketUp = true;
-    char buffer = 'A';
+    char buffer = 62;
     
     if (serverSocket.bind(hostName, port) < AQUASOCKET_RES_OK) {
         printf("Error in bind.\n");
@@ -195,16 +199,16 @@ int main(int argc, char* argv[]) {
                 printf("Receive failed: %d\n", result);
                 socketUp = false;
             }
-            printf("Received character: %c\n", buffer);
+            printf("Received character: %d\n", buffer);
             result = clientSocket.send(&buffer, 1);
             if (result != 1) {
                 printf("Send failed %d\n", result);
                 socketUp = false;
             }
-            buffer += buffer > 255 ? -255 : 1;
+            //buffer += buffer > 255 ? -255 : 1;
             printf("Sent character: %c\n", buffer);
         
-        } while (socketUp);
+        } while (false);
 
     } while (ok);
 

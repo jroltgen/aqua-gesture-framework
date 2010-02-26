@@ -32,7 +32,7 @@ ClientConnection::ClientConnection(AquaSocket clientSocket) {
     #ifdef _WIN32
     InitializeCriticalSection(&myLock);
     #else
-    // TODO ls
+    pthread_mutex_init(&myLock, NULL);
     #endif
 }
 
@@ -41,7 +41,7 @@ ClientConnection::~ClientConnection() {
     #ifdef _WIN32
     DeleteCriticalSection(&myLock);
     #else
-    // TODO ls
+    pthread_mutex_destroy(&myLock);
     #endif
 }
 
@@ -49,7 +49,7 @@ void ClientConnection::getLock() {
     #ifdef _WIN32
     EnterCriticalSection(&myLock);
     #else
-    // TODO ls
+    pthread_mutex_lock(&myLock);
     #endif
 }
 
@@ -57,7 +57,7 @@ void ClientConnection::releaseLock() {
     #ifdef _WIN32
     LeaveCriticalSection(&myLock);
     #else
-    // TODO ls
+    pthread_mutex_unlock(&myLock);
     #endif
 }
 
@@ -87,7 +87,8 @@ int ClientConnection::getRegionID(Event* e) {
     // Handle endianness
     if (EndianConverter::isLittleEndian()) {
         for (i = 0; i < 3; i++) {
-            tempLocation[i] = EndianConverter::swapFloatEndian(tempLocation[i]);
+            tempLocation[i] = 
+					EndianConverter::swapFloatEndian(tempLocation[i]);
         }
     }
     if (_clientSocket.send(&tempLocation, 12) == AQUASOCKET_RES_ERROR) {
@@ -151,7 +152,7 @@ void ClientConnection::getRegionInfo(int regionID,
 
 /**
  * This is called only once by the GestureEngine upon initialization.  It 
- * takes as input a pointer to the engine’s list of global gestures and places 
+ * takes as input a pointer to the engine’s list of global gestures and places
  * any gestures received/created into that list.  If the client is interested 
  * in the events from any of these global gestures, it must also add ITSELF 
  * to the globalGesture list.  This will be sent in the protocol as a 
@@ -259,7 +260,7 @@ int ClientConnection::receiveEvents(char* buffer, vector<string>& events) {
 char* ClientConnection::receiveString(char* buffer) {
     int recvIndex = 0;
     while (true) {
-        if (_clientSocket.recv(&buffer[recvIndex], 1) == AQUASOCKET_RES_ERROR){
+        if (_clientSocket.recv(&buffer[recvIndex], 1) == AQUASOCKET_RES_ERROR) {
             handleError("Error receiving gesture character.\n");
             return NULL;
         }
@@ -292,9 +293,11 @@ bool ClientConnection::processEvent(Event* e) {
     if (EndianConverter::isLittleEndian()) {
         networkLength = EndianConverter::swapShortEndian(length);
     }
+
     if (_clientSocket.send(&networkLength, 2) == AQUASOCKET_RES_ERROR) {
         return handleError("Error sending process Global Event msg.\n");
     }
+
     if (_clientSocket.send(data, length) == AQUASOCKET_RES_ERROR) {
         return handleError("Error sending process Global event msg data.\n");
     }
@@ -334,12 +337,15 @@ bool ClientConnection::processEvent(Event* e, int regionID) {
     if (EndianConverter::isLittleEndian()) {
         networkLength = EndianConverter::swapShortEndian(networkLength);
     }
+
     if (_clientSocket.send(&networkLength, 2) == AQUASOCKET_RES_ERROR) {
         return handleError("Error sending process Global Event msg.\n");
     }
+
     if (_clientSocket.send(data, length) == AQUASOCKET_RES_ERROR) {
         return handleError("Error sending process Global event msg data.\n");
     }
+
     delete[] data;
     
     releaseLock();

@@ -30,7 +30,11 @@ extern "C" {
 	}
 }
 #else
-// TODO linux support
+extern "C" {
+    Event* createEvent(char* data) {
+		return new UnifiedEvent(data);
+	}
+}
 #endif
 
 UnifiedEvent::UnifiedEvent(char* data) : Event(data) {

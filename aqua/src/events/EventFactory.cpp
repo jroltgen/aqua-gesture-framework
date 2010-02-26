@@ -123,19 +123,19 @@ void EventFactory::loadEvents() {
     int                 i;
     vector<string>      libraries;
     
-    FileSystem::getSharedLibraryFiles(string("events/*"), &libraries);
+    FileSystem::getSharedLibraryFiles(string("./events"), &libraries);
     
     for (i = 0; i < libraries.size(); i++) {
         void*               lib;
         CreateEventFunc     libFunc;
         string              libName = libraries[i];
         
-        lib = dlopen(("events/" + libName).c_str(), RTLD_NOW);
+        lib = dlopen(("./events/" + libName).c_str(), RTLD_NOW);
         
         if (lib) {
             libFunc = (CreateEventFunc) dlsym(lib, "createEvent");
             if (libFunc) {
-                string tempString = libName.substr(3, libName.length() - 3);
+                string tempString = libName.substr(3, libName.length() - 6);
                 _eventMap.insert(pair<string, 
                         CreateEventFunc>(tempString, libFunc));
                 if (!_eventsLoaded) _eventsLoaded = true;

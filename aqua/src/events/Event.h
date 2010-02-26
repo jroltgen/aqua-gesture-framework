@@ -80,7 +80,7 @@ public:
             }
         }
         
-        //printf("Event received: %s %s - ID: %d, Type: %d\n\tLocation: %f, %f, %f\n", 
+        //printf("Event rcvd: %s %s - ID: %d, Type: %d\n\tLoc: %f, %f, %f\n", 
 		//		_name.c_str(), _description.c_str(), _id, _type,
 		//		_location[0], _location[1], _location[2]);
     }

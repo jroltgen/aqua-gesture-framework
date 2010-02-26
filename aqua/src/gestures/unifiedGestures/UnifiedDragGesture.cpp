@@ -30,7 +30,12 @@ extern "C" {
 	}
 }
 #else
-// TODO linux support
+extern "C" {
+    Gesture* createGesture(EventProcessor* 
+            publisher, int regionID) {
+		return new UnifiedDragGesture(publisher, regionID);
+	}
+}
 #endif
 
 using namespace std;

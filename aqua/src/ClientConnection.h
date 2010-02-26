@@ -25,10 +25,21 @@
 #include <string>
 #include <vector>
 
+#ifdef _WIN32
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#include <windows.h>
+#else
+#include <pthread.h>
+#endif
+
 #include "EventProcessor.h"
 #include "events/Event.h"
 #include "gestures/Gesture.h"
 #include "utils/AquaSocket.h"
+
+
 
 // Message types
 #define CLIENT_MSG_REGION_ID            0
@@ -51,7 +62,7 @@ private:
     #ifdef _WIN32
     CRITICAL_SECTION myLock;
     #else
-    // TODO ls
+    pthread_mutex_t myLock;
     #endif
 
 // Methods
