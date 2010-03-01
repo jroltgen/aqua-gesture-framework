@@ -134,7 +134,6 @@ bool UnifiedStandardDynamicGesture::handleDown(Event* e) {
  * 		A vector of pointers to events where the last pointer points to the move event.
  */
 bool UnifiedStandardDynamicGesture::handleMove(Event* e) {
-    bool ret;
     float newx, newy, newz, oldx, oldy, oldz;
     float averages[3];
     int i;
@@ -228,7 +227,6 @@ bool UnifiedStandardDynamicGesture::handleUp(Event* e) {
  * Prints info related to this standard dynamic gesture.
  */
 void UnifiedStandardDynamicGesture::printInfo() {
-    int i;
     
     printf("Known points: %d\n", _knownPoints.size());
     
