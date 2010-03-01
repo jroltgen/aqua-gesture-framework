@@ -28,8 +28,8 @@ myLibs = []
 
 #Add the /Ehsc flag to the msvc compiler
 if (env['CC'] == 'cl'):
-    env.Append(CCFLAGS = ['/EHsc'])
-    env2.Append(CCFLAGS = ['/EHsc'])
+    env.Append(CCFLAGS = ['/EHsc', '/W2'])
+    env2.Append(CCFLAGS = ['/EHsc', '/W2'])
     env2['PDB'] = 'bin/Aqua.pdb'
     myLibs.append('WS2_32')
 else:

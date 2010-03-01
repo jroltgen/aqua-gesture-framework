@@ -200,7 +200,7 @@ int ClientConnection::receiveGestures(char* buffer,
         vector<EventProcessor*>& gestures, EventProcessor* publisher, 
         int regionID) {
     
-    unsigned int i;
+    int i;
     int numStrings;
     Gesture* newGesture;
     string receivedString;
@@ -235,7 +235,8 @@ int ClientConnection::receiveGestures(char* buffer,
 }
 
 int ClientConnection::receiveEvents(char* buffer, vector<string>& events) {
-    unsigned int i;
+    
+    int i;
     int numStrings;
     string receivedString;
 
