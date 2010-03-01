@@ -1,0 +1,6 @@
+env = Environment()
+myLibs = []
+
+myLibs.append('X11')
+
+env.Program('AquaX11Mouse', 'AquaX11Mouse.cpp', LIBS=myLibs)
