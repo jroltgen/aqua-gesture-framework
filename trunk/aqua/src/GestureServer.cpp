@@ -143,5 +143,5 @@ void GestureServer::acceptConnections() {
             printf("[GestureServer] Recv failed.\n");
             return;
         } 
-    } while (iResult > 0);
+    } while (true);
 }

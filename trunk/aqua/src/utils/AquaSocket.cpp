@@ -240,7 +240,8 @@ int AquaSocket::recv(void* data, int length) {
     #ifdef _WIN32
     int remaining = length;
     while (remaining > 0) {
-        int result = ::recv(_socket, &((char*)data)[length - remaining], remaining, 0);
+        int result = ::recv(_socket, &((char*)data)[length - remaining],
+				remaining, 0);
         remaining -= result;
         // Simplify error handling.
         if (result < 0) {
