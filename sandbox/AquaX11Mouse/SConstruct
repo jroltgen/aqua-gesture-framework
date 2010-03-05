@@ -3,4 +3,4 @@ myLibs = []
 
 myLibs.append('X11')
 
-env.Program('AquaX11Mouse', 'AquaX11Mouse.cpp', LIBS=myLibs)
+env.Program('AquaX11Mouse', Glob('*.cpp'), LIBS=myLibs)
