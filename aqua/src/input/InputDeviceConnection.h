@@ -31,10 +31,12 @@
  * designed so that it corresponds to the maximum event length, which is an
  * unsigned short int.
  */
-#define INPUT_BUFFER_SIZE 65536
 
-#include "GestureServer.h"
-#include "utils/AquaSocket.h"
+#include <string>
+
+#include "../GestureServer.h"
+#include "../utils/AquaSocket.h"
+#include "InputProtocol.h"
 
 class InputDeviceConnection {
 
@@ -46,14 +48,9 @@ private:
     GestureServer* _server;
     
     /**
-     * Buffer for incoming data ->incoming data limited by this size.
+     * The protocol implementation for this input device.
      */
-    char receiveBuffer[INPUT_BUFFER_SIZE];
-    
-    /**
-     * Socket that communicates with the input device.
-     */
-    AquaSocket _socket;
+    InputProtocol* _protocol;
     
     /**
      * The input device ID for this device.
@@ -62,8 +59,8 @@ private:
     
 // Methods
 public:
-    InputDeviceConnection(AquaSocket theSocket, GestureServer* theServer, 
-			int id);
+    InputDeviceConnection(std::string protocolName, AquaSocket socket,
+            GestureServer* theServer, int id);
     void run();
     void readEvents();
     

@@ -25,9 +25,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "events/EventFactory.h"
+#include "../events/EventFactory.h"
 #include "InputDeviceConnection.h"
-#include "utils/EndianConverter.h"
+#include "../utils/EndianConverter.h"
+#include "AquaInputProtocol.h"
+#include "SparshInputProtocol.h"
 
 #ifdef _WIN32
 #ifndef WIN32_LEAN_AND_MEAN
@@ -62,11 +64,19 @@ extern "C" {
  * initializes the member variables.  If you want your input device to actually
  * do anything, you will have to call run().
  */
-InputDeviceConnection::InputDeviceConnection(AquaSocket theSocket, 
-        GestureServer* theServer, int id) {
-    _socket = theSocket;
+InputDeviceConnection::InputDeviceConnection(string protocolName, 
+        AquaSocket socket, GestureServer* theServer, int id) {
     _server = theServer;
     _id = id;
+    
+    if (protocolName.compare("Aqua") == 0) {
+        _protocol = new AquaInputProtocol(socket);
+    } else if (protocolName.compare("Sparsh") == 0) {
+        printf("[InputDeviceConnection] Using SPARSH-UI Protocol.\n");
+        _protocol = new SparshInputProtocol(socket);
+    } else {
+        printf("[InputDeviceConnection] ***Error: Protocol not recognized.\n");
+    }
 }
     
 /**
@@ -112,39 +122,18 @@ void InputDeviceConnection::readEvents() {
  * assembling the string.  This is the name of the event.
  */
 bool InputDeviceConnection::readEvent() {
-    int             iResult;
-    unsigned short  msgLength;
-    int             remaining;
-    string          eventName;
+
+    Event* receivedEvent = NULL;
+    bool result = _protocol->getNextEvent(receivedEvent);
     
-    // Read event length.
-    iResult = _socket.recv(receiveBuffer, 2);
-    if (iResult != 2) {
-        printf("[InputDeviceConnection] Socket receive error.\n");
-        return false;
+    if (result) {
+        if (receivedEvent != NULL) {
+            receivedEvent->setID(_id * 100000 + receivedEvent->getID());
+            _server->processEvent(receivedEvent);
+            delete receivedEvent;
+        }
     }
-    memcpy(&msgLength, receiveBuffer, 2);
-    if (EndianConverter::isLittleEndian()) {
-        msgLength = EndianConverter::swapShortEndian(msgLength);
-    }
-    
-    iResult = _socket.recv(receiveBuffer, msgLength);
-    if (iResult == AQUASOCKET_RES_ERROR) {
-		printf("[InputDeviceConnection] Socket receive error.\n");
-		return false;
-	}
-	
-    eventName = string(receiveBuffer);
-    Event* receivedEvent = EventFactory::getInstance()->createEvent(
-            eventName, receiveBuffer);
-            
-    // Add our constant to the eventID to avoid conflicting event IDs.
-    receivedEvent->setID(_id * 100000 + receivedEvent->getID());
-      
-    _server->processEvent(receivedEvent);
-    
-    delete receivedEvent;
-    return true;
+    return result;
 }
 
 

@@ -38,9 +38,10 @@ else:
 	
 # This builds the program
 if (buildType == AQUA_BUILD):
-    env2.Program('bin/Aqua', 
-            Glob('*.cpp') + Glob('utils/*.cpp') + \
+    env.Program('bin/Aqua', 
+            Glob('*.cpp') + Glob('utils/*.cpp') + Glob('input/*.cpp') + \
             ['events/EventFactory.cpp', \
+             'events/UnifiedEvent.cpp', \
              'gestures/GestureFactory.cpp'], \
             LIBS=myLibs)
 

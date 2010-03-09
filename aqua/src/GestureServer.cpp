@@ -23,8 +23,10 @@
 #include "GestureServer.h"
 
 #include "ClientConnection.h"
-#include "InputDeviceConnection.h"
+#include "input/InputDeviceConnection.h"
 #include "utils/AquaException.h"
+
+using namespace std;
 
 GestureServer::GestureServer() {
     _nextInputDeviceID = 0;
@@ -82,9 +84,10 @@ void GestureServer::removeGestureEngine(GestureEngine* engineToRemove) {
 /** 
  * Create a new inputdeviceConnection
  */
-void GestureServer::createInputDeviceConnection(AquaSocket inputSocket) {
-    InputDeviceConnection* id = new InputDeviceConnection(inputSocket, this, 
-            _nextInputDeviceID++);
+void GestureServer::createInputDeviceConnection(string protocolName, 
+        AquaSocket inputSocket) {
+    InputDeviceConnection* id = new InputDeviceConnection(protocolName, 
+            inputSocket, this, _nextInputDeviceID++);
     id->run();
 }
 
@@ -115,6 +118,9 @@ void GestureServer::acceptConnections() {
     AquaSocket  clientSocket;
     int     iResult;
     char    recvType;
+    
+    string aquaName("Aqua");
+    string sparshName("Sparsh");
 
     printf("[GestureServer] Accepting connections.\n");
     do {  
@@ -132,8 +138,10 @@ void GestureServer::acceptConnections() {
         
         iResult = clientSocket.recv(&recvType, 1);
         if (iResult > 0) {
-            if (recvType == INPUT_DEVICE_TYPE) {
-                createInputDeviceConnection(clientSocket);
+            if (recvType == AQUA_INPUT_DEVICE_TYPE) {
+                createInputDeviceConnection(aquaName, clientSocket);
+            } else if (recvType == SPARSH_INPUT_DEVICE_TYPE) {
+                createInputDeviceConnection(sparshName, clientSocket);
             } else if (recvType == CLIENT_TYPE) {
                 createClientConnection(clientSocket);
             }
