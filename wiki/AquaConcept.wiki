@@ -8,11 +8,9 @@ Aqua is designed with developers in mind, and utilizes shared libraries to dynam
 
  [http://www.vrac.iastate.edu/~jroltgen/AquaConcept.png]
 
-Since Aqua is designed to be compatible with as many input devices and programming languages is possible, communication to Aqua is performed through TCP sockets. Aqua will be compatible with Windows, Linux and MAC OS, though currently I'm just working on the Windows version.
+Since Aqua is designed to be compatible with as many input devices and programming languages is possible, communication to Aqua is performed through TCP sockets. Aqua will be compatible with Windows, Linux and MAC OS, though currently I'm just working on the Windows and Linux versions.
 
 ==Why should you use Aqua?==
-First of all, don't get too excited.  It isn't finished yet.  But here's a preview:
-
 Aqua will be open source software (LGPL), so you are free to modify the code as you choose.  Additionally, Aqua will be compatible with a variety of input devices.  Ideally, as the project grows, the community will contribute input device drivers for Aqua, increasing the probability that your input device will work with Aqua out-of-the-box.  Examples include multitouch screens, mice & keyboard input, 3D time-of-flight cameras, Wiimotes, game controllers, etc.
 
 Aqua allows for the possibility of multi-modal gestural interaction, because you may connect more than one input device at the same time.  Tangible UIs will also fit nicely into this architecture.  Aqua also allows multiple simultaneous users, each with his or her own set of input devices.
