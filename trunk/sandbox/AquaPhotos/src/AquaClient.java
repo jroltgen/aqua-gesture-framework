@@ -40,6 +40,10 @@ public class AquaClient extends JPanel implements KeyListener, Runnable {
 	
 	public static Dimension SCREEN_SIZE = 
 			Toolkit.getDefaultToolkit().getScreenSize();
+	// 
+	// FOR TABLE
+	//public static Dimension SCREEN_SIZE = 
+	//		new Dimension(1024, 768);
 	
 	private Socket _socket;
 	private DataInputStream _input;
@@ -128,7 +132,7 @@ public class AquaClient extends JPanel implements KeyListener, Runnable {
 		_socket = new Socket("localhost", 3007);
 		_input = new DataInputStream(_socket.getInputStream());
 		_output = new DataOutputStream(_socket.getOutputStream());
-		_output.write(1);
+		_output.write(3);
 	}
 	
 	/**

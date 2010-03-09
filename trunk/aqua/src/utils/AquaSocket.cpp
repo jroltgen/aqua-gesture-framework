@@ -189,6 +189,7 @@ int AquaSocket::bind(char* hostName, char* port) {
     result = ::bind(_socket, (struct sockaddr*) &serverAddress, 
             sizeof(serverAddress));
     if (result < 0) {
+		::close(_socket);
         printf("Error binding socket: %d\n", result);
         return AQUASOCKET_RES_ERROR;
     }
@@ -254,6 +255,7 @@ int AquaSocket::recv(void* data, int length) {
 				printf("  Assuming socket was shut");
                 printf(" down improperly or something, so not ");
 				printf("closing socket..?\n");
+				closesocket(_socket);
             } else {
                 printf("[AquaSocket] Unknown Windows Sockets Error: %d ",
  						errorCode);

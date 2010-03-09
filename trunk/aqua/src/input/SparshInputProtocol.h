@@ -36,6 +36,6 @@ private:
 // Methods
 public:
     SparshInputProtocol(AquaSocket socket);
-    virtual bool getNextEvent(Event* receivedEvent);
+    virtual bool getNextEvent(Event* &receivedEvent);
 };
 #endif

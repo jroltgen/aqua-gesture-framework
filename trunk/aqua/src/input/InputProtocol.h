@@ -48,6 +48,6 @@ public:
         _socket = socket;
     }
     
-    virtual bool getNextEvent(Event* receivedEvent) = 0;
+    virtual bool getNextEvent(Event* &receivedEvent) = 0;
 };
 #endif

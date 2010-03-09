@@ -26,7 +26,7 @@ public:
 		long 				_hostAddress;
 		char buffer[1];
 
-		buffer[0] = 0;
+		buffer[0] = 2;
 		
 		_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	
