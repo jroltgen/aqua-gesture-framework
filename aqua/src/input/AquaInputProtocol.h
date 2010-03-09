@@ -33,6 +33,6 @@ private:
 // Methods
 public:
     AquaInputProtocol(AquaSocket socket);
-    virtual bool getNextEvent(Event* receivedEvent);
+    virtual bool getNextEvent(Event* &receivedEvent);
 };
 #endif

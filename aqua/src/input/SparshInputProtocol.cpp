@@ -39,7 +39,7 @@ SparshInputProtocol::SparshInputProtocol(AquaSocket socket) :
 }
 
 
-bool SparshInputProtocol::getNextEvent(Event* receivedEvent) {
+bool SparshInputProtocol::getNextEvent(Event* &receivedEvent) {
  
     // If the queue is empty, then read from the input device.  Otherwise,
     // we just pop the next element out of the queue and return it.
@@ -107,9 +107,8 @@ bool SparshInputProtocol::getNextEvent(Event* receivedEvent) {
                         touchState);
                 return false;
             }
-            
-            Event* newEvent = new UnifiedEvent(unifiedEventName, unifiedEventDesc,
-                    touchState, id, location);
+            Event* newEvent = new UnifiedEvent(unifiedEventName,
+					unifiedEventDesc, touchState, id, location);
                     
             _eventQueue.push(newEvent);
         }

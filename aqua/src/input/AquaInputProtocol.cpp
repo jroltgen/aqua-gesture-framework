@@ -32,7 +32,7 @@ AquaInputProtocol::AquaInputProtocol(AquaSocket socket) :
 }
 
 
-bool AquaInputProtocol::getNextEvent(Event* receivedEvent) {
+bool AquaInputProtocol::getNextEvent(Event* &receivedEvent) {
  
     int             iResult;
     unsigned short  msgLength;

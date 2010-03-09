@@ -125,7 +125,7 @@ bool InputDeviceConnection::readEvent() {
 
     Event* receivedEvent = NULL;
     bool result = _protocol->getNextEvent(receivedEvent);
-    
+
     if (result) {
         if (receivedEvent != NULL) {
             receivedEvent->setID(_id * 100000 + receivedEvent->getID());
