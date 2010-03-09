@@ -142,7 +142,7 @@ void GestureServer::acceptConnections() {
                 createInputDeviceConnection(aquaName, clientSocket);
             } else if (recvType == SPARSH_INPUT_DEVICE_TYPE) {
                 createInputDeviceConnection(sparshName, clientSocket);
-            } else if (recvType == CLIENT_TYPE) {
+            } else if (recvType == AQUA_CLIENT_TYPE) {
                 createClientConnection(clientSocket);
             }
         } else if (iResult = 0) {

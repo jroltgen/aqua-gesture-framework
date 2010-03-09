@@ -50,5 +50,4 @@ public:
     
     virtual bool getNextEvent(Event* receivedEvent) = 0;
 };
-
 #endif

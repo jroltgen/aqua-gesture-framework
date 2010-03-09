@@ -30,9 +30,10 @@
 
 // Connection types TODO - define these somewhere else if we start using
 // a custom protocol.
-#define SPARSH_INPUT_DEVICE_TYPE  0
+#define SPARSH_CLIENT_TYPE		  0
+#define SPARSH_INPUT_DEVICE_TYPE  1
 #define AQUA_INPUT_DEVICE_TYPE    2
-#define CLIENT_TYPE               1
+#define AQUA_CLIENT_TYPE          3
 
 #include "EventProcessor.h"
 #include "GestureEngine.h"
