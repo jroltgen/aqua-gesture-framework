@@ -24,13 +24,15 @@
 #define _GESTURESERVER_H_
 
 #include <vector>
+#include <string>
 // Connection port to use
 #define LISTEN_PORT "3007"
 
 // Connection types TODO - define these somewhere else if we start using
 // a custom protocol.
-#define INPUT_DEVICE_TYPE   0
-#define CLIENT_TYPE         1
+#define SPARSH_INPUT_DEVICE_TYPE  0
+#define AQUA_INPUT_DEVICE_TYPE    2
+#define CLIENT_TYPE               1
 
 #include "EventProcessor.h"
 #include "GestureEngine.h"
@@ -73,7 +75,8 @@ public:
 private:
     void acceptConnections();
     void createClientConnection(AquaSocket clientSocket);
-    void createInputDeviceConnection(AquaSocket inputSocket);
+    void createInputDeviceConnection(std::string protocolname, 
+            AquaSocket inputSocket);
     bool initSocket();
     void removeGestureEngine(GestureEngine* engineToRemove);
     
