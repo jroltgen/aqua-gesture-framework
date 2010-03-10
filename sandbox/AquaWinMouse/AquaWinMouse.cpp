@@ -59,7 +59,7 @@ int initSocket() {
     struct addrinfo *ptr    = NULL;
     struct addrinfo  hints;
     int iResult;
-    char deviceType = 0;
+    char deviceType = 2;
     
     
     iResult = WSAStartup(MAKEWORD(2, 2), &data);
@@ -109,7 +109,7 @@ int initSocket() {
         return 1;
     }
 
-    // Send our device type - 0, input device.
+    // Send our device type - 2, input device.
     iResult = send(sock, &deviceType, 1, 0);
     if (iResult == SOCKET_ERROR) {
         printf("Send failed: %d\n", WSAGetLastError());
@@ -155,6 +155,8 @@ int sendEvent(Event* e) {
         exit(0);
         return -1;
     }
+    
+    delete[] eventData;
     return 0;
 }
 
@@ -203,7 +205,7 @@ LRESULT CALLBACK mouseHookProc(int nCode, WPARAM wParam, LPARAM lParam) {
     case WM_MOUSEMOVE:
         printf("Mouse move.\n");
         if (!leftDown && !rightDown) {
-            send(0, EVENT_TYPE_HOVER, location);
+            //send(0, EVENT_TYPE_HOVER, location);
         }
         if (leftDown) {
             send(1, EVENT_TYPE_MOVE, location);
@@ -232,7 +234,7 @@ LRESULT CALLBACK mouseHookProc(int nCode, WPARAM wParam, LPARAM lParam) {
         break;
     default:
         printf("Other msg.\n");
-        send(0, EVENT_TYPE_OTHER, location);
+        //send(0, EVENT_TYPE_OTHER, location);
         break;
     }
 
