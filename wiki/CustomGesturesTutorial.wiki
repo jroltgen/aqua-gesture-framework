@@ -1,6 +1,8 @@
 #summary This page describes how to create a custom gesture for Aqua.
 
-=Writing a Custom Gesture=
+*Note:* I am still working on putting the sample event project together, so you will not find the sample event project referenced in this document _yet_.
+
+=Aqua Tutorial - Writing a Custom Gesture=
 
 <font face="arial" size="3">
 Allowing developers the ability to write their own custom gestures was one of the most important ideas in developing the design and architecture for Aqua.  Aqua makes it very easy for you as a developer to write your own custom gesture.  
