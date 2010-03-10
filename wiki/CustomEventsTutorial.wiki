@@ -1,6 +1,8 @@
 #summary This page describes how to write your own custom Aqua Event.
 #labels Phase-Implementation
 
+*Note:* I am still working on putting the sample event project together, so you will not find the sample event project referenced in this document _yet_.
+
 =Aqua Tutorial - Writing A Custom Event=
 <font face="arial" size="3">
 Occasionally, you may find it necessary to write a custom event for your application that uses Aqua.  This is often necessary if you have a new input device that Aqua does not recognize, such as a game controller.  In addition to writing the input device driver for Aqua, you may also want to create some custom events, such as button presses, controller accelerometer readings, etc.
