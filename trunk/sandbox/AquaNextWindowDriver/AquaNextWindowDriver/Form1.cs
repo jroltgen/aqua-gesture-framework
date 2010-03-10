@@ -225,7 +225,7 @@ namespace AquaNextWindowDriver
 
             // Set up Aqua socket.
             byte[] buffer = new byte[1];
-            buffer[0] = 0;
+            buffer[0] = 2;
 
             aquaSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             aquaSocket.Connect("localhost", 3007);

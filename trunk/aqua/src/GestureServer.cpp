@@ -144,6 +144,8 @@ void GestureServer::acceptConnections() {
                 createInputDeviceConnection(sparshName, clientSocket);
             } else if (recvType == AQUA_CLIENT_TYPE) {
                 createClientConnection(clientSocket);
+            } else {
+                printf("Unrecognized connection type.\n");
             }
         } else if (iResult = 0) {
             printf("[GestureServer] Connecton closing.\n");
