@@ -1,6 +1,7 @@
 #summary This page describes how to create a custom gesture for Aqua.
+#labels Phase-Implementation
 
-*Note:* I am still working on putting the sample event project together, so you will not find the sample event project referenced in this document _yet_.
+*Note:* I am still working on putting the sample gesture project together, so you will not find the sample gesture project referenced in this document _yet_.
 
 =Aqua Tutorial - Writing a Custom Gesture=
 
