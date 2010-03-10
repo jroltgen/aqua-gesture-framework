@@ -1,4 +1,4 @@
-#summary The "At a glance" description and concept for Aqua
+#summary The "At a glance" description and concept for Aqua.
 #labels Featured
 
 ==Concept==
