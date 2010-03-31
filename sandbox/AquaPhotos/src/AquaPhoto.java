@@ -208,7 +208,7 @@ public class AquaPhoto extends JComponent
 			int zoomCenterx = (int)(ze.getZoomCenter()[0] * AquaClient.SCREEN_SIZE.width);
 			int zoomCentery = (int)(ze.getZoomCenter()[1] * AquaClient.SCREEN_SIZE.height);
 			rotationPoint = new Location(zoomCenterx - containerScreenCoordinates.x, zoomCentery - containerScreenCoordinates.y);
-			System.out.println("Zoom scale: " + scaleFactor);
+			//System.out.println("Zoom scale: " + scaleFactor);
 		} else if (e instanceof Unified2DRotateEvent) {
 			Unified2DRotateEvent re = (Unified2DRotateEvent) e;
 			float rotationPointx = (float)(re.getRotateCenter()[0] * AquaClient.SCREEN_SIZE.width - containerScreenCoordinates.getX());

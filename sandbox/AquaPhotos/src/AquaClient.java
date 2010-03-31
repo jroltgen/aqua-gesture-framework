@@ -20,6 +20,7 @@ import javax.swing.SwingUtilities;
 import events.Event;
 import events.Unified2DRotateEvent;
 import events.UnifiedDragEvent;
+import events.UnifiedEvent;
 import events.UnifiedZoomEvent;
 
 public class AquaClient extends JPanel implements KeyListener, Runnable {
@@ -49,6 +50,7 @@ public class AquaClient extends JPanel implements KeyListener, Runnable {
 	private DataInputStream _input;
 	private DataOutputStream _output;
 	private JFrame _frame;
+	private PointTracker _tracker;
 	
 	private Vector<AquaPhoto> _photos = new Vector<AquaPhoto>();
 	
@@ -96,6 +98,15 @@ public class AquaClient extends JPanel implements KeyListener, Runnable {
         setLayout(null);
         setLocation(0, 0);
         setSize(SCREEN_SIZE.width, SCREEN_SIZE.height);
+        
+
+		
+		_tracker = new PointTracker();
+		_tracker.setLocation(0, 0);
+		_tracker.setSize(_frame.getSize());
+        add(_tracker);
+        
+        
         try {
 			AquaPhoto p = new AquaPhoto(Color.cyan);
 			_photos.add(p);
@@ -119,7 +130,6 @@ public class AquaClient extends JPanel implements KeyListener, Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-         
 	}
 
 
@@ -202,7 +212,9 @@ public class AquaClient extends JPanel implements KeyListener, Runnable {
 		_output.writeInt(0);
 		
 		// Send the events
-		_output.writeInt(0);
+		_output.writeInt(1);
+		_output.writeBytes("UnifiedEvent\0");
+		//_output.writeBytes("UnifiedZoomEvent\0");
 	}
 	
 	/**
@@ -235,11 +247,32 @@ public class AquaClient extends JPanel implements KeyListener, Runnable {
 	 * Handles the processGlobalEvent message.
 	 */
 	private void processGlobalEvent() throws IOException {
-		System.out.println("Got global event.\n");
+		//System.out.println("Got global event.");
 		short length = _input.readShort();
 		byte[] data = new byte[length];
 		
 		_input.read(data, 0, length);
+		String name = "";
+		int index = 0;
+		while (data[index] != '\0') {
+			name += (char)data[index++];
+		}
+		//System.out.print("Data: ");
+		for (byte b : data) {
+			System.out.print((int)b + " ");
+		}
+		System.out.println();
+		Event e = null;
+		
+		if (name.equals("UnifiedEvent")) {
+			e = new UnifiedEvent(data);
+			System.out.println("loc: " + e.getLocation()[0] + ", " + e.getLocation()[1] + ", " + e.getLocation()[2]);
+		}
+//		if (name.equals("UnifiedZoomEvent")) {
+//			e = new UnifiedEvent(data);
+//			System.out.println("Zoom loc: " + e.getLocation()[0] + ", " + e.getLocation()[1] + ", " + e.getLocation()[2]);
+//		}
+		_tracker.processEvent(e);
 	}
 	
 	/**
