@@ -60,7 +60,7 @@ env.SharedLibrary('bin/events/HandIDTouchEvent', 'events/HandIDTouchEvent.cpp')
 env.SharedLibrary('bin/gestures/HelloWorldGesture', 'gestures/HelloWorldGesture.cpp')
 env.SharedLibrary('bin/gestures/YouRockGesture', 'gestures/YouRockGesture.cpp')
 env.SharedLibrary('bin/gestures/PrintEventGesture', 'gestures/PrintEventGesture.cpp')
-env.SharedLibrary('bin/gestures/GetHandIDGesture', 'gestures/GetHandIDGesture.cpp')
+env.SharedLibrary('bin/gestures/GetHandIDGesture', ['gestures/GetHandIDGesture.cpp', 'events/HandIDTouchEvent.cpp'])
 
 #Unified Gestures
 env.SharedLibrary('bin/gestures/UnifiedDragGesture', ['gestures/unifiedGestures/UnifiedDragGesture.cpp', \
