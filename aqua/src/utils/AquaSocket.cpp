@@ -134,38 +134,25 @@ AquaSocket AquaSocket::accept() {
  */
 int AquaSocket::bind(char* hostName, char* port) {
   #ifdef _WIN32
-    // Initialize the socket info
-    int              iResult;
-    struct addrinfo  hints; 
-    struct addrinfo *result = NULL;
-    struct addrinfo *ptr = NULL;  
+    int              iResult = 0;
     
-    ZeroMemory(&hints, sizeof(hints));
-    hints.ai_family = AF_INET;
-    hints.ai_socktype = SOCK_STREAM;
-    hints.ai_protocol = IPPROTO_TCP;
-    hints.ai_flags = AI_PASSIVE;
-    
-    // Resolve the local address and port.
-    iResult = getaddrinfo(hostName, port, &hints, &result);
-    if (iResult != 0) {
-        printf("Get addrinfo failed: %d\n", iResult);
-        return AQUASOCKET_RES_ERROR;
-    }
-    
-    _socket = socket(result->ai_family, result->ai_socktype, 
-            result->ai_protocol);
+    _socket = socket(AF_INET, SOCK_STREAM, 0);
     if (_socket == INVALID_SOCKET) {
         printf("Error at socket(): %ld\n", WSAGetLastError());
-        freeaddrinfo(result);
         return AQUASOCKET_RES_ERROR;
     }
     
     // Steup the TCP listening socket.
-    iResult = ::bind(_socket, result->ai_addr, (int)result->ai_addrlen);
+    struct sockaddr_in sin;
+    memset(&sin, 0, sizeof(sin));
+    
+    sin.sin_family = AF_INET;
+    sin.sin_addr.s_addr = INADDR_ANY;
+    sin.sin_port = htons(atoi(port));
+    
+    iResult = ::bind(_socket, (sockaddr *) &sin, sizeof(sin));
     if (iResult == SOCKET_ERROR) {
         printf("Bind Failed: %d\n", WSAGetLastError());
-        freeaddrinfo(result);
         closesocket(_socket);
         return AQUASOCKET_RES_ERROR;
     }
