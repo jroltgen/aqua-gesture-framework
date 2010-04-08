@@ -54,15 +54,17 @@ public class PointTracker extends JComponent {
 			g2.setColor(Color.GREEN);
 			g.drawOval(l.getX() - SIZE / 2, l.getY() - SIZE / 2, SIZE, SIZE);
 		}
-		
+		// TODO this is hackily done, but shoudl work for two points.
+		Color color = Color.BLUE;
 		for (PointLocation l : _hoverPoints.values()) {
 			//System.out.println("Painting point: " + l.getX() + ", " + l.getY());
 			g2.setColor(new Color(255, 255, 255, 127));
 			g2.fillOval(l.getX() - SIZE / 2, l.getY() - SIZE / 2, SIZE, SIZE);
 			
 			g2.setStroke(new BasicStroke(3));
-			g2.setColor(Color.WHITE);
+			g2.setColor(color);
 			g.drawOval(l.getX() - SIZE / 2, l.getY() - SIZE / 2, SIZE, SIZE);
+			color = Color.RED;
 		}
 	}
 

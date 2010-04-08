@@ -39,12 +39,12 @@ public class AquaClient extends JPanel implements KeyListener, Runnable {
 		TRANSLATORS
 	}
 	
-	public static Dimension SCREEN_SIZE = 
-			Toolkit.getDefaultToolkit().getScreenSize();
+	//public static Dimension SCREEN_SIZE = 
+	//		Toolkit.getDefaultToolkit().getScreenSize();
 	// 
 	// FOR TABLE
-	//public static Dimension SCREEN_SIZE = 
-	//		new Dimension(1024, 768);
+	public static Dimension SCREEN_SIZE = 
+			new Dimension(1024, 780);
 	
 	private Socket _socket;
 	private DataInputStream _input;
@@ -127,7 +127,7 @@ public class AquaClient extends JPanel implements KeyListener, Runnable {
 		try {
 			type = MessageType.values()[_input.read()];
 		} catch (ArrayIndexOutOfBoundsException e) {
-			System.out.println("Message not recognized...\n");
+			System.out.println("Message not recognized: " + type);
 			return;
 		}
 		switch(type) {
