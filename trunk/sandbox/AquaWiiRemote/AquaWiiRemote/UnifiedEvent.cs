@@ -37,14 +37,18 @@ namespace AquaWiiRemote
         public byte[] serialize(out short outLength)
         {
             int i;
-            outLength = (short)((_name.Length + _description.Length + 2) + 17);
+            short myLength = (short)((_name.Length + _description.Length + 2) + 17);
+            
+            short subclassLength;
+            byte[] subclassData = serializeData(out subclassLength);
 
+            outLength = (short)(myLength + subclassLength);
+            byte[] ret = new byte[myLength + subclassLength];
 
             int tempInt;
-
-            byte[] ret = new byte[outLength];
             byte[] temp;
             int index = 0;
+
 
             // Name
             temp = Encoding.ASCII.GetBytes(_name + "\0");
@@ -74,10 +78,16 @@ namespace AquaWiiRemote
                 Array.Copy(temp, 0, ret, index, temp.Length);
                 index += temp.Length;
             }
+
+            // Subclass data.
+            if (subclassData != null)
+            {
+                System.Array.Copy(subclassData, 0, ret, index, subclassLength);
+            }
             return ret;
         }
 
-        private void endianSwap(ref byte[] temp)
+        protected void endianSwap(ref byte[] temp)
         {
             if (BitConverter.IsLittleEndian)
             {
@@ -89,6 +99,12 @@ namespace AquaWiiRemote
 
                 }
             }
+        }
+
+        protected virtual byte[] serializeData(out short outLength)
+        {
+            outLength = 0;
+            return null;
         }
 
 
