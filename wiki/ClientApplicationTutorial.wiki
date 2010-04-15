@@ -1,0 +1,293 @@
+#summary This page describes the method for creating an AQUA client application.  A sample project is available on the downloads page.
+#labels Phase-Implementation
+
+*Note:* I am still working on putting the sample client application project together.
+
+= Aqua Tutorial - Writing a Client Application =
+
+<font face="arial" size="3">
+AQUA-G communicates with client applications using a standard protocol over TCP sockets.  Writing a new client application involves writing code which conforms to this custom protocol.  Fortunately, much of this work has been done for developers wishing to develop Java applications.  If you wish to design an application in a language other than Java, currently you must implement the communication protocol yourself.  The implementation of said protocol will be outlined in this document, and the sample implementation is given in Java code, though it should be easy to port this code to other languages.
+
+In order to communicate with AQUA-G, your client application must create a TCP socket and connect to port 3007.  Then, you must send a single byte with value 0x03 on that socket.  This alerts AQUA-G to the fact that your application is a client application and should receive events appropriately.  The code for initialization the connection is given below.  The Java code sets up a socket with data input and output streams, and begins handling events from AQUA-G.
+
+After initialization, your client application must begin reading data from the socket, which is coming from AQUA-G.  Traditionally this should be done in a separate thread, but in this simple example AQUA-G will send the following messages to your client application, which you will be expected to process and handle appropriately.  The message type is sent as a single byte, which you read from the socket and use to determine appropriate action.  The message types are as follows:
+  * Get Region ID (0x00)
+  * Get Global Info (0x01)
+  * Get Region Info (0x02)
+  * Process Global Event (0x03)
+  * Process Region Event (0x04)
+  * Get Event Translators (0x05)
+</font>
+
+{{{
+public class AquaClient {
+        
+        enum MessageType {
+                REGION_ID,
+                GLOBAL_INFO,
+                REGION_INFO,
+                PROCESS_GLOBAL_EVENT,
+                PROCESS_REGION_EVENT,
+                TRANSLATORS
+        }
+        
+        private Socket _socket;
+        private DataInputStream _input;
+        private DataOutputStream _output;
+        
+        public static void main(String[] args) throws UnknownHostException, IOException {
+                AquaClient ac = new AquaClient();
+                ac.connect();
+                while(true) ac.handleRequest();
+        }
+        
+        
+        /**
+         * Connects to Aqua.
+         * @throws IOException 
+         * @throws UnknownHostException 
+         */
+        private void connect() throws UnknownHostException, IOException {
+                _socket = new Socket("localhost", 3007);
+                _input = new DataInputStream(_socket.getInputStream());
+                _output = new DataOutputStream(_socket.getOutputStream());
+                _output.write(1);
+        }
+}
+}}}
+
+<font face="arial" size="3">
+Here is the code which handles the messages from Aqua.  It is a simple switch statement which checks the message type which comes in from Aqua.
+</font>
+
+{{{
+private void handleRequest() throws IOException {
+        MessageType type = null;
+        try {
+                type = MessageType.values()[_input.read()];
+        } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("Message not recognized...\n");
+                return;
+        }
+        switch(type) {
+        case REGION_ID:
+                handleGetRegionID();
+                break;
+        case GLOBAL_INFO:
+                handleGetGlobalInfo();
+                break;
+        case PROCESS_GLOBAL_EVENT:
+                processGlobalEvent();
+                break;
+        case PROCESS_REGION_EVENT:
+                processRegionEvent();
+                break;
+        case REGION_INFO:
+                handleGetRegionInfo();
+                break;
+        case TRANSLATORS:
+                handleGetTranslators();
+                break;
+        default:
+                System.out.println("Error - message not recognized: " + type);
+                break;
+        }
+}
+}}}
+
+<font face="arial" size="3">
+Notice that the code above simply checks the message type and hands off the processing of each message to appropriate handler functions.  This is generally a good idea, and encouraged in implementation of your client application.  I will describe in detail each handler function below.
+
+The first handler function is handleGetRegionID.  This function is called when AQUA-G recognizes an event that should be passed to a component in your user interface.  After the message type is sent, AQUA-G sends three floating-point numbers which represent the x, y, and z location of the new event.  X and Y values will be normalized between 0 and 1, where (0,0) represents the upper left corner of the screen, and (1,1) represents the lower right corner.  Z values may not be normalized as they differ depending on input device, but the convention is centimeters from the surface of your display, increasing as distance increases.  
+
+Your code must return a unique identifier for the component which this event occurred over.  To do this, you must keep track of the locations of all of your GUI components or have some means of determining which component lies where.  Java provides this through the getComponentAt() method, and other GUI frameworks should be able to perform similar actions.  It is up to you to maintain unique identifiers for each component.
+
+Here is the code for handling the getRegionID message:
+</font>
+
+{{{
+/**
+ * Handles the getRegionID message.
+ */
+private void handleGetRegionID() throws IOException {
+        float[] location = new float[3];
+        location[0] = _input.readFloat();
+        location[1] = _input.readFloat();
+        location[2] = _input.readFloat();
+        
+        //System.out.println("Received Location - x:" + location[0] + ", y:" + 
+        //              location[1] + ", z:" + location[2]);
+        if (location[0] < 0.5) {
+                _output.writeInt(1);
+        } else {
+                _output.writeInt(0);
+        }
+}
+}}}
+
+<font face="arial" size="3">
+The code maintains simply two groups, one for the left half of the screen, and one for the right half of the screen.  The group ID should be written back to AQUA-G as an integer value.
+
+AQUA-G needs to know which global gestures should be allowed for your application.  Global gestures are those which are not associated with a particular UI component in your application.  These gestures are generally things such as a “shake,” “wave,” or similar gesture, though technically any gesture can be classified as a global gesture.  These gestures will receive all of the events from the input devices and process them accordingly.
+
+Furthermore, you may specify global allowed events, which will always be sent to your client application.  You can use this to specify a certain type of event which should be passed directly to your application without being passed to individual widgets.  For example, you may want to receive all touch events regardless of the component they occurred over if you want to log touch point information in your application.
+
+In order to determine these global gestures, AQUA-G sends your application the “Get Global Info” message.  Your application must implement the following protocol to send the allowed global gestures back to AQUA-G:
+  * Send an integer value representing the number of allowed global gestures.
+  * Send each gesture name as a NULL-TERMINATED string.
+  * Send an integer value representing the number of allowed global events.
+  * Send each event name as as NULL-TERMINATED string.
+
+You can also write “0” as the number of gestures or events and simply not write any strings, if you do not wish to receive gestures.
+
+Here is sample code which performs this action:
+</font>
+
+{{{
+/**
+ * Handles the getGlobalInfo message.
+ */
+private void handleGetGlobalInfo() throws IOException {
+        
+        // Sent gestures as null-terminated strings.
+        _output.writeInt(1);
+        _output.writeBytes("HelloWorldGesture\0");
+                
+        // Send the events
+        _output.writeInt(1);
+        _output.writeBytes(“UnifiedEvent\0”);
+}
+}}}
+
+<font face="arial" size="3">
+Similarly, AQUA-G will require knowledge of the event translators allowed for your client application.  Event translators are gestures which generally consume some events and translate them into other events.  An example of an event translator is a gesture which converts WiiMote accelerometer values into velocity or position values.  Another example could be a gesture which associates touch point information with hand location information provided by two separate input systems.  The code for returning this information is as follows:
+</font>
+
+{{{
+/**
+ * Handles the getTranslators message.
+ */
+private void handleGetTranslators() throws IOException {
+        
+        // Send # of translators.
+        _output.writeInt(1);
+        
+        // Send translator names.
+        _output.writeBytes(“UserIDHandGesture\0”);
+}
+}}}
+
+<font face="arial" size="3">
+Now that you have set up the global gestures and event translators, and know how to return a unique identifier for each region in your UI, you are almost ready to begin processing events.  After AQUA-G handles an incoming input device events by asking your application for the region ID, it will need to know the allowed gestures for that region.  For example, allowed gestures for a photo in a photo organizing application would be zoom, rotate, and drag.
+
+AQUA-G will request region information by sending your application a GET_REGION_INFO message.  Then, it will send you the unique region ID which it is requesting information for.  Here is some example code which will process this message appropriately.  If the region ID is 1, the application will return a HelloWorld Gesture and a DragGesture; if the regionID is anything else, no gestures are allowed.  When processing this message, you should send AQUA-G a single integer representing the number of allowed gestures, follow by a null-terminated string containing the name of each gesture.  Then, you may also tell AQUA-G which events should be allowed from this region.  For example, you may choose to receive a “WaveEvent” or “ShakeEvent” on a particular region.  These events would normally come from global gestures and be allowed there, but you can allow them on a region-level only if you so desire.
+</font>
+
+{{{
+/**
+ * Handles the getRegionInfo message.
+ */
+private void handleGetRegionInfo() throws IOException {
+        
+        int regionID = _input.readInt();
+        if (regionID == 1) {
+                _output.writeInt(2);
+                _output.writeBytes("HelloWorldGesture\0");
+                _output.writeBytes(“UnifiedDragGesture\0”);
+                
+                _output.writeInt(1);
+                _output.writeBytes(“WaveEvent\0”);
+        } else {
+                _output.writeInt(0);
+                _output.writeInt(0);
+        }
+}
+}}}
+
+<font face="arial" size="3">
+Now, you have handled all messages for which action is required.  The only two messages left are the PROCESS_REGION_EVENT and PROCESS_GLOBAL_EVENT messages.  These two messages are sent when AQUA-G sends your application an event.  Here is code which will process these two events.  In sending the PROCESS_REGION_EVENT message, AQUA-G will send your application an integer value, which is the unique Region ID which that event should be passed to.  In the PROCESS_GLOBAL_EVENT message, no regionID is sent.
+
+After receiving the regionID if necessary, your application needs to read the event from the socket.  AQUA-G will first send a short integer representing the number of bytes in the event will send you.  You should read this first, then continue by reading the specified number of bytes from the socket and placing them into an array.
+
+In practice, event un-serialization is typically handled by the event constructor.  The first data in the event array is the name of the event.  You can read the name of the event by reading data from your array that you received until you reach a null character.  You can then compare this name and create the appropriate event, as shown in the sample code below.
+</font>
+
+{{{
+/**
+ * Handles the processGlobalEvent message.
+ */
+private void processGlobalEvent() throws IOException {
+        
+        //System.out.println("Got global event.");
+        short length = _input.readShort();
+        byte[] data = new byte[length];
+                
+        _input.read(data, 0, length);
+        String name = "";
+        
+        int index = 0;
+
+        while (data[index] != '\0') {
+                name += (char)data[index++];
+        }
+                
+        Event e = null;
+                
+        if (name.equals("UnifiedEvent")) {
+                e = new UnifiedEvent(data);
+        }
+        if (name.equals("UnifiedZoomEvent")) {
+                e = new UnifiedEvent(data);
+        }
+                
+        _tracker.processEvent(e);
+}
+        
+/**
+ * Handles the processRegionEvent message.
+ */
+private void processRegionEvent() throws IOException {
+        
+        // Read the region identifier        
+        int regionID = _input.readInt();
+                
+        short length = _input.readShort();
+        byte[] data = new byte[length];
+                
+        _input.read(data, 0, length);
+        
+        String name = "";
+        
+        int index = 0;
+        while (data[index] != '\0') {
+                name += (char)data[index++];
+        }
+               
+        Event e = null;
+                
+        if (name.equals("UnifiedDragEvent")) {
+                e = new UnifiedDragEvent(data);
+        } else if (name.equals("UnifiedZoomEvent")) {
+                e = new UnifiedZoomEvent(data);
+        } else if (name.equals("Unified2DRotateEvent")) {
+                e = new Unified2DRotateEvent(data);
+        }
+                
+        for (AquaPhoto p : _photos) {
+                if (p.getID() == regionID) {
+                        p.processEvent(e);
+                }
+        }
+}
+}}}
+
+<font face="arial" size="3">
+That’s it!  Those are all of the messages you need to process to write an AQUA-G client application.
+</font>
+
+= Where do I go next? =
+<font face="arial" size="3">
+From here, it will be very beneficial for you to review example code.  Sample client application projects are available in Java and C++ on the Downloads page (coming soon).  Furthermore, the code for a Java application is located in the applications/AquaPhotos directory.  Some of the code in this tutorial is taken directly from that application.
+
+Please feel free to join the google group and ask questions if you have any.  I will do my best to respond as quickly as possible.
+</font>
