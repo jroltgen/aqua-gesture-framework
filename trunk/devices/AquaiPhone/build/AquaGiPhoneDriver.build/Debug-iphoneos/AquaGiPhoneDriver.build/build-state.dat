@@ -1,0 +1,607 @@
+TAquaGiPhoneDriver
+v7
+r0
+t292876527.155907
+cCheck dependencies
+cCpResource build/Debug-iphoneos/AquaGiPhoneDriver.app/ResourceRules.plist /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/ResourceRules.plist
+cProcessInfoPlistFile /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/Info.plist AquaGiPhoneDriver-Info.plist
+cCompileXIB /Users/amilosch/Desktop/AquaGiPhoneDriver/FlipsideView.xib
+cCompileXIB /Users/amilosch/Desktop/AquaGiPhoneDriver/MainView.xib
+cCompileXIB /Users/amilosch/Desktop/AquaGiPhoneDriver/MainWindow.xib
+cCopyPNGFile /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/logo.png logo.png
+cProcessPCH /var/folders/xw/xweOkYhcFx0LnMu7s2LnX++++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/AquaGiPhoneDriver_Prefix-dxzuzxiaanpcjwfliqztanmopehi/AquaGiPhoneDriver_Prefix.pch.gch AquaGiPhoneDriver_Prefix.pch normal armv6 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/main.o /Users/amilosch/Desktop/AquaGiPhoneDriver/main.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/AquaGiPhoneDriverAppDelegate.o /Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/AquaGiPhoneDriverAppDelegate.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/MainViewController.o /Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/MainViewController.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/FlipsideViewController.o /Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/FlipsideViewController.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/AquaConnection.o /Users/amilosch/Desktop/AquaGiPhoneDriver/AquaConnection.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/UnifiedEvent.o /Users/amilosch/Desktop/AquaGiPhoneDriver/UnifiedEvent.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/EndianConverter.o /Users/amilosch/Desktop/AquaGiPhoneDriver/EndianConverter.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+cLd /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/AquaGiPhoneDriver normal armv6
+cGenerateDSYMFile /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app.dSYM /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/AquaGiPhoneDriver
+cProcessProductPackaging "/Users/amilosch/Library/MobileDevice/Provisioning Profiles/64569E61-ED1F-4D73-B8E7-846C0FF98435.mobileprovision" /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/embedded.mobileprovision
+cTouch /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app
+cProcessProductPackaging /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/Entitlements.plist /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver.xcent
+cCodeSign /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk
+c000000004B79A1A50000000000000110
+t1266262437
+s272
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/Entitlements.plist
+c000000004B2B3B9F00000000000000DD
+t1261124511
+s221
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/ResourceRules.plist
+c000000004B2B3B9F00000000000001E5
+t1261124511
+s485
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics
+c000000004B2B537900000000005F4900
+t1261130617
+s6244608
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/System/Library/Frameworks/Foundation.framework/Foundation
+c000000004B2B551F0000000000501370
+t1261131039
+s5247856
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h
+c000000004B2B54F40000000000001355
+t1261130996
+s4949
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.h
+c000000004B2B61610000000000000788
+t1261134177
+s1928
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/System/Library/Frameworks/UIKit.framework/UIKit
+c000000004B2B63DA0000000001B3F450
+t1261134810
+s28570704
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/usr/include/Availability.h
+c000000004B2B564700000000000019F9
+t1261131335
+s6649
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/usr/include/netdb.h
+c000000004B2B3F270000000000003057
+t1261125415
+s12375
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/usr/include/netinet/in.h
+c000000004B2B49E4000000000000535B
+t1261128164
+s21339
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/usr/include/sys/socket.h
+c000000004B2B49EE0000000000005660
+t1261128174
+s22112
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/usr/include/sys/types.h
+c000000004B2B49EF000000000000290F
+t1261128175
+s10511
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk
+c000000004BA82B910000000000000110
+t1269312401
+s272
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk/ResourceRules.plist
+c000000004B9F103D00000000000001E5
+t1268715581
+s485
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics
+c000000004BA03AC100000000003B4B70
+t1268792001
+s3885936
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk/System/Library/Frameworks/Foundation.framework/Foundation
+c000000004B9F26D2000000000036A650
+t1268721362
+s3581520
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h
+c000000004B9F26B90000000000001355
+t1268721337
+s4949
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.h
+c000000004B9F318D000000000000098F
+t1268724109
+s2447
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk/System/Library/Frameworks/UIKit.framework/UIKit
+c000000004B9F32090000000002703230
+t1268724233
+s40907312
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk/usr/include/Availability.h
+c000000004B9F27C60000000000001A1A
+t1268721606
+s6682
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk/usr/include/netdb.h
+c000000004B9F134C000000000000307F
+t1268716364
+s12415
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk/usr/include/netinet/in.h
+c000000004B9F1BC8000000000000539D
+t1268718536
+s21405
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk/usr/include/sys/socket.h
+c000000004B9F1BE000000000000059BC
+t1268718560
+s22972
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk/usr/include/sys/types.h
+c000000004B9F1BE40000000000002905
+t1268718564
+s10501
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/AquaConnection.h
+c000000004BC396B70000000000000253
+t1271109303
+s595
+i<Foundation/Foundation.h>
+i<sys/types.h>
+i<sys/socket.h>
+i<netinet/in.h>
+i<netdb.h>
+i"UnifiedEvent.h"
+i"EndianConverter.h"
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/AquaConnection.m
+c000000004BC397A20000000000000AA9
+t1271109538
+s2729
+i"AquaConnection.h"
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/AquaGiPhoneDriver_Prefix.pch
+c000000004BB7AC930000000000000154
+t1270328467
+s340
+i<Availability.h>
+i<Foundation/Foundation.h>
+i<UIKit/UIKit.h>
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/AquaTouch.h
+c000000004BC27C9700000000000000E2
+t1271037079
+s226
+i<Foundation/Foundation.h>
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/AquaTouch.m
+c000000004BC27C9700000000000000CB
+t1271037079
+s203
+i"AquaTouch.h"
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/AquaGiPhoneDriverAppDelegate.h
+c000000004BC281CB0000000000000233
+t1271038411
+s563
+i<UIKit/UIKit.h>
+i"AquaConnection.h"
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/AquaGiPhoneDriverAppDelegate.m
+c000000004BC28292000000000000040C
+t1271038610
+s1036
+i"AquaGiPhoneDriverAppDelegate.h"
+i"MainViewController.h"
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/FlipsideViewController.h
+c000000004BC3937A00000000000003BE
+t1271108474
+s958
+i<UIKit/UIKit.h>
+i"AquaConnection.h"
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/FlipsideViewController.m
+c000000004BC4AE9A00000000000005AB
+t1271180954
+s1451
+i"FlipsideViewController.h"
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/MainViewController.h
+c000000004BC4B1A90000000000000214
+t1271181737
+s532
+i"FlipsideViewController.h"
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/MainViewController.m
+c000000004BC4B20E000000000000150B
+t1271181838
+s5387
+i"MainViewController.h"
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/EndianConverter.h
+c000000004BC233C8000000000000017A
+t1271018440
+s378
+i<Foundation/Foundation.h>
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/EndianConverter.m
+c000000004BC3571B00000000000003D2
+t1271093019
+s978
+i"EndianConverter.h"
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/FlipsideView.xib
+c000000004BC4B65D00000000000073B9
+t1271182941
+s29625
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/MainView.xib
+c000000004BC3CF9B00000000000048A2
+t1271123867
+s18594
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/MainWindow.xib
+c000000004BB7AC930000000000001FED
+t1270328467
+s8173
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/UnifiedEvent.h
+c000000004BC3541200000000000002AD
+t1271092242
+s685
+i<Foundation/Foundation.h>
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/UnifiedEvent.m
+c000000004BC38C4B00000000000009D7
+t1271106635
+s2519
+i"EndianConverter.h"
+i"UnifiedEvent.h"
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver.xcent
+t1271125103
+s321
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/AquaConnection.o
+t1271123689
+s15148
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/AquaGiPhoneDriver.LinkFileList
+c000000004BC281480000000000000422
+t1271038280
+s1058
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/AquaGiPhoneDriverAppDelegate.o
+t1271181738
+s42316
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/AquaTouch.o
+t2
+s0
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/EndianConverter.o
+t1271123689
+s7260
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/FlipsideViewController.o
+t1271180954
+s37768
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/MainViewController.o
+t1271181838
+s46116
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/UnifiedEvent.o
+t1271123689
+s10956
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/main.o
+t1271038282
+s6452
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app
+t1271183019
+s442
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app.dSYM
+t1271181838
+s102
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/AquaGiPhoneDriver
+t1271181838
+s44336
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/FlipsideView.nib
+t1271183019
+s4302
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/Info.plist
+t1271125101
+s836
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/MainView.nib
+t1271123871
+s1995
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/MainWindow.nib
+t1271038281
+s1404
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/PkgInfo
+t1271125101
+s8
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/ResourceRules.plist
+t1271038280
+s485
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/embedded.mobileprovision
+t1271038282
+s15382
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/logo.png
+t1271125101
+s14203
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/logo.png
+c000000004BC3D1E80000000000003320
+t1271124456
+s13088
+
+N/Users/amilosch/Desktop/AquaGiPhoneDriver/main.m
+c000000004BB7AC930000000000000172
+t1270328467
+s370
+i<UIKit/UIKit.h>
+
+N/Users/amilosch/Library/MobileDevice/Provisioning Profiles/64569E61-ED1F-4D73-B8E7-846C0FF98435.mobileprovision
+c000000004B9E9E5E0000000000003C16
+t1268686430
+s15382
+
+N/var/folders/xw/xweOkYhcFx0LnMu7s2LnX++++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/AquaGiPhoneDriver_Prefix-dxzuzxiaanpcjwfliqztanmopehi/AquaGiPhoneDriver_Prefix.pch.gch
+t1271038282
+s8388792
+
+N/var/folders/xw/xweOkYhcFx0LnMu7s2LnX++++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/AquaGiPhoneDriver_Prefix-eqsgbtfqkjelabdjnecoxkjwxzdd/AquaGiPhoneDriver_Prefix.pch.gch
+t2
+s0
+
+NAquaGiPhoneDriver-Info.plist
+c000000004BC3D3C20000000000000459
+t1271124930
+s1113
+
+CCheck dependencies
+r0
+lSLF07#2@18"Check dependencies292876527#292876527#0(0"0(0#1#0"4300911832#0"0#
+
+CCodeSign /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app
+s292875819.314291
+e292875819.521364
+r1
+xCodeSign
+x/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app
+o/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app: replacing existing signature
+lSLF07#2@51"CodeSign build/Debug-iphoneos/AquaGiPhoneDriver.app292875819#292875819#0(115"/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app: replacing existing signature0(0#0#84"/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app4300911832#731"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv IGNORE_CODESIGN_ALLOCATE_RADAR_7181968 /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /usr/bin/codesign -f -s "iPhone Developer: Steven Kovarik (MVX8Y2M7QQ)" --resource-rules=/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/ResourceRules.plist --entitlements /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver.xcent /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app0#
+
+CCompileC build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/AquaConnection.o /Users/amilosch/Desktop/AquaGiPhoneDriver/AquaConnection.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+s292816489.415056
+e292816489.524429
+r1
+xCompileC
+xbuild/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/AquaConnection.o
+x/Users/amilosch/Desktop/AquaGiPhoneDriver/AquaConnection.m
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@66"Compile /Users/amilosch/Desktop/AquaGiPhoneDriver/AquaConnection.m292816489#292816489#0(0"0(0#0#58"/Users/amilosch/Desktop/AquaGiPhoneDriver/AquaConnection.m4300911832#1981"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.3 -iquote /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-generated-files.hmap -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-own-target-headers.hmap -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-all-target-headers.hmap -iquote /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-project-headers.hmap -F/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/include -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/DerivedSources/armv6 -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/DerivedSources -include /var/folders/xw/xweOkYhcFx0LnMu7s2LnX++++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/AquaGiPhoneDriver_Prefix-dxzuzxiaanpcjwfliqztanmopehi/AquaGiPhoneDriver_Prefix.pch -c /Users/amilosch/Desktop/AquaGiPhoneDriver/AquaConnection.m -o /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/AquaConnection.o0#
+
+CCompileC build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/AquaGiPhoneDriverAppDelegate.o /Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/AquaGiPhoneDriverAppDelegate.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+s292874537.857482
+e292874538.220337
+r1
+xCompileC
+xbuild/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/AquaGiPhoneDriverAppDelegate.o
+x/Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/AquaGiPhoneDriverAppDelegate.m
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@88"Compile /Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/AquaGiPhoneDriverAppDelegate.m292874537#292874538#0(0"0(0#0#80"/Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/AquaGiPhoneDriverAppDelegate.m4300911832#2017"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.3 -iquote /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-generated-files.hmap -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-own-target-headers.hmap -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-all-target-headers.hmap -iquote /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-project-headers.hmap -F/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/include -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/DerivedSources/armv6 -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/DerivedSources -include /var/folders/xw/xweOkYhcFx0LnMu7s2LnX++++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/AquaGiPhoneDriver_Prefix-dxzuzxiaanpcjwfliqztanmopehi/AquaGiPhoneDriver_Prefix.pch -c /Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/AquaGiPhoneDriverAppDelegate.m -o /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/AquaGiPhoneDriverAppDelegate.o0#
+
+CCompileC build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/AquaTouch.o /Users/amilosch/Desktop/AquaGiPhoneDriver/AquaTouch.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+r0
+
+CCompileC build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/EndianConverter.o /Users/amilosch/Desktop/AquaGiPhoneDriver/EndianConverter.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+s292816489.561179
+e292816489.672981
+r1
+xCompileC
+xbuild/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/EndianConverter.o
+x/Users/amilosch/Desktop/AquaGiPhoneDriver/EndianConverter.m
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@67"Compile /Users/amilosch/Desktop/AquaGiPhoneDriver/EndianConverter.m292816489#292816489#0(0"0(0#0#59"/Users/amilosch/Desktop/AquaGiPhoneDriver/EndianConverter.m4300911832#1983"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.3 -iquote /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-generated-files.hmap -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-own-target-headers.hmap -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-all-target-headers.hmap -iquote /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-project-headers.hmap -F/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/include -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/DerivedSources/armv6 -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/DerivedSources -include /var/folders/xw/xweOkYhcFx0LnMu7s2LnX++++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/AquaGiPhoneDriver_Prefix-dxzuzxiaanpcjwfliqztanmopehi/AquaGiPhoneDriver_Prefix.pch -c /Users/amilosch/Desktop/AquaGiPhoneDriver/EndianConverter.m -o /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/EndianConverter.o0#
+
+CCompileC build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/FlipsideViewController.o /Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/FlipsideViewController.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+s292873754.317784
+e292873754.435414
+r1
+xCompileC
+xbuild/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/FlipsideViewController.o
+x/Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/FlipsideViewController.m
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@82"Compile /Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/FlipsideViewController.m292873754#292873754#0(0"0(0#0#74"/Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/FlipsideViewController.m4300911832#2005"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.3 -iquote /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-generated-files.hmap -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-own-target-headers.hmap -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-all-target-headers.hmap -iquote /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-project-headers.hmap -F/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/include -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/DerivedSources/armv6 -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/DerivedSources -include /var/folders/xw/xweOkYhcFx0LnMu7s2LnX++++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/AquaGiPhoneDriver_Prefix-dxzuzxiaanpcjwfliqztanmopehi/AquaGiPhoneDriver_Prefix.pch -c /Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/FlipsideViewController.m -o /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/FlipsideViewController.o0#
+
+CCompileC build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/MainViewController.o /Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/MainViewController.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+s292874638.738714
+e292874638.883859
+r1
+xCompileC
+xbuild/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/MainViewController.o
+x/Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/MainViewController.m
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@78"Compile /Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/MainViewController.m292874638#292874638#0(0"0(0#0#70"/Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/MainViewController.m4300911832#1997"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.3 -iquote /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-generated-files.hmap -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-own-target-headers.hmap -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-all-target-headers.hmap -iquote /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-project-headers.hmap -F/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/include -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/DerivedSources/armv6 -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/DerivedSources -include /var/folders/xw/xweOkYhcFx0LnMu7s2LnX++++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/AquaGiPhoneDriver_Prefix-dxzuzxiaanpcjwfliqztanmopehi/AquaGiPhoneDriver_Prefix.pch -c /Users/amilosch/Desktop/AquaGiPhoneDriver/Classes/MainViewController.m -o /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/MainViewController.o0#
+
+CCompileC build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/UnifiedEvent.o /Users/amilosch/Desktop/AquaGiPhoneDriver/UnifiedEvent.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+s292816489.524563
+e292816489.628945
+r1
+xCompileC
+xbuild/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/UnifiedEvent.o
+x/Users/amilosch/Desktop/AquaGiPhoneDriver/UnifiedEvent.m
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@64"Compile /Users/amilosch/Desktop/AquaGiPhoneDriver/UnifiedEvent.m292816489#292816489#0(0"0(0#0#56"/Users/amilosch/Desktop/AquaGiPhoneDriver/UnifiedEvent.m4300911832#1977"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.3 -iquote /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-generated-files.hmap -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-own-target-headers.hmap -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-all-target-headers.hmap -iquote /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-project-headers.hmap -F/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/include -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/DerivedSources/armv6 -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/DerivedSources -include /var/folders/xw/xweOkYhcFx0LnMu7s2LnX++++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/AquaGiPhoneDriver_Prefix-dxzuzxiaanpcjwfliqztanmopehi/AquaGiPhoneDriver_Prefix.pch -c /Users/amilosch/Desktop/AquaGiPhoneDriver/UnifiedEvent.m -o /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/UnifiedEvent.o0#
+
+CCompileC build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/main.o /Users/amilosch/Desktop/AquaGiPhoneDriver/main.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+s292731082.224284
+e292731082.291171
+r1
+xCompileC
+xbuild/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/main.o
+x/Users/amilosch/Desktop/AquaGiPhoneDriver/main.m
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@56"Compile /Users/amilosch/Desktop/AquaGiPhoneDriver/main.m292731082#292731082#0(0"0(0#0#48"/Users/amilosch/Desktop/AquaGiPhoneDriver/main.m4300911832#1961"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.3 -iquote /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-generated-files.hmap -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-own-target-headers.hmap -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-all-target-headers.hmap -iquote /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-project-headers.hmap -F/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/include -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/DerivedSources/armv6 -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/DerivedSources -include /var/folders/xw/xweOkYhcFx0LnMu7s2LnX++++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/AquaGiPhoneDriver_Prefix-dxzuzxiaanpcjwfliqztanmopehi/AquaGiPhoneDriver_Prefix.pch -c /Users/amilosch/Desktop/AquaGiPhoneDriver/main.m -o /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/main.o0#
+
+CCompileXIB /Users/amilosch/Desktop/AquaGiPhoneDriver/FlipsideView.xib
+s292875818.871648
+e292875819.307939
+r1
+xCompileXIB
+x/Users/amilosch/Desktop/AquaGiPhoneDriver/FlipsideView.xib
+lSLF07#2@27"CompileXIB FlipsideView.xib292875818#292875819#0(0"0(0#0#58"/Users/amilosch/Desktop/AquaGiPhoneDriver/FlipsideView.xib13229770588487796#491"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv IBC_MINIMUM_COMPATIBILITY_VERSION 3.1.3    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/usr/bin/ibtool --errors --warnings --notices --output-format human-readable-text --compile /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/FlipsideView.nib /Users/amilosch/Desktop/AquaGiPhoneDriver/FlipsideView.xib0#
+
+CCompileXIB /Users/amilosch/Desktop/AquaGiPhoneDriver/MainView.xib
+s292816671.111316
+e292816671.538186
+r1
+xCompileXIB
+x/Users/amilosch/Desktop/AquaGiPhoneDriver/MainView.xib
+lSLF07#2@23"CompileXIB MainView.xib292816671#292816671#0(0"0(0#0#54"/Users/amilosch/Desktop/AquaGiPhoneDriver/MainView.xib4300911832#483"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv IBC_MINIMUM_COMPATIBILITY_VERSION 3.1.3    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/usr/bin/ibtool --errors --warnings --notices --output-format human-readable-text --compile /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/MainView.nib /Users/amilosch/Desktop/AquaGiPhoneDriver/MainView.xib0#
+
+CCompileXIB /Users/amilosch/Desktop/AquaGiPhoneDriver/MainWindow.xib
+s292731081.140129
+e292731081.542146
+r1
+xCompileXIB
+x/Users/amilosch/Desktop/AquaGiPhoneDriver/MainWindow.xib
+lSLF07#2@25"CompileXIB MainWindow.xib292731081#292731081#0(0"0(0#0#56"/Users/amilosch/Desktop/AquaGiPhoneDriver/MainWindow.xib4300911832#487"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv IBC_MINIMUM_COMPATIBILITY_VERSION 3.1.3    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/usr/bin/ibtool --errors --warnings --notices --output-format human-readable-text --compile /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/MainWindow.nib /Users/amilosch/Desktop/AquaGiPhoneDriver/MainWindow.xib0#
+
+CCopyPNGFile /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/logo.png logo.png
+s292817901.836119
+e292817901.975981
+r1
+xCopyPNGFile
+x/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/logo.png
+xlogo.png
+lSLF07#2@72"CopyPNGFile build/Debug-iphoneos/AquaGiPhoneDriver.app/logo.png logo.png292817901#292817901#0(0"0(0#0#50"/Users/amilosch/Desktop/AquaGiPhoneDriver/logo.png4300911832#575"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv COPY_COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    "/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Plug-ins/iPhoneOS Build System Support.xcplugin/Contents/Resources/copypng" -compress "" /Users/amilosch/Desktop/AquaGiPhoneDriver/logo.png /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/logo.png0#
+
+CCpResource build/Debug-iphoneos/AquaGiPhoneDriver.app/ResourceRules.plist /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/ResourceRules.plist
+s292731080.389499
+e292731080.414645
+r1
+xCpResource
+xbuild/Debug-iphoneos/AquaGiPhoneDriver.app/ResourceRules.plist
+x/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/ResourceRules.plist
+lSLF07#2@96"Copy /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/ResourceRules.plist292731080#292731080#0(0"0(0#0#91"/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/ResourceRules.plist4300911832#498"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/ResourceRules.plist /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app0#
+
+CCpResource build/Debug-iphoneos/AquaGiPhoneDriver.app/ResourceRules.plist /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk/ResourceRules.plist
+r0
+
+CGenerateDSYMFile /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app.dSYM /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/AquaGiPhoneDriver
+s292874638.935852
+e292874638.968254
+r1
+xGenerateDSYMFile
+x/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app.dSYM
+x/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/AquaGiPhoneDriver
+lSLF07#2@125"GenerateDSYMFile build/Debug-iphoneos/AquaGiPhoneDriver.app.dSYM build/Debug-iphoneos/AquaGiPhoneDriver.app/AquaGiPhoneDriver292874638#292874638#0(0"0(0#0#102"/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/AquaGiPhoneDriver4300911832#401"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/usr/bin/dsymutil /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/AquaGiPhoneDriver -o /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app.dSYM0#
+
+CLd /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/AquaGiPhoneDriver normal armv6
+s292874638.883965
+e292874638.935729
+r1
+xLd
+x/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/AquaGiPhoneDriver
+xnormal
+xarmv6
+lSLF07#2@107"Link /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/AquaGiPhoneDriver292874638#292874638#0(0"0(0#0#0"4300911832#893"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv IPHONEOS_DEPLOYMENT_TARGET 3.1.3    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -arch armv6 -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk -L/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos -F/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos -filelist /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/Objects-normal/armv6/AquaGiPhoneDriver.LinkFileList -dead_strip -miphoneos-version-min=3.1.3 -framework Foundation -framework UIKit -framework CoreGraphics -o /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/AquaGiPhoneDriver0#
+
+CProcessInfoPlistFile /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/Info.plist AquaGiPhoneDriver-Info.plist
+s292817901.818600
+e292817901.833882
+r1
+xProcessInfoPlistFile
+x/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/Info.plist
+xAquaGiPhoneDriver-Info.plist
+lSLF07#2@36"Process AquaGiPhoneDriver-Info.plist292817901#292817901#0(0"0(0#0#70"/Users/amilosch/Desktop/AquaGiPhoneDriver/AquaGiPhoneDriver-Info.plist4300911832#614"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    builtin-infoPlistUtility AquaGiPhoneDriver-Info.plist -genpkginfo /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/PkgInfo -expandbuildsettings -format binary -platform iphoneos -resourcerulesfile /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/ResourceRules.plist -o /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/Info.plist0#
+
+CProcessPCH /var/folders/xw/xweOkYhcFx0LnMu7s2LnX++++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/AquaGiPhoneDriver_Prefix-dxzuzxiaanpcjwfliqztanmopehi/AquaGiPhoneDriver_Prefix.pch.gch AquaGiPhoneDriver_Prefix.pch normal armv6 objective-c com.apple.compilers.gcc.4_2
+s292731081.542304
+e292731082.224022
+r1
+xProcessPCH
+x/var/folders/xw/xweOkYhcFx0LnMu7s2LnX++++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/AquaGiPhoneDriver_Prefix-dxzuzxiaanpcjwfliqztanmopehi/AquaGiPhoneDriver_Prefix.pch.gch
+xAquaGiPhoneDriver_Prefix.pch
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@39"Precompile AquaGiPhoneDriver_Prefix.pch292731081#292731082#0(0"0(0#0#70"/Users/amilosch/Desktop/AquaGiPhoneDriver/AquaGiPhoneDriver_Prefix.pch4300911832#1846"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c-header -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.3 -iquote /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-generated-files.hmap -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-own-target-headers.hmap -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-all-target-headers.hmap -iquote /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver-project-headers.hmap -F/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/include -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/DerivedSources/armv6 -I/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/DerivedSources -c /Users/amilosch/Desktop/AquaGiPhoneDriver/AquaGiPhoneDriver_Prefix.pch -o /var/folders/xw/xweOkYhcFx0LnMu7s2LnX++++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/AquaGiPhoneDriver_Prefix-dxzuzxiaanpcjwfliqztanmopehi/AquaGiPhoneDriver_Prefix.pch.gch0#
+
+CProcessPCH /var/folders/xw/xweOkYhcFx0LnMu7s2LnX++++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/AquaGiPhoneDriver_Prefix-eqsgbtfqkjelabdjnecoxkjwxzdd/AquaGiPhoneDriver_Prefix.pch.gch AquaGiPhoneDriver_Prefix.pch normal armv6 objective-c com.apple.compilers.gcc.4_2
+r0
+
+CProcessProductPackaging "/Users/amilosch/Library/MobileDevice/Provisioning Profiles/64569E61-ED1F-4D73-B8E7-846C0FF98435.mobileprovision" /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/embedded.mobileprovision
+s292731082.690543
+e292731082.692653
+r1
+xProcessProductPackaging
+x/Users/amilosch/Library/MobileDevice/Provisioning Profiles/64569E61-ED1F-4D73-B8E7-846C0FF98435.mobileprovision
+x/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/embedded.mobileprovision
+lSLF07#2@205"ProcessProductPackaging "/Users/amilosch/Library/MobileDevice/Provisioning Profiles/64569E61-ED1F-4D73-B8E7-846C0FF98435.mobileprovision" build/Debug-iphoneos/AquaGiPhoneDriver.app/embedded.mobileprovision292731082#292731082#0(0"0(0#0#109"/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/embedded.mobileprovision4300911832#442"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    <com.apple.tools.product-pkg-utility> "/Users/amilosch/Library/MobileDevice/Provisioning Profiles/64569E61-ED1F-4D73-B8E7-846C0FF98435.mobileprovision" -o /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app/embedded.mobileprovision0#
+
+CProcessProductPackaging /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/Entitlements.plist /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver.xcent
+s292817903.043503
+e292817903.064123
+r1
+xProcessProductPackaging
+x/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/Entitlements.plist
+x/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver.xcent
+lSLF07#2@207"ProcessProductPackaging /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/Entitlements.plist build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver.xcent292817903#292817903#0(0"0(0#0#134"/Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver.xcent4300911832#470"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    <com.apple.tools.product-pkg-utility> /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.3.sdk/Entitlements.plist -entitlements -format xml -o /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver.xcent0#
+
+CProcessProductPackaging /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk/Entitlements.plist /Users/amilosch/Desktop/AquaGiPhoneDriver/build/AquaGiPhoneDriver.build/Debug-iphoneos/AquaGiPhoneDriver.build/AquaGiPhoneDriver.xcent
+r0
+
+CTouch /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app
+s292875819.309166
+e292875819.314079
+r1
+xTouch
+x/Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app
+lSLF07#2@90"Touch /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app292875819#292875819#0(0"0(0#0#0"4300911832#280"    cd /Users/amilosch/Desktop/AquaGiPhoneDriver    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /usr/bin/touch -c /Users/amilosch/Desktop/AquaGiPhoneDriver/build/Debug-iphoneos/AquaGiPhoneDriver.app0#
+
