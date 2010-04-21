@@ -115,7 +115,6 @@ void AquaConnection::getRegionID() {
 	while (remaining > 0) {
 		int bytesRead = read(_socket, (void*) &buffer[length - remaining], 
 				remaining);
-		printf("Get region id bytes read: %d\n", bytesRead);
 		if (bytesRead < 0) {
 			printf("Bytes read: %d\n", bytesRead);
 			socketError("Reading location in getRegionID");
@@ -129,9 +128,9 @@ void AquaConnection::getRegionID() {
 			location[i] = EndianConverter::swapFloatEndian(location[i]);
 		}
 	}
-	
 	// For now, everything will be declared region 2.
 	int regionID = 2;
+    printf("location: %f, %f\n", location[0], location[1]);
 
 	if (EndianConverter::isLittleEndian()) {
 		regionID = EndianConverter::swapIntEndian(regionID);
@@ -167,8 +166,19 @@ void AquaConnection::getRegionInfo() {
 
 	int numGestures = 0;
 	int numEvents = 0;
+    int regionID;
 
-	printf("Getting region info.\n");
+    char buffer[512];
+
+    if (read(_socket, (void*) buffer, 4) != 4) {
+        socketError("Error reading regionID in getRegionInfo.\n");
+    }
+    memcpy(&regionID, buffer, 4);
+    if (EndianConverter::isLittleEndian()) {
+        regionID = EndianConverter::swapIntEndian(regionID);
+    }
+
+	printf("Getting region info for id %d.\n", regionID);
 
 	if (EndianConverter::isLittleEndian()) {
 		numGestures = EndianConverter::swapIntEndian(numGestures);
@@ -186,6 +196,7 @@ void AquaConnection::getRegionInfo() {
 void AquaConnection::processGlobalEvent() {
 	// Length comes in first
 	short length;
+    printf("Processing global event.\n");
 	if (read(_socket, (void*) &length, 2) != 2) {
 		socketError("Reading length in processGlobalEvent");
 	}
@@ -215,6 +226,7 @@ void AquaConnection::processGlobalEvent() {
 void AquaConnection::processRegionEvent() {
 	// Region ID comes in first
 	int regionID;
+    printf("Processing region event.\n");
 	if (read(_socket, (void*) &regionID, 4) != 4) {
 		socketError("Reading Region ID in processRegionEvent.");
 	}
