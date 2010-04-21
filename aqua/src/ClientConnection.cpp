@@ -91,7 +91,8 @@ int ClientConnection::getRegionID(Event* e) {
 					EndianConverter::swapFloatEndian(tempLocation[i]);
         }
     }
-    if (_clientSocket.send(&tempLocation, 12) == AQUASOCKET_RES_ERROR) {
+    printf("Sending location: %d, %d\n", tempLocation, &tempLocation);
+    if (_clientSocket.send(tempLocation, 12) == AQUASOCKET_RES_ERROR) {
         return handleError("Error sending location.\n");
     }
     
