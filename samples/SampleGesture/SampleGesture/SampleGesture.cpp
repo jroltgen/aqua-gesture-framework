@@ -25,7 +25,6 @@
 #include <stdio.h>
  
 #include "SampleGesture.h"
-#include "events/UnifiedEvent.h"
 
 bool SampleGesture::handleEvent(Event* e) {
     printf("Upon receiving event: %s, %f, %f, %f\n", e->getName().c_str(), e->getX(), e->getY(), e->getZ());
@@ -35,7 +34,7 @@ bool SampleGesture::handleEvent(Event* e) {
 
 void SampleGesture::invertEvent(Event* e) {
     float inv[3];
-    Event* newEvent;
+    //Event* newEvent;
 
     std::string desc = "Inverted Event";
     

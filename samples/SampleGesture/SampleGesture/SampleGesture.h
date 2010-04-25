@@ -22,8 +22,8 @@
 #ifndef _SAMPLEGESTURE_H_
 #define _SAMPLEGESTURE_H_
 
-#include "events/Event.h"
-#include "Gesture.h"  
+#include "../../../aqua/src/events/Event.h"
+#include "../../../aqua/src/gestures/Gesture.h"  
 
 class SampleGesture : public Gesture {
 
