@@ -181,7 +181,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\Gesture.h"
+				RelativePath="..\..\..\aqua\src\gestures\Gesture.h"
 				>
 			</File>
 			<File
@@ -199,11 +199,7 @@
 			Name="Events"
 			>
 			<File
-				RelativePath=".\events\Event.h"
-				>
-			</File>
-			<File
-				RelativePath=".\events\UnifiedEvent.h"
+				RelativePath="..\..\..\aqua\src\events\Event.h"
 				>
 			</File>
 		</Filter>
