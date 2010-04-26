@@ -1,0 +1,3 @@
+source_files = ['SampleGesture.cpp']
+
+SharedLibrary('SampleGesture', source_files)
