@@ -175,10 +175,6 @@
 				RelativePath=".\AquaWinCppApp.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\Event.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
