@@ -39,10 +39,9 @@ GetHandIDGesture::GetHandIDGesture(
 }
 
 bool GetHandIDGesture::handleEvent(Event* e) {
-	string handString("HandPositionEvent");
+	string handString("HandPosition");
 	string unifiedString("UnifiedEvent");
-	
-	if (e->getName().compare(handString) == 0) {
+	if (e->getDesc().compare(handString) == 0) {
 		handleHandUpdate(e);
 		return false;
 	} else if (e->getName().compare(unifiedString) == 0) {
@@ -56,7 +55,12 @@ bool GetHandIDGesture::handleEvent(Event* e) {
  * Update this hand position's entry in the list.
  */
 void GetHandIDGesture::handleHandUpdate(Event* e) {	
-
+	//printf("Handling hand update.\n");
+	if (_handPositions.find(e->getID()) == _handPositions.end()) {
+		// We need to create new space for this new hand.
+		//printf("New hand ID: %d\n", e->getID());
+		_handPositions[e->getID()] = new float[3];
+	}
 	_handPositions[e->getID()][0] = e->getX();
 	_handPositions[e->getID()][1] = e->getY();
 	_handPositions[e->getID()][2] = e->getZ();
@@ -69,23 +73,36 @@ void GetHandIDGesture::handleUnifiedEvent(Event* e) {
 
 	float minDistance = -1;
 	int handID = -1;
-
-	for (it = _handPositions.begin(); it != _handPositions.end(); it++) {
-		float xDif = e->getX() - (*it).second[0];
-		float yDif = e->getY() - (*it).second[1];
-		float zDif = e->getZ() - (*it).second[2];
-
-		float distance = sqrt(xDif * xDif + yDif * yDif + zDif * zDif);
-
-		if (distance < minDistance || minDistance == -1) {
-			minDistance = distance;
-			handID = (*it).first;
+	//printf("Handling unified event");
+	if (e->getType() == EVENT_TYPE_DOWN) {
+		// Calculate the hand id
+		for (it = _handPositions.begin(); it != _handPositions.end(); it++) {
+			float xDif = e->getX() - (*it).second[0];
+			float yDif = e->getY() - (*it).second[1];
+			float zDif = e->getZ() - (*it).second[2];
+	
+			float distance = sqrt(xDif * xDif + yDif * yDif);
+	
+			if (distance < minDistance || minDistance < 0) {
+				minDistance = distance;
+				handID = (*it).first;
+			}
 		}
-	}
+		_eventIDToHandID[e->getID()] = handID;
 
+	} else if (e->getType() == EVENT_TYPE_MOVE) {
+		handID = _eventIDToHandID[e->getID()];
+	} else if (e->getType() == EVENT_TYPE_UP) {
+		handID = _eventIDToHandID[e->getID()];
+		_eventIDToHandID.erase(e->getID());
+	} else { 
+		printf("[GetHandIDGesture] Unrecognized unified event.\n");
+		return;
+	}
+	//printf("Got hand id: %d\n", handID);
 	string name("HandIDTouchEvent");
 	string desc("");
-	HandIDTouchEvent event(name, desc, EVENT_TYPE_OTHER, e->getID(), 
+	HandIDTouchEvent event(name, desc, e->getType(), e->getID(), 
 			e->getLocation(), handID);
 
 	publishEvent(&event);
