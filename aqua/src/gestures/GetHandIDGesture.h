@@ -49,6 +49,7 @@ private:
      * a particular hand ID to a triple (x,y,x).
      */
 	std::map<int, float*> _handPositions;
+	std::map<int, int>    _eventIDToHandID;
 
 // Methods
 public:
