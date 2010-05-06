@@ -1,0 +1,476 @@
+// !$*UTF8*$!
+{
+	1D3623240D0F684500981E51 /* AquaGiPhoneDriverAppDelegate.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {952, 438}}";
+			sepNavSelRange = "{230, 0}";
+			sepNavVisRange = "{0, 630}";
+		};
+	};
+	1D3623250D0F684500981E51 /* AquaGiPhoneDriverAppDelegate.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {952, 585}}";
+			sepNavSelRange = "{230, 0}";
+			sepNavVisRange = "{0, 996}";
+		};
+	};
+	1D6058900D05DD3D006BFB54 /* AquaGiPhoneDriver */ = {
+		activeExec = 0;
+		executables = (
+			588E94D41167E41300E66660 /* AquaGiPhoneDriver */,
+		);
+	};
+	289233A80DB2D0DB0083E9F9 /* MainViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {611, 457}}";
+			sepNavSelRange = "{579, 0}";
+			sepNavVisRange = "{0, 832}";
+			sepNavWindowFrame = "{{171, -734}, {1280, 729}}";
+		};
+	};
+	289233A90DB2D0DB0083E9F9 /* MainViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1104, 2769}}";
+			sepNavSelRange = "{4534, 0}";
+			sepNavVisRange = "{4236, 993}";
+			sepNavWindowFrame = "{{16, 15}, {1280, 729}}";
+		};
+	};
+	289233AC0DB2D0DB0083E9F9 /* FlipsideViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {611, 611}}";
+			sepNavSelRange = "{696, 0}";
+			sepNavVisRange = "{175, 960}";
+			sepNavWindowFrame = "{{0, 49}, {1280, 729}}";
+		};
+	};
+	289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {611, 1339}}";
+			sepNavSelRange = "{502, 0}";
+			sepNavVisRange = "{222, 833}";
+			sepNavWindowFrame = "{{107, 55}, {739, 723}}";
+		};
+	};
+	29B97313FDCFA39411CA2CEA /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeExecutable = 588E94D41167E41300E66660 /* AquaGiPhoneDriver */;
+		activeSDKPreference = iphonesimulator3.1.3;
+		activeTarget = 1D6058900D05DD3D006BFB54 /* AquaGiPhoneDriver */;
+		addToTargets = (
+			1D6058900D05DD3D006BFB54 /* AquaGiPhoneDriver */,
+		);
+		breakpoints = (
+			58BEC8E51172639600FD2FE6 /* Event.h:18 */,
+		);
+		codeSenseManager = 588E94E71167E41F00E66660 /* Code sense */;
+		executables = (
+			588E94D41167E41300E66660 /* AquaGiPhoneDriver */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					433,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.XCSCMDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					20,
+					750,
+					20,
+					48.16259765625,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_SCM_ColumnID,
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					734,
+					60,
+					20,
+					48.16259765625,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 294875832;
+			PBXWorkspaceStateSaveDate = 294875832;
+		};
+		perUserProjectItems = {
+			5803C2D81188A8C90063E4B6 /* PBXTextBookmark */ = 5803C2D81188A8C90063E4B6 /* PBXTextBookmark */;
+			581D1BF2119365FF0029B8EA /* PBXTextBookmark */ = 581D1BF2119365FF0029B8EA /* PBXTextBookmark */;
+			581D1BF3119365FF0029B8EA /* PBXTextBookmark */ = 581D1BF3119365FF0029B8EA /* PBXTextBookmark */;
+			581D1BF4119365FF0029B8EA /* PBXTextBookmark */ = 581D1BF4119365FF0029B8EA /* PBXTextBookmark */;
+			581D1BF5119365FF0029B8EA /* PBXTextBookmark */ = 581D1BF5119365FF0029B8EA /* PBXTextBookmark */;
+			581D1BF6119365FF0029B8EA /* PBXTextBookmark */ = 581D1BF6119365FF0029B8EA /* PBXTextBookmark */;
+			581D1C1B119372AB0029B8EA /* PBXTextBookmark */ = 581D1C1B119372AB0029B8EA /* PBXTextBookmark */;
+			5829B80D1178C4F600A4C763 /* PBXTextBookmark */ = 5829B80D1178C4F600A4C763 /* PBXTextBookmark */;
+			5829B80E1178C4F600A4C763 /* PBXTextBookmark */ = 5829B80E1178C4F600A4C763 /* PBXTextBookmark */;
+			5829B80F1178C4F600A4C763 /* PBXTextBookmark */ = 5829B80F1178C4F600A4C763 /* PBXTextBookmark */;
+			5829B8101178C4F600A4C763 /* PBXTextBookmark */ = 5829B8101178C4F600A4C763 /* PBXTextBookmark */;
+			5829B8171178C4F600A4C763 /* PBXTextBookmark */ = 5829B8171178C4F600A4C763 /* PBXTextBookmark */;
+			5829B8181178C4F600A4C763 /* PBXTextBookmark */ = 5829B8181178C4F600A4C763 /* PBXTextBookmark */;
+			5829B8191178C4F600A4C763 /* PBXTextBookmark */ = 5829B8191178C4F600A4C763 /* PBXTextBookmark */;
+			5892FCE2119372C400A7499E /* PBXTextBookmark */ = 5892FCE2119372C400A7499E /* PBXTextBookmark */;
+			58D6EB8F118764FE005A6CF9 /* PBXTextBookmark */ = 58D6EB8F118764FE005A6CF9 /* PBXTextBookmark */;
+			58D6EBE911876EC7005A6CF9 /* PlistBookmark */ = 58D6EBE911876EC7005A6CF9 /* PlistBookmark */;
+		};
+		sourceControlManager = 588E94E61167E41F00E66660 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	29B97316FDCFA39411CA2CEA /* main.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {952, 391}}";
+			sepNavSelRange = "{206, 0}";
+			sepNavVisRange = "{0, 437}";
+		};
+	};
+	32CA4F630368D1EE00C91783 /* AquaGiPhoneDriver_Prefix.pch */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {952, 438}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 340}";
+		};
+	};
+	5803C2B21188A56E0063E4B6 /* defaultServerAddress.txt */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {886, 521}}";
+			sepNavSelRange = "{25, 0}";
+			sepNavVisRange = "{0, 25}";
+			sepNavWindowFrame = "{{15, 124}, {945, 649}}";
+		};
+	};
+	5803C2D81188A8C90063E4B6 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5803C2B21188A56E0063E4B6 /* defaultServerAddress.txt */;
+		name = "defaultServerAddress.txt: 1";
+		rLen = 0;
+		rLoc = 25;
+		rType = 0;
+		vrLen = 33;
+		vrLoc = 0;
+	};
+	581D1BF2119365FF0029B8EA /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 58A1AE4E116AE93300DA0E6B /* AquaConnection.h */;
+		name = "AquaConnection.h: 28";
+		rLen = 0;
+		rLoc = 601;
+		rType = 0;
+		vrLen = 687;
+		vrLoc = 0;
+	};
+	581D1BF3119365FF0029B8EA /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 289233A80DB2D0DB0083E9F9 /* MainViewController.h */;
+		name = "MainViewController.h: 24";
+		rLen = 0;
+		rLoc = 579;
+		rType = 0;
+		vrLen = 832;
+		vrLoc = 0;
+	};
+	581D1BF4119365FF0029B8EA /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 289233A90DB2D0DB0083E9F9 /* MainViewController.m */;
+		name = "MainViewController.m: 169";
+		rLen = 0;
+		rLoc = 4534;
+		rType = 0;
+		vrLen = 993;
+		vrLoc = 4236;
+	};
+	581D1BF5119365FF0029B8EA /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 58A1AE4F116AE93300DA0E6B /* AquaConnection.m */;
+		name = "AquaConnection.m: 24";
+		rLen = 0;
+		rLoc = 665;
+		rType = 0;
+		vrLen = 904;
+		vrLoc = 550;
+	};
+	581D1BF6119365FF0029B8EA /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 289233AC0DB2D0DB0083E9F9 /* FlipsideViewController.h */;
+		name = "FlipsideViewController.h: 26";
+		rLen = 0;
+		rLoc = 696;
+		rType = 0;
+		vrLen = 960;
+		vrLoc = 175;
+	};
+	581D1C1B119372AB0029B8EA /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */;
+		name = "FlipsideViewController.m: 21";
+		rLen = 0;
+		rLoc = 502;
+		rType = 0;
+		vrLen = 880;
+		vrLoc = 175;
+	};
+	5829B80D1178C4F600A4C763 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 58BEC926117269AD00FD2FE6 /* EndianConverter.h */;
+		name = "EndianConverter.h: 5";
+		rLen = 167;
+		rLoc = 50;
+		rType = 0;
+		vrLen = 444;
+		vrLoc = 0;
+	};
+	5829B80E1178C4F600A4C763 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 58BEC927117269AD00FD2FE6 /* EndianConverter.m */;
+		name = "EndianConverter.m: 8";
+		rLen = 0;
+		rLoc = 217;
+		rType = 0;
+		vrLen = 475;
+		vrLoc = 0;
+	};
+	5829B80F1178C4F600A4C763 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 58BEC8F1117264CF00FD2FE6 /* UnifiedEvent.h */;
+		name = "UnifiedEvent.h: 8";
+		rLen = 0;
+		rLoc = 214;
+		rType = 0;
+		vrLen = 751;
+		vrLoc = 0;
+	};
+	5829B8101178C4F600A4C763 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 58BEC8F2117264CF00FD2FE6 /* UnifiedEvent.m */;
+		name = "UnifiedEvent.m: 8";
+		rLen = 0;
+		rLoc = 214;
+		rType = 0;
+		vrLen = 719;
+		vrLoc = 0;
+	};
+	5829B8171178C4F600A4C763 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623240D0F684500981E51 /* AquaGiPhoneDriverAppDelegate.h */;
+		name = "AquaGiPhoneDriverAppDelegate.h: 8";
+		rLen = 0;
+		rLoc = 230;
+		rType = 0;
+		vrLen = 630;
+		vrLoc = 0;
+	};
+	5829B8181178C4F600A4C763 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* AquaGiPhoneDriverAppDelegate.m */;
+		name = "AquaGiPhoneDriverAppDelegate.m: 8";
+		rLen = 0;
+		rLoc = 230;
+		rType = 0;
+		vrLen = 996;
+		vrLoc = 0;
+	};
+	5829B8191178C4F600A4C763 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 32CA4F630368D1EE00C91783 /* AquaGiPhoneDriver_Prefix.pch */;
+		name = "AquaGiPhoneDriver_Prefix.pch: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 340;
+		vrLoc = 0;
+	};
+	588E94D41167E41300E66660 /* AquaGiPhoneDriver */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = AquaGiPhoneDriver;
+		savedGlobals = {
+		};
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+		variableFormatDictionary = {
+		};
+	};
+	588E94E61167E41F00E66660 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+	};
+	588E94E71167E41F00E66660 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	5892FCE2119372C400A7499E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */;
+		name = "FlipsideViewController.m: 21";
+		rLen = 0;
+		rLoc = 502;
+		rType = 0;
+		vrLen = 833;
+		vrLoc = 222;
+	};
+	58A1AE4E116AE93300DA0E6B /* AquaConnection.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {611, 457}}";
+			sepNavSelRange = "{601, 0}";
+			sepNavVisRange = "{0, 687}";
+		};
+	};
+	58A1AE4F116AE93300DA0E6B /* AquaConnection.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {677, 1586}}";
+			sepNavSelRange = "{665, 0}";
+			sepNavVisRange = "{550, 904}";
+			sepNavWindowFrame = "{{265, 49}, {769, 668}}";
+		};
+	};
+	58BEC8E51172639600FD2FE6 /* Event.h:18 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 58BEC8E61172639600FD2FE6 /* Event.h */;
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 18;
+		modificationTime = 292800013.720354;
+		originalNumberOfMultipleMatches = 1;
+		state = 0;
+	};
+	58BEC8E61172639600FD2FE6 /* Event.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = Event.h;
+		path = /Users/amilosch/Desktop/aqua/sandbox/AquaX11Mouse/Event.h;
+		sourceTree = "<absolute>";
+	};
+	58BEC8F1117264CF00FD2FE6 /* UnifiedEvent.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {952, 438}}";
+			sepNavSelRange = "{214, 0}";
+			sepNavVisRange = "{0, 751}";
+		};
+	};
+	58BEC8F2117264CF00FD2FE6 /* UnifiedEvent.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {952, 1690}}";
+			sepNavSelRange = "{214, 0}";
+			sepNavVisRange = "{0, 719}";
+			sepNavWindowFrame = "{{97, -101}, {1280, 729}}";
+		};
+	};
+	58BEC926117269AD00FD2FE6 /* EndianConverter.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {952, 438}}";
+			sepNavSelRange = "{50, 167}";
+			sepNavVisRange = "{0, 444}";
+		};
+	};
+	58BEC927117269AD00FD2FE6 /* EndianConverter.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {952, 1040}}";
+			sepNavSelRange = "{217, 0}";
+			sepNavVisRange = "{0, 475}";
+		};
+	};
+	58D6EB8F118764FE005A6CF9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 29B97316FDCFA39411CA2CEA /* main.m */;
+		name = "main.m: 8";
+		rLen = 0;
+		rLoc = 206;
+		rType = 0;
+		vrLen = 437;
+		vrLoc = 0;
+	};
+	58D6EBE911876EC7005A6CF9 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* AquaGiPhoneDriver-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/amilosch/Desktop/AquaiPhone/AquaGiPhoneDriver-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775808;
+	};
+	8D1107310486CEB800E47090 /* AquaGiPhoneDriver-Info.plist */ = {
+		uiCtxt = {
+			sepNavWindowFrame = "{{130, 55}, {739, 723}}";
+		};
+	};
+}
