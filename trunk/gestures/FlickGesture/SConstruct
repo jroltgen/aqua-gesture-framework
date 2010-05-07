@@ -1,0 +1,6 @@
+env = Environment()
+env.Append(CCFLAGS = ['/EHsc', '/W2'])
+
+source_files = ['FlickGesture.cpp', 'UnifiedStandardDynamicGesture.cpp', 'FlickEvent.cpp']
+
+env.SharedLibrary('FlickGesture', source_files)
