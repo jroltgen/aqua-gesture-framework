@@ -1,0 +1,3 @@
+source_files = ['UnifiedKineticGesture.cpp']
+
+SharedLibrary('UnifiedKineticGesture', source_files)
