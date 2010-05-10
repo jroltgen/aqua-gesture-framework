@@ -22,10 +22,41 @@
  */
 
 #include <stdio.h>
+
+#ifdef _WIN32
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#include <windows.h>
+#else
+#include <pthread.h>
+#endif
  
 #include "UnifiedKineticGesture.h"
 
 using namespace std;
+
+/******************************************************
+ * Here we define c-style functions and structs for the 
+ * thread we create.
+ */
+#define DECEL 
+ 
+typedef struct {
+    int touchID;
+    double x;
+    double y;
+    double xVel;
+    double yVel;
+} kineticInfo_t;
+
+extern "C" {
+	void startKinetics(kineticInfo_t* info) {
+		double xVel = info->xVel;
+        double yVel = info->yVel;
+	}
+}
+/******************************************************/
 
 bool UnifiedKineticGesture::handleEvent(Event* e) {
     
@@ -159,17 +190,50 @@ bool UnifiedKineticGesture::handleDeath(Event* e) {
         count++;
     }
     
-    float avgXVelocity = sumXVelocity / (count - 1);
-    float avgYVelocity = sumYVelocity / (count - 1);
-    float avgXAcceleration = sumXAcceleration / (count - 2);
-    float avgYAcceleration = sumYAcceleration / (count - 2);
-    printf("V: %f, %f   ---- A: %f, %f\n", avgXVelocity, avgYVelocity,
+    double avgXVelocity = sumXVelocity / (count - 1);
+    double avgYVelocity = sumYVelocity / (count - 1);
+    double avgXAcceleration = sumXAcceleration / (count - 2);
+    double avgYAcceleration = sumYAcceleration / (count - 2);
+    printf("V: %.10f, %.10f   ---- A: %.10f, %.10f\n", avgXVelocity, avgYVelocity,
             avgXAcceleration, avgYAcceleration);
             
     delete _idmap[e->getID()];
     _idmap.erase(e->getID());
     
-    return false;
+    // If it was a flick, start the thread which will fire events.
+    if (isFlick(avgXVelocity, avgYVelocity, avgXAcceleration, avgYAcceleration)) {
+        kineticInfo_t* info = (kineticInfo_t*) malloc(sizeof kineticInfo_t);
+        info->touchID = e->getID();
+        info->x = e->getX();
+        info->y = e->getY();
+        info->xVel = avgXVelocity;
+        info->yVel = avgYVelocity;
+        
+        #ifdef _WIN32
+        CreateThread(NULL, 0, 
+                (unsigned long (__stdcall *)(void*))startKinetics, 
+                (void*) info, 0, NULL);
+        #else
+        pthread_t myThread;
+        if (pthread_create(&myThread, NULL, startKinetics, (void*) info) != 0) {
+            printf("[InputDeviceConnection] Error creating pthread.\n");
+            exit(-1);
+        }
+        #endif
+        
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool UnifiedKineticGesture::isFlick(double xVel, double yVel, double xAcc, double yAcc) {
+    if ((xVel > 0 && xAcc > 0) || (xVel < 0 && xAcc < 0) ||
+            (yVel > 0 && yAcc > 0) || (yVel < 0 && yAcc < 0)) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 TouchData* UnifiedKineticGesture::createTouchData(Event* e) {

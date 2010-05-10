@@ -1,3 +1,8 @@
+env = Environment()
+if (env['CC'] == 'cl'):
+    env.Append(CCFLAGS = ['/EHsc', '/W2'])
+else:
+    myLibs.append('pthread')
+    
 source_files = ['UnifiedKineticGesture.cpp']
-
-SharedLibrary('UnifiedKineticGesture', source_files)
+env.SharedLibrary('UnifiedKineticGesture', source_files)
