@@ -30,7 +30,7 @@
 #include "TouchData.h"
 
 #define QUEUE_SIZE 5
-#define MILLIS_THRESH 100
+#define MILLIS_THRESH 50
 
 class UnifiedKineticGesture : public Gesture {
 
@@ -51,6 +51,7 @@ public:
     TouchData* createTouchData(Event* e);
     
 private:
+    bool isFlick(double xVel, double yVel, double xAcc, double yAcc);
 };
 
 #ifdef _WIN32
