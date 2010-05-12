@@ -50,6 +50,7 @@ Unified2DRotateEvent::Unified2DRotateEvent(char *data) : Event(data) {
     
     // Handle endianness.
     if (EndianConverter::isLittleEndian()) {
+        _rotateAngle = EndianConverter::swapFloatEndian(_rotateAngle);
         for (i = 0; i < 2; i++) {
             _rotateCenter[i] = EndianConverter::swapFloatEndian(_rotateCenter[i]);
         }
