@@ -30,8 +30,11 @@
 #include <windows.h>
 #else
 #include <pthread.h>
+#include <unistd.h>
 #endif
  
+#include <math.h>
+#include "events/UnifiedEvent.h"
 #include "UnifiedKineticGesture.h"
 
 using namespace std;
@@ -40,23 +43,60 @@ using namespace std;
  * Here we define c-style functions and structs for the 
  * thread we create.
  */
-#define DECEL 
- 
-typedef struct {
-    int touchID;
-    double x;
-    double y;
-    double xVel;
-    double yVel;
-} kineticInfo_t;
+#define DECEL 0.8
+#define SLEEP_TIME 0.02 // sleep time in s
 
 extern "C" {
 	void startKinetics(kineticInfo_t* info) {
-		double xVel = info->xVel;
-        double yVel = info->yVel;
-	}
+        ((UnifiedKineticGesture*)info->gestureInstance)->processKinetics(info);
+    }
 }
 /******************************************************/
+
+void UnifiedKineticGesture::processKinetics(kineticInfo_t* info) {
+	double xVel = info->xVel;
+    double yVel = info->yVel;
+    double currentX = info->x;
+    double currentY = info->y;
+    int id = info->touchID;
+        
+    float nextLocation[3];
+    double nextX;
+    double nextY;
+    while (fabs(xVel) > 0.05 || fabs(yVel) > 0.05) {
+        // Send events.
+        nextX = currentX + xVel * SLEEP_TIME;
+        nextY = currentY + yVel * SLEEP_TIME;
+        nextLocation[0] = nextX;
+        nextLocation[1] = nextY;
+        nextLocation[2] = 0;
+        
+        
+        printf("X vel: %f, Y vel: %f, X: %f, Y: %f\n", xVel, yVel, currentX, currentY);
+        
+        UnifiedEvent e(string("UnifiedEvent"), string("KineticEvent"), EVENT_TYPE_MOVE, 
+                id, nextLocation);
+                
+        publishEvent(&e);
+        
+        currentX = nextX;
+        currentY = nextY;
+        if (xVel > 0) xVel = xVel - (DECEL * SLEEP_TIME);
+        else xVel = xVel + (DECEL * SLEEP_TIME);
+        if (yVel > 0) yVel = yVel - (DECEL * SLEEP_TIME);
+        else yVel = yVel + (DECEL * SLEEP_TIME);
+        
+        #ifdef _WIN32
+        Sleep((int)(SLEEP_TIME * 1000));
+        #else 
+        usleep((int)(SLEEP_TIME * 1000000));
+        #endif
+        
+    }
+    UnifiedEvent e(string("UnifiedEvent"), string("KineticEvent"), EVENT_TYPE_UP, 
+            id, nextLocation);
+    publishEvent(&e);
+}
 
 bool UnifiedKineticGesture::handleEvent(Event* e) {
     
@@ -157,10 +197,10 @@ bool UnifiedKineticGesture::handleDeath(Event* e) {
             dt += 1000;
         }
         
-        xVelocity = (x - lastX) / dt;
-        yVelocity = (y - lastY) / dt;
-        xAcceleration = (xVelocity - lastXVelocity) / dt;
-        yAcceleration = (yVelocity - lastYVelocity) / dt;
+        xVelocity = (x - lastX) * 1000 / dt;
+        yVelocity = (y - lastY) * 1000 / dt;
+        xAcceleration = (xVelocity - lastXVelocity) * 1000 / dt;
+        yAcceleration = (yVelocity - lastYVelocity) * 1000 / dt;
         
         printf("Touch ms: %d, x: %g, y: %g, z: %g\n", t->getTime().wSecond * 1000 + t->getTime().wMilliseconds, t->getX(), t->getY(), t->getZ());
         
@@ -203,6 +243,7 @@ bool UnifiedKineticGesture::handleDeath(Event* e) {
     // If it was a flick, start the thread which will fire events.
     if (isFlick(avgXVelocity, avgYVelocity, avgXAcceleration, avgYAcceleration)) {
         kineticInfo_t* info = (kineticInfo_t*) malloc(sizeof kineticInfo_t);
+        info->gestureInstance = this;
         info->touchID = e->getID();
         info->x = e->getX();
         info->y = e->getY();
@@ -228,12 +269,13 @@ bool UnifiedKineticGesture::handleDeath(Event* e) {
 }
 
 bool UnifiedKineticGesture::isFlick(double xVel, double yVel, double xAcc, double yAcc) {
-    if ((xVel > 0 && xAcc > 0) || (xVel < 0 && xAcc < 0) ||
+    /*if ((xVel > 0 && xAcc > 0) || (xVel < 0 && xAcc < 0) ||
             (yVel > 0 && yAcc > 0) || (yVel < 0 && yAcc < 0)) {
         return true;
     } else {
         return false;
-    }
+    }*/
+    return true;
 }
 
 TouchData* UnifiedKineticGesture::createTouchData(Event* e) {

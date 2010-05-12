@@ -30,7 +30,16 @@
 #include "TouchData.h"
 
 #define QUEUE_SIZE 5
-#define MILLIS_THRESH 50
+#define MILLIS_THRESH 20
+
+typedef struct {
+    void* gestureInstance; //this is the gesture instance we need for threading. 
+    int touchID;
+    double x;
+    double y;
+    double xVel;
+    double yVel;
+} kineticInfo_t;
 
 class UnifiedKineticGesture : public Gesture {
 
@@ -49,6 +58,7 @@ public:
     void handleMove(Event* e);
     bool handleDeath(Event* e);
     TouchData* createTouchData(Event* e);
+    void processKinetics(kineticInfo_t* info);
     
 private:
     bool isFlick(double xVel, double yVel, double xAcc, double yAcc);
@@ -68,5 +78,7 @@ extern "C" {
     }
 }
 #endif
+
+
 
 #endif

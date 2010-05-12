@@ -4,5 +4,5 @@ if (env['CC'] == 'cl'):
 else:
     myLibs.append('pthread')
     
-source_files = ['UnifiedKineticGesture.cpp']
+source_files = ['UnifiedKineticGesture.cpp', 'events/UnifiedEvent.cpp']
 env.SharedLibrary('UnifiedKineticGesture', source_files)
