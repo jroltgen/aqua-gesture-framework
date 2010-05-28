@@ -36,16 +36,16 @@ public class PointTracker extends JComponent {
 		} else if (e.getType() == EventType.HOVER.ordinal()) {
 			_hoverPoints.put(e.getId(), l);
 		}
-		repaint();
+		//repaint();
 	}
 	
 	@Override
 	protected void paintComponent(Graphics g) {
-		System.out.println("-----");
+		//System.out.println("-----");
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		for (PointLocation l : _downPoints.values()) {
-			System.out.println("Painting point: " + l.getX() + ", " + l.getY());
+			//System.out.println("Painting point: " + l.getX() + ", " + l.getY());
 			g2.setColor(new Color(255, 255, 255, 127));
 			g2.fillOval(l.getX() - SIZE / 2, l.getY() - SIZE / 2, SIZE, SIZE);
 			
@@ -55,7 +55,7 @@ public class PointTracker extends JComponent {
 		}
 		
 		for (PointLocation l : _hoverPoints.values()) {
-			System.out.println("Painting point: " + l.getX() + ", " + l.getY());
+			//System.out.println("Painting point: " + l.getX() + ", " + l.getY());
 			g2.setColor(new Color(255, 255, 255, 127));
 			g2.fillOval(l.getX() - SIZE / 2, l.getY() - SIZE / 2, SIZE, SIZE);
 			
