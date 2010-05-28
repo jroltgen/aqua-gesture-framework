@@ -65,13 +65,30 @@ public class AquaClient extends JPanel implements KeyListener, Runnable {
 	
 	@Override
 	public void run() {
-		while(true)
+		// Start the repaint thread.
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while(true) {
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					repaint();
+				}
+			}});
+		t.start();
+		
+		while(true) {
 			try {
 				handleRequest();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
 	}
 	
 	
@@ -210,6 +227,7 @@ public class AquaClient extends JPanel implements KeyListener, Runnable {
 	private void handleGetGlobalInfo() throws IOException {
 		// Sent gestures as null-terminated strings.
 		_output.writeInt(0);
+		//_output.writeBytes("PrintEventGesture\0");
 		
 		// Send the events
 		_output.writeInt(1);
@@ -258,15 +276,15 @@ public class AquaClient extends JPanel implements KeyListener, Runnable {
 			name += (char)data[index++];
 		}
 		//System.out.print("Data: ");
-		for (byte b : data) {
-			System.out.print((int)b + " ");
-		}
-		System.out.println();
+		//for (byte b : data) {
+		//	System.out.print((int)b + " ");
+		//}
+		//System.out.println();
 		Event e = null;
 		
 		if (name.equals("UnifiedEvent")) {
 			e = new UnifiedEvent(data);
-			System.out.println("loc: " + e.getLocation()[0] + ", " + e.getLocation()[1] + ", " + e.getLocation()[2]);
+			//System.out.println("loc: " + e.getLocation()[0] + ", " + e.getLocation()[1] + ", " + e.getLocation()[2]);
 		}
 //		if (name.equals("UnifiedZoomEvent")) {
 //			e = new UnifiedEvent(data);

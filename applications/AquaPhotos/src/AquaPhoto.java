@@ -262,7 +262,7 @@ public class AquaPhoto extends JComponent
 				rotationAngle, scaleFactor);
 		
 		_transform.preConcatenate(te.getTransform());
-		getParent().repaint();
+		//getParent().repaint();
 	}
 
 }
