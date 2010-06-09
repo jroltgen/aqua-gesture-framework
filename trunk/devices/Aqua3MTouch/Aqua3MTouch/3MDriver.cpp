@@ -14,9 +14,11 @@ int main(int argc, char* argv[]) {
 	initSocket();
 	MT7TraceSetUniversalCallback(eventCallback, NULL);
 	printf("Connection made to touchscreen.\n");
-	MT7TraceStartMonitor();
+	//MT7TraceStartMonitor();
+    ////MT7TraceStop
 	while (true) {
-		Sleep(1000);
+        MT7TracePoll();
+		Sleep(2);
 	}
 	return 1;
 }
