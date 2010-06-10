@@ -31,11 +31,14 @@ void handleEvent(MT7TraceTrace hTrace, MT7TraceEvent hEvent) {
 			fingerDown(hTrace, hEvent);
 			break;
 		case MT7TraceEvent_Drag:
-			fingerMove(hTrace, hEvent);
+			if (traceIDtoEventCount[MT7TraceGetTraceID(hTrace)] % 3 == 0) {
+				fingerMove(hTrace, hEvent);
+			}
 			break;
 		case MT7TraceEvent_Liftoff:
 			printf("Number of events: %d\n", traceIDtoEventCount[MT7TraceGetTraceID(hTrace)]);
 			fingerUp(hTrace, hEvent);
+			traceIDtoEventCount.erase(MT7TraceGetEventID(hEvent));
 			break;
 	}
 
