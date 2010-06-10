@@ -1,7 +1,7 @@
 #ifndef _SPARSHUTILS_H_
 #define _SPARSHUTILS_H_
 
-#define SERVER_PORT "3007"
+#define SERVER_PORT "5945"
 #define _WIN32_WINNT 0x0500
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
