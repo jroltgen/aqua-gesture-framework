@@ -1,13 +1,54 @@
 #summary A detailed description of the AQUA-G architecture and a detailed module decomposition.
 
+*Note: This page is still under construction.  Last updated 6/30/10*
+
 = Introduction =
-This wiki page describes the architecture of AQUA-G.  It reads a bit like a detailed design document.  First, the logical design and architecture is described, then each module in AQUA-G is described in greater detail.
+<font face="arial" size="3">
+This wiki page describes the architecture of AQUA-G.  It reads a bit like a detailed design document.  First, the logical design and architecture is described, then each module in AQUA-G is described in greater detail.  If you just want to know the basics of AQUA-G, and how gestures and events fit together, read the EventFlow section of this document, and the AquaGBasics wiki page.  If you're interested in modifying the AQUA-G framework itself, you may find the module decomposition useful.
+</font>
 
 = Event Flow =
+<font face="arial" size="3">
 In AQUA-G, events pass through the system as shown in the figure below.  Events pass from the input devices at the bottom of the figure, to the client application at the top of the figure. 
 
-<img width=640 src="http://www.vrac.iastate.edu/~jroltgen/aquagpics/eventflow.png">
+<img width=640 src="http://www.vrac.iastate.edu/~jroltgen/aquagpics/eventflow.png"></img>
 
 Events begin at the input device level, where they are sent to the AQUA-G gesture server by the input device drivers.  These events are received by a corresponding InputDeviceConnection object residing inside the AQUA-G framework.
 
 Each client application in AQUA-G has a stack of components associated with it, as shown above.  This stack is made up of a gesture engine, event translators, regions, and global and region-specific gestures.  
+
+Once AQUA-G has received events from input devices, the events are passed to all available GestureEngine objects.  From there, they are sent to event translators, and then move on to global gestures, regions, and region gestures.  All of these components will be described in the next section, which decomposes the system into individual components.
+
+AQUA-G itself makes up all components between the input devices and client applications.  AQUA-G does not impose any restrictions on the maximum number of input devices or client applications.  As stated above, each component will be described in the system decomposition section.  However, the exact module names may differ slightly from this logical depiction of the architecture.  Therefore it will be useful to refer often to this diagram when reading the next section to remember where each component lies in the event flow.
+</font>
+
+=System Decomposition=
+<font face="arial" size="3">
+This section describes each module which is shown in the AQUA-G class diagram, as shown below.  This diagram represents the object-oriented design and implementation of AQUA-G.  Each module is responsible for a specific task, and its responsibilities are described in this section.  
+
+<img width=800 src="http://www.vrac.iastate.edu/~jroltgen/aquagpics/classdiagram.png"></img>
+
+Modules are generally described in the order in which events flow through the modules, as shown in the event flow diagram.  Thus, modules which appear early in this section receive events sooner than modules which appear later in the section.  An exception is this first module, EventProcessor, which provides a standard interface for event processing which is used by many of the classes in the architecture.
+</font>
+
+==EventProcessor==
+<img height=100 src="http://www.vrac.iastate.edu/~jroltgen/aquagpics/modules/EventProcessor.png">
+
+<font face="arial" size="3">
+Many classes in AQUA-G have the need to perform processing on Event objects.  This common functionality is defined by the EventProcessor interface.  Any class that provides this interface shall implement the two processEvent methods provided here.  The methods are different only in that one method takes a integer \emph{regionID} parameter in addition to the Event parameter \emph{e}.  The \emph{regionID} is provided by the client application and is a logical equivalent to a GUI widget or component in the UI.  
+</font>
+
+==InputProtocol==
+<img height=100 src="http://www.vrac.iastate.edu/~jroltgen/aquagpics/modules/InputProtocol.png"></img>
+
+<font face="arial" size="3">
+The InputProtocol class is responsible for communicating with an input device.  In AQUA-G, input devices communicate with the AQUA-G gesture server over a TCP socket connection.  The InputProtocol class has a member variable _socket_ which is a TCP socket that is connected to the input device driver.  It has a single method, _getNextEvent_, which returns the next incoming event from the input device using the pointer passed in as an argument _receivedEvent_.
+
+The AQUA-G InputProtocol specifies the format in which input devices should send information to the AQUA-G gesture server.  The input device driver connects to the gesture server using a TCP socket connection.  After establishing the connection to the gesture server, it can begin sending events.  
+
+When an input device wishes to send an event, it should first send a short integer which contains the number of bytes in the incoming event.  The InputProtocol class in the AQUA-G framework reads this short integer and proceeds to read that number of bytes into a buffer.  Finally, it constructs the appropriate event using the event name and the data it received and places it in the output parameter _receivedEvent_.
+
+Implementing the input protocol in a separate module allows for easy customization of the protocol or extension of the protocol by class inheritance.  For example, implementing a custom input device protocol could be performed by sub-classing the input device protocol and overriding the _getNextEvent_ method.
+
+The InputProtocol represents only the socket connection to the input device.  Its getNextEvent() method is called repeatedly by an instance of the InputDeviceConnection class, which is responsible for processing events received from an input device.
+</font>
