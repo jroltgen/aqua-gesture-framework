@@ -1,0 +1,13 @@
+#summary A detailed description of the AQUA-G architecture and a detailed module decomposition.
+
+= Introduction =
+This wiki page describes the architecture of AQUA-G.  It reads a bit like a detailed design document.  First, the logical design and architecture is described, then each module in AQUA-G is described in greater detail.
+
+= Event Flow =
+In AQUA-G, events pass through the system as shown in the figure below.  Events pass from the input devices at the bottom of the figure, to the client application at the top of the figure. 
+
+<img width=640 src="http://www.vrac.iastate.edu/~jroltgen/aquagpics/eventflow.png">
+
+Events begin at the input device level, where they are sent to the AQUA-G gesture server by the input device drivers.  These events are received by a corresponding InputDeviceConnection object residing inside the AQUA-G framework.
+
+Each client application in AQUA-G has a stack of components associated with it, as shown above.  This stack is made up of a gesture engine, event translators, regions, and global and region-specific gestures.  
