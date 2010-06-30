@@ -4,7 +4,7 @@
 
 = Introduction =
 <font face="arial" size="3">
-This wiki page describes the architecture of AQUA-G.  It reads a bit like a detailed design document.  First, the logical design and architecture is described, then each module in AQUA-G is described in greater detail.  If you just want to know the basics of AQUA-G, and how gestures and events fit together, read the EventFlow section of this document, and the AquaGBasics wiki page.  If you're interested in modifying the AQUA-G framework itself, you may find the module decomposition useful.
+This wiki page describes the architecture of AQUA-G.  It reads a bit like a detailed design document.  First, the logical design and architecture is described, then each module in AQUA-G is described in greater detail.  If you just want to know the basics of AQUA-G, and how gestures and events fit together, read the EventFlow section of this document, and the [AquaGBasics] wiki page.  If you're interested in modifying the AQUA-G framework itself, you may find the module decomposition useful.
 </font>
 
 = Event Flow =
