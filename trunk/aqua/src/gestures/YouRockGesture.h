@@ -4,7 +4,7 @@
  * Prints "Congratulations, you're awesome." when an event is received.
  * 
  * This file is part of Aqua Universal Gesture Recognition Framework.
- * Copyright (C) 2010  Jay Roltgen.
+ * Copyright (C) 2010 Iowa State University.
  *
  * Aqua is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
