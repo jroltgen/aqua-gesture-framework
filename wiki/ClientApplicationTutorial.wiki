@@ -126,7 +126,7 @@ private void handleGetRegionID() throws IOException {
 }}}
 
 <font face="arial" size="3">
-The code maintains simply two groups, one for the left half of the screen, and one for the right half of the screen.  The group ID should be written back to AQUA-G as an integer value.
+This code maintains simply two groups, one for the left half of the screen, and one for the right half of the screen.  The group ID should be written back to AQUA-G as an integer value.
 
 AQUA-G needs to know which global gestures should be allowed for your application.  Global gestures are those which are not associated with a particular UI component in your application.  These gestures are generally things such as a “shake,” “wave,” or similar gesture, though technically any gesture can be classified as a global gesture.  These gestures will receive all of the events from the input devices and process them accordingly.
 
