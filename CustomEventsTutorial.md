@@ -1,0 +1,150 @@
+**Note:** I am still working on putting the sample event project together, so you will not find the sample event project referenced in this document _yet_.
+
+# Aqua Tutorial - Writing A Custom Event #
+<font face='arial' size='3'>
+Occasionally, you may find it necessary to write a custom event for your application that uses Aqua.  This is often necessary if you have a new input device that Aqua does not recognize, such as a game controller.  In addition to writing the input device driver for Aqua, you may also want to create some custom events, such as button presses, controller accelerometer readings, etc.<br>
+<br>
+Writing new events in Aqua is straightforward.  In Aqua, events are dynamically loaded by the gesture server, so there is no need to download or look at the source code for the gesture server.  Simply download the sample event project for your platform and get started!<br>
+<br>
+Events are dynamically loaded by the gesture server, and are compiled as shared libraries.  This means that for Windows, you will compile your event into a dynamic link library (.dll file) and on Linux, you will compile your event into a shared object library (.so file).  The sample event project is configured to do this by default.<br>
+<br>
+There are some requirements that you must fulfill to create an Aqua event.  These requirements are all satisfied by the sample event project, but be aware of them as you develop your event.<br>
+<br>
+<ul><li>Your event must subclass the Event class defined in Event.h.<br>
+</li><li>Your event class must declare a char buffer to hold its serialized data.<br>
+</li><li>The event class name must <b>exactly match</b> the library name.  You should define a class "MyEvent" which will get compiled to "MyEvent.dll" or "MyEvent.so"<br>
+</li><li>The event .cpp file must export the functions required for dynamic loading.  The function is named “createEvent” and is described below.<br>
+</li><li>Events in Aqua are serialized over the network.  You must implement a constructor which takes as input a single byte array, and also implement the serializeData method, which returns a byte array.  This will allow Aqua to send your event between the input device, gesture server and application.  Again, refer to the sample project for details.<br>
+</li><li>Your compiled library must be placed where the Aqua gesture server can find it.  Simply copy your .dll or .so file into (Aqua_exe_home)/events.</li></ul>
+
+In order for your event to be dynamically loaded, you must export the function createEvent, which is used by the operating system to dynamically load the class.  The sample event provides these functions for Linux and windows, and looks like the following.  Throughout this tutorial, we will use the UnifiedZoomEvent class provided by Aqua.  Here is an example of the createEvent() function for Windows and Linux:<br>
+</font>
+```
+#ifdef _WIN32
+extern "C" {
+    __declspec (dllexport) Event* createEvent(char* data) {
+        return new UnifiedZoomEvent(data);
+    }
+}
+#else
+extern "C" {
+    Event* createEvent(char* data) {
+        return new UnifiedZoomEvent(data);
+    }
+}
+#endif
+```
+
+<font face='arial' size='3'>
+Note that when you change the name of your project and event to your chosen name, you will need to change the return statement of each of these functions to match.<br>
+<br>
+Your event class also has to declare data buffer to hold the data which will be serialized by the serializeData method.  You will want to declare a member variable "dataBuffer" whose length is the same as the number of bytes in your custom data.  This is done in the zoom event class as follows:<br>
+</font>
+
+```
+#define UNIFIEDZOOMEVENT_DATA_LENGTH 16
+#include <string>
+#include "Event.h"
+
+class UnifiedZoomEvent : public Event {
+
+// Attributes
+private:
+    float _zoomScale;
+    float _zoomCenter[3];
+    char  _dataBuffer[UNIFIEDZOOMEVENT_DATA_LENGTH];
+    ...
+```
+
+<font face='arial' size='3'>
+Finally, your event will be serialized over the network, so you need to implement the constructor which takes a byte array, as well as the protected serializeData method.  Aqua serializes events by calling (YourEvent).serialize().  The serialize method is implemented in the Event superclass, and it delegates the custom data serialization to serializeData(), which is implemented in each subclass.<br>
+<br>
+Here is a the serializeData method for the UnifiedZoomEvent class:<br>
+</font>
+
+```
+/**
+ * Constructs a char array with this event's data.  Data:
+ *  - 4 bytes : zoom scale (float)
+ *  - 4 bytes : zoom center x-coord
+ *  - 4 bytes : zoom center y-coord
+ *  - 4 bytes : zoom center z-coord
+ */
+char* UnifiedZoomEvent::serializeData(short& outLength) {
+    
+    outLength = UNIFIEDZOOMEVENT_DATA_LENGTH;
+    
+    float tempScale, tempX, tempY, tempZ;
+	
+    tempScale = _zoomScale;
+    // zoom center
+    tempX = _zoomCenter[0];
+    tempY = _zoomCenter[1];
+    tempZ = _zoomCenter[2];
+    
+    if (EndianConverter::isLittleEndian()) {
+        tempScale = EndianConverter::swapFloatEndian(tempScale);
+        tempX = EndianConverter::swapFloatEndian(tempX);
+        tempY = EndianConverter::swapFloatEndian(tempY);
+        tempZ = EndianConverter::swapFloatEndian(tempZ);
+    }
+    
+    memcpy(_dataBuffer + 0, &tempScale, 4);
+    memcpy(_dataBuffer + 4, &tempX, 4);
+    memcpy(_dataBuffer + 8, &tempY, 4);
+    memcpy(_dataBuffer + 12, &tempZ, 4);
+    
+    return _dataBuffer;
+
+}
+```
+
+<font face='arial' size='3'>
+Observe how this method works.  All we need to serialize is our class's data members – the members of the Event superclass are handled for us automatically.  First we set the parameter outLength to the number of bytes in our returned char buffer.  In this case, we use the length defined in our header file.  Then, we serialize our event's custom data.  First we copy our event's custom data into temporary variables.  The data returned must be in <b>network endian</b> aka <b>big-endian</b> form, so we change the endianness as necessary.  You may use the EndianConverter class provided in the sample project to perform this operation, as shown in the above code.  Finally, we copy each data member into our data buffer, and return it.<br>
+<br>
+Along with the serializeData method, we must also implement a constructor which un-does the serialization.  Here is the constructor for UnifiedZoomEvent:<br>
+</font>
+
+```
+UnifiedZoomEvent::UnifiedZoomEvent(char *data) : Event(data) {
+    int i;
+    int dataPos = (_name.length() + _description.length() + 2 + 17);
+    
+    memcpy(&_zoomScale, &data[dataPos], 4);
+    dataPos += 4;
+    memcpy(_zoomCenter, &data[dataPos], 12);
+    
+    // Handle endianness.
+    if (EndianConverter::isLittleEndian()) {
+        _zoomScale = EndianConverter::swapFloatEndian(_zoomScale);
+        for (int i = 0; i < 3; i++) {
+            _zoomCenter[i] = EndianConverter::swapFloatEndian(_zoomCenter[i]);
+        }
+    }
+}
+```
+
+<font face='arial' size='3'>
+Note how this constructor works.  The class UnifiedZoomEvent first calls the superclass constructor Event(data), which un-serializes the parameter data into the Event class's fields.  Then, the constructor must un-serialize its custom data.<br>
+<br>
+When events are sent over the network, the data pointer contains all of the data for the event.  This is why the variable dataPos is defined – since data points to the start of the data buffer, and some of this data is the Event class's data, we use dataPos to represent the first data item of our custom data.  This declaration will be the <b>same for all events.</b>
+
+Then, we copy the data members into our custom fields <i>zoomScale and</i>zoomCenter, and handle the endianness.  Notice the “action” and “reaction” style of the constructor and the serializeData method.  One puts the data into a byte array, and the other pulls the data back out.<br>
+<br>
+Once you have finished implementing your event and it compiles successfully, you are ready to use it!  Your event can be used by input devices, gestures, and the application itself.  In order to use your event with custom gestures, you must place your compiled library where the Aqua gesture server can find it.  Simply place your .dll or .so file into (Aqua_exe_home)/events.  The next time you run Aqua, your event will be dynamically loaded.<br>
+</font>
+
+# Where do I go next? #
+
+<font face='arial' size='3'>
+Now that you've read the tutorial, you are ready to begin creating a custom event.  Download the sample event project and study it to gain a feel for how it works, then try customizing it or starting from scratch and creating your own event!<br>
+<br>
+If you run into trouble along the way, please go to the google group and post a message detailing the reason for your woes – we'll help as soon as we can.<br>
+<br>
+Good luck!<br>
+</font>
+
+# What is coming soon? #
+<font face='arial' size='3'>
+Good question.  We've realized that creating events is largely a time-consuming, dull, error-prone process.  We're currently working on automatic event code generation utility which will take as input a file with simple syntax dictating the desired custom event data, and generate the code files for you.  The utility will be capable of creating event code for multiple languages as well, so you won't have to re-write your event to use it in an app which is written in another language that's not C++.<br>
+</font>

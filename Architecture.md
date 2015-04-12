@@ -1,0 +1,146 @@
+**Note: This page is still under construction.  Last updated 6/30/10**
+
+# Introduction #
+<font face='arial' size='3'>
+This wiki page describes the architecture of AQUA-G.  It reads a bit like a detailed design document.  First, the logical design and architecture is described, then each module in AQUA-G is described in greater detail.  If you just want to know the basics of AQUA-G, and how gestures and events fit together, read the EventFlow section of this document, and the <a href='AquaGBasics.md'>AquaGBasics</a> wiki page.  If you're interested in modifying the AQUA-G framework itself, you may find the module decomposition useful.<br>
+</font>
+
+# Event Flow #
+<font face='arial' size='3'>
+In AQUA-G, events pass through the system as shown in the figure below.  Events pass from the input devices at the bottom of the figure, to the client application at the top of the figure.<br>
+<br>
+<img width='640' src='http://www.vrac.iastate.edu/~jroltgen/aquagpics/eventflow.png'></img>
+
+Events begin at the input device level, where they are sent to the AQUA-G gesture server by the input device drivers.  These events are received by a corresponding InputDeviceConnection object residing inside the AQUA-G framework.<br>
+<br>
+Each client application in AQUA-G has a stack of components associated with it, as shown above.  This stack is made up of a gesture engine, event translators, regions, and global and region-specific gestures.<br>
+<br>
+Once AQUA-G has received events from input devices, the events are passed to all available GestureEngine objects.  From there, they are sent to event translators, and then move on to global gestures, regions, and region gestures.  All of these components will be described in the next section, which decomposes the system into individual components.<br>
+<br>
+AQUA-G itself makes up all components between the input devices and client applications.  AQUA-G does not impose any restrictions on the maximum number of input devices or client applications.  As stated above, each component will be described in the system decomposition section.  However, the exact module names may differ slightly from this logical depiction of the architecture.  Therefore it will be useful to refer often to this diagram when reading the next section to remember where each component lies in the event flow.<br>
+</font>
+
+# System Decomposition #
+<font face='arial' size='3'>
+This section describes each module which is shown in the AQUA-G class diagram, as shown below.  This diagram represents the object-oriented design and implementation of AQUA-G.  Each module is responsible for a specific task, and its responsibilities are described in this section.<br>
+<br>
+<img width='800' src='http://www.vrac.iastate.edu/~jroltgen/aquagpics/classdiagram.png'></img>
+
+Modules are generally described in the order in which events flow through the modules, as shown in the event flow diagram.  Thus, modules which appear early in this section receive events sooner than modules which appear later in the section.  An exception is this first module, EventProcessor, which provides a standard interface for event processing which is used by many of the classes in the architecture.<br>
+</font>
+
+## EventProcessor ##
+<img src='http://www.vrac.iastate.edu/~jroltgen/aquagpics/modules/EventProcessor.png' height='100'>
+
+<font face='arial' size='3'>
+Many classes in AQUA-G have the need to perform processing on Event objects.  This common functionality is defined by the EventProcessor interface.  Any class that provides this interface shall implement the two processEvent methods provided here.  The methods are different only in that one method takes a integer \emph{regionID} parameter in addition to the Event parameter \emph{e}.  The \emph{regionID} is provided by the client application and is a logical equivalent to a GUI widget or component in the UI.<br>
+</font>
+
+<h2>InputProtocol</h2>
+<img src='http://www.vrac.iastate.edu/~jroltgen/aquagpics/modules/InputProtocol.png' height='100'></img>
+
+<font face='arial' size='3'>
+The InputProtocol class is responsible for communicating with an input device.  In AQUA-G, input devices communicate with the AQUA-G gesture server over a TCP socket connection.  The InputProtocol class has a member variable <i>socket</i> which is a TCP socket that is connected to the input device driver.  It has a single method, <i>getNextEvent</i>, which returns the next incoming event from the input device using the pointer passed in as an argument <i>receivedEvent</i>.<br>
+<br>
+The AQUA-G InputProtocol specifies the format in which input devices should send information to the AQUA-G gesture server.  The input device driver connects to the gesture server using a TCP socket connection.  After establishing the connection to the gesture server, it can begin sending events.<br>
+<br>
+When an input device wishes to send an event, it should first send a short integer which contains the number of bytes in the incoming event.  The InputProtocol class in the AQUA-G framework reads this short integer and proceeds to read that number of bytes into a buffer.  Finally, it constructs the appropriate event using the event name and the data it received and places it in the output parameter <i>receivedEvent</i>.<br>
+<br>
+Implementing the input protocol in a separate module allows for easy customization of the protocol or extension of the protocol by class inheritance.  For example, implementing a custom input device protocol could be performed by sub-classing the input device protocol and overriding the <i>getNextEvent</i> method.<br>
+<br>
+The InputProtocol represents only the socket connection to the input device.  Its getNextEvent() method is called repeatedly by an instance of the InputDeviceConnection class, which is responsible for processing events received from an input device.<br>
+</font>
+
+<h2>InputDeviceConnection</h2>
+<img src='http://www.vrac.iastate.edu/~jroltgen/aquagpics/modules/InputDeviceConnection.png' height='200'></img>
+
+<font face='arial' size='3'>
+The InputDeviceConnection class maintains information about an input device connection.  It contains a reference to the AQUA-G gesture server in the member <i>server</i> and a reference to the associated InputProtocol object <i>protocol</i>.  Furthermore, each InputDeviceConnection has a unique identifier which is stored in <i>id</i>.<br>
+<br>
+The InputDeviceConnection is constructed when the AQUA-G gesture server accepts an incoming connection from an input device.  It has a single method <i>run</i> which is called by the GestureServer after it is constructed.  This method begins reading events using the getNextEvent() method in the InputProtocol class.  Upon receiving an event, it sends it to <i>server</i> by calling the <i>processEvent</i> method which is implemented in GestureServer because it implements the EventProcessor interface.<br>
+</font>
+
+<h2>GestureServer</h2>
+<img src='http://www.vrac.iastate.edu/~jroltgen/aquagpics/modules/GestureServer.png' height='200'></img>
+
+<font face='arial' size='3'>
+The GestureServer is the core of the AQUA-G framework.  It handles incoming connections from input devices and client applications by listening on the member variable <i>listenSocket</i>.  Incoming connections made to this socket are processed, and the gesture server creates input device or client application connections as necessary.  Each client application has its own associated GestureEngine object, and the GestureServer will send all incoming events from the InputDeviceConnections to all available GestureEngines, again by calling the <i>processEvent</i> method on the GestureEngine.<br>
+</font>
+
+<h2>GestureEngine</h2>
+<img src='http://www.vrac.iastate.edu/~jroltgen/aquagpics/modules/GestureEngine.png' height='200'></img>
+
+<font face='arial' size='3'>
+The GestureEngine class is tasked with processing all events targeted for a specific client application, and is the first client application-specific module to receive events from input devices.  It maintains a list of all event translators, which are described below.  Upon receiving an event, it sends the event to all available translators.  When the translators have finished processing the event, the GestureEngine sends the event to the <i>globalLayer</i> for further processing.  The GestureEngine also maintains a reference <i>client</i> to a ClientConnection object.  It uses this object to communicate with the client application.  When a GestureEngine is initialized, it asks the client which event translators the client would like to register.<br>
+</font>
+
+<h3>EventTranslators</h3>
+<font face='arial' size='3'>
+The event translators mentioned in this section are given a special place in the AQUA-G gesture framework, and represent another new area which has not been previously implemented.  In the <a href='http://tisch.sourceforge.net/'>Tisch architecture</a>, the transformation layer is responsible for calibrating incoming data.  In AQUA-G, event translators have much more power.  Event translators are instances of gestures, but they have additional abilities.  They can translate input device information into other, perhaps more relevant information.  They publish their resulting events back to the gesture engine, allowing for "layered" translators if desired by the client application.  Here are two examples which demonstrate the need for event translators:<br>
+<ul><li>A certain input system may provide touch point information and also track user hands via diffuse illumination, Cricket location sensors, or with an overhead camera.  An event translator may accept as input these two types of information and output touch point data augmented with a hand identifier.<br>
+</li><li>A Wii Remote may provide input events such as accelerometer values.  An event translator may filter this information to provide smoother values, or it may interpolate the accelerometers to provide velocity or even attempt to provide position events.<br>
+Event translators can also consume events so that they are not processed by the global or region gestures.  This allows for appropriate translation of events, since event translators often intend to replace incoming events with the translated events.<br>
+</font></li></ul>
+
+<h2>GlobalGestureLayer</h2>
+<img src='http://www.vrac.iastate.edu/~jroltgen/aquagpics/modules/GlobalGestureLayer.png' height='200'></img>
+
+<font face='arial' size='3'>
+Global gestures are not associated with a particular component in the user interface.  For example, gestures which have global actions such as "turn system on" or "mute volume" are generally not associated with a particular UI component, and thus should be processed on a global or application-wide level.  Gestures in this class will receive all events from the input devices, and their resulting events are published directly to the client application.<br>
+<br>
+The GlobalGestureLayer is a placeholder for these types of gestures.  It maintains a list of all of these gestures in <i>globalGestures</i>, and also maintains a list of allowed events which the client is interested in receiving.  The client specifies the types of events it wishes to receive during initialization.<br>
+<br>
+Finally, the GlobalGestureLayer maintains a list of regions, which were described in section 2.3.4.  It is responsible for determining which region events should be sent to as they are received from the input device.  After the GlobalGestureLayer receives the region identifier for the event from the client, it calls the appropriate processEvent() method for that particular Region.<br>
+</font>
+
+<h2>Region</h2>
+<img src='http://www.vrac.iastate.edu/~jroltgen/aquagpics/modules/Region.png' height='200'></img>
+
+<font face='arial' size='3'>
+Each Region object module is responsible for maintaining a single region of interaction, and is a counterpart to its visible representation in the client application.  Usually, this representation is a component or widget in a user interface.<br>
+<br>
+When a Region object is first created, it will ask the client application which gestures should be allowed for this region using its reference to the client application.  The client application will respond with a list of the available gestures and events for that region.  As an example, for a photo organizing application, each region might represent a single photo in the interface, and the the client would respond to this message with "zoom gesture, rotate gesture, drag gesture" or some other list of available gestures it deems appropriate.<br>
+</font>
+
+<h2>ClientConnection</h2>
+<img src='http://www.vrac.iastate.edu/~jroltgen/aquagpics/modules/ClientConnection.png' height='200'></img>
+
+<font face='arial' size='3'>
+The client application communicates with AQUA-G through TCP sockets.  This class contains a socket with which it uses to communicate with the client application, and provides methods which the framework can use to sent the client application messages.  These messages and the communication that takes place is described in greater detail in section 2.6.<br>
+</font>
+
+<h2>Utilities</h2>
+<font face='arial' size='3'>
+Since AQUA-G must run on multiple platforms, platform-specific functionality has been abstracted into wrapper classes which provide the necessary functionality.  The utilities package in AQUA-G also provides functionality for endian conversion, which is required for transmitting event data over the TCP sockets.<br>
+</font>
+
+<h3>FileSystem</h3>
+<img src='http://www.vrac.iastate.edu/~jroltgen/aquagpics/modules/Filesystem.png' height='200'></img>
+
+<font face='arial' size='3'>
+The FileSystem class is responsible for using platform-specific APIs to find shared libraries in a given directory.  Its getSharedLibraryFiles() method returns a list of file names which represent all of the available shared library files in the given directory.  This method is used by the gesture and event factories to dynamically load the gestures and events.  The method must take into account the different prefixes and extensions which each platform uses - on Windows, the method looks for "MyGesture.dll" files, on Linux it looks for "libMyGesture.so" files, and on Mac OS it looks for "MyGesture.dylib" files.<br>
+</font>
+
+<h3>AquaSocket</h3>
+<img src='http://www.vrac.iastate.edu/~jroltgen/aquagpics/modules/AquaSocket.png' height='200'></img>
+
+<font face='arial' size='3'>
+Since AQUA-G communicates with input devices and applications over sockets, it is necessary to wrap the platform-specific socket APIs so that the framework can make use of sockets in a platform-independent manner.  I investigated several other socket-wrapping libraries, but settled on writing my own because of the additional dependencies that AQUA-G would require in order to build using these libraries.  The AquaSocket class makes use of preprocessor definitions to compile the correct code during the build process for AQUA-G, and it provides standard socket functionality.  For exception handling, the socket will throw a generic exception which can be caught by users of the class.<br>
+</font>
+
+
+<h3>EndianConverter</h3>
+<img src='http://www.vrac.iastate.edu/~jroltgen/aquagpics/modules/EndianConverter.png' height='200'></img>
+
+<font face='arial' size='3'>
+The EndianConverter class provides simple conversion from little-endian to big-endian byte ordering, and also provides a method which will check if the current platform is a little or big-endian platform.  Users of the class can utilize these functions to convert all data to be sent over the network into network-endian (big-endian) byte format, and back to host-endian format when it is received.<br>
+</font>
+
+<h3>Gesture and Event Creation</h3>
+<img src='http://www.vrac.iastate.edu/~jroltgen/aquagpics/modules/GestureFactory.png' height='200'></img>
+
+<img src='http://www.vrac.iastate.edu/~jroltgen/aquagpics/modules/EventFactory.png' height='200'></img>
+
+<font face='arial' size='3'>
+AQUA-G dynamically loads events and gestures, and makes use of the factory method design pattern.  Each shared library will expose a creator method, which the framework can find through the use of platform-specific dynamically-linked library code.  It then uses this method to create the appropriate class, given a certain class name.  The factories shown in Figure~\ref{eventfactory} and Figure~\ref{gesturefactory} expose methods which will return a pointer to the instance of the created class, given the class name.<br>
+</font>

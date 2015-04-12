@@ -1,0 +1,55 @@
+# Introduction #
+The key components in AQUA-G are events and gestures, and the ability to load these events and gestures dynamically makes AQUA-G flexible and makes it easy for developers to customize.
+
+# Events #
+In AQUA-G, Events represent information that is passed between input devices and client applications.  Crucial to one of the primary contributions of AQUA-G is the concept that input device events and client application events can and do share a common interface under a "unified event architecture." This allows a great deal of flexibility in the software framework, as detailed in the following scenario.
+
+Assume that a developer wants to build and test an application with which they may evaluate the differences between interaction using the mouse or using a multi-touch device.  This test application will allow basic drag and zoom gestures in order to allow users to pan and zoom a top-down view of a map.
+
+Our multi-touch device can provide information such as location and state information of all detected points of touch.  However, to provide zoom events, the application requires a zoom gesture which will take as input multiple points, determine the change in distance over time between these points, and output an AQUA-G zoom event.
+
+The developer also wants to use the mouse device.  However, the mouse device can provide other unique information such as mouse wheel events.  He or she would like to use the mouse wheel to send zoom events to the application.  However, these events should not go to zoom gestures for processing, because they are already zoom events!  Instead, they should be sent directly to the application!  In previous frameworks, this is difficult or impossible.  The developer would be forced to provide workarounds by simulating multiple touch points when the mouse wheel was used, or connecting the mouse to the application directly, bypassing the framework entirely.
+
+In AQUA-G, I have solved this problem.  It is simple to configure this scenario in AQUA-G.  The developer can configure the mouse to send _native_ AQUA-G zoom events to AQUA-G when it detects a mouse scroll.  The test application informs AQUA-G that it is interested in receiving these zoom events, and configures zoom gestures to process the touch point information received from the multi-touch device.  Now, the application receives information from both the mouse and touchscreen and can process it appropriately.
+
+## A Unified Event Architecture ##
+Developer-created custom events should be able to contain any desired information.  However, it is important that we provide a standard event interface to facilitate gesture recognition across multiple devices, so that developers can write input device drivers which are compatible with the standard set of gestures provided by AQUA-G.
+
+A unified event framework dictates that events share a common set of data so that they may be uniformly processed by the basic gestures.  The information which all events share was determined through an evaluation of the types of information basic gestures require, as well as what information might be needed for most interactions using AQUA-G.
+
+Here is the structure of the information which is shared by all AQUA-G events:
+  * Event name (string)
+  * Event description (string)
+  * Event type (byte) One of:
+    * DOWN, UP, MOVE, HOVER, OTHER
+  * Event ID (for keeping track of related DOWN, MOVE, UP events)
+  * Event location (float`[`3`]`) (x, y, z)
+The Event base class provides these data members, and all developer-created events will subclass this event, facilitating uniform processing of all events.  In addition to providing this basic structure, the Event class provides the following methods:
+  * Event(byte`*` data)
+  * byte[.md](.md) serialize(short`*` lengthOut)
+
+These two methods are provided to enable AQUA-G to send events over the TCP socket connections.  The constructor takes as input a byte array and un-serializes this information into the event's fields.  The serialize() method does the reverse by serializing the event's fields into a byte array.
+
+Since developers will create custom events, it is necessary to provide these custom events with the ability to serialize their own custom data representation, be it accelerometer readings, button presses, or some other custom data.  In order to do this, the Event class delegates the custom event serialization to the subclasses while still providing a common interface for all events.  Each event must override the virtual method "serializeData()," which is used by the serialize method to serialize this custom data.
+
+# Gestures #
+Gestures are the core of the AQUA-G framework.  They are responsible for processing input events in order to return some meaningful information as the result of the gesture processing.  For example, a zoom gesture will take as input touch point events and output zoom events which contain scale and center information.  The Gesture base class in AQUA-G provides developers a means of implementing their own custom gestures.  AQUA-G is designed to make creating custom gestures as easy as possible for developers, so there is only a single method that developers must implement for event processing.  It is defined as:
+  * bool processEvent( Event `*` e )
+
+Developers must override this method to implement their own gesture processing.  It is also necessary that AQUA-G provide some means of gestures to publish their resulting information, or output events.  However, developer-created gestures should not need to know where this information is going.  As an example, for global gestures, event translators, and region or component-centric gestures (distinction described in section 2.5), the destination for the resulting output events is not the same.
+
+This could be done by allowing the processEvent method to return a list of gestures, which the caller could then send to the appropriate destination.  However, this implementation would limit gestures to only output events when their processEvent method was called by some other code.  Some gestures will want to implement timers and asynchronous gesture processing, so providing a means of creating output events at will is absolutely essential.
+
+In order to satisfy this need, the Gesture base class provided by AQUA-G contains a protected method publishEvent( Event `*` e ) which developers can use in their implementations to output events which are a result of gesture processing.  The publishEvent method sends the event to the next component in the event flow diagram, which is shown below in Figure _eventflow_. Each gesture is initialized by the framework with this "next component," and the publishEvent() method will send the event to this target component.  Therefore, any gesture may implement threading, timers, or other asynchronous processing and call this method at will to output events.
+
+## Creating gestures and events dynamically ##
+In order to ease gesture and event development for AQUA-G, I have chosen to implement dynamic class loading in C++ to allow runtime loading of gesture and event code.  This is a departure from previous systems, and is one of the key contributions of this work.  In previous systems, to implement custom gesture processing, it was necessary to add a new object to the system and hard-code object creation functionality to incorporate the new gesture.  AQUA-G does not share this limitation with other systems.  In AQUA-G, gestures and events can stand alone.  Developers do not have to have any knowledge of AQUA-G's underlying implementation to create new gestures and events.  Furthermore, this gives developers the flexibility of not having to re-compile the AQUA-G source code in order to add a new gesture or event.
+
+As a matter of implementation, run-time class loading in C++ is accomplished through an implementation of the Factory Method design pattern.  Each gesture or event class must implement a createEvent() or createGesture() method which returns an instance of itself.  These methods are exposed through DLL export in Windows or shared object libraries in Linux, and can be used by the GestureFactory and EventFactory in AQUA-G to load custom events and gestures dynamically.
+
+In order to implement this approach, AQUA-G requires that event and gesture filenames match their class names exactly.  The factories use the data contained in the "Event name" field of the event to load the appropriate library and call the creator method to create the appropriate event.
+
+## Regions ##
+The idea of "regions" was introduced by [Sparsh-UI](http://sparsh-ui.googlecode.com) and [Tisch](http://tisch.sourceforge.net/).  A region is an area of interest in the client application space.  A region could be a UI widget, a polygon in a 3D environment, or some other on-screen area of interest.  Crucial to accurate gesture processing is the ability to distinguish between on-screen objects and process events appropriately.
+
+In AQUA-G, I have chosen to follow the implementation of Sparsh-UI for region identification and processing.  In this method, event time AQUA-G receives an event from an input device, it will ask the client application for a unique region identifier.  Therefore, the client must maintain knowledge of the locations of its UI components, so that when AQUA-G asks which region an event should be sent to, the client can respond with the correct identifier, and AQUA-G can process the event by sending it to the appropriate region for processing by component-specific (also hereafter known as region-specific) gestures.
